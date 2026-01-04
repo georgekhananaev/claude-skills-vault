@@ -18,30 +18,69 @@ Goal: Generate bulletproof feature plans using iterative discovery, external val
 
 ### Step 1: Initial Questions
 
-Ask user **ALL** of these before proceeding:
+**IMPORTANT: Use the `AskUserQuestion` tool to gather requirements interactively.**
 
-**Core Value & Scope:**
-1. "What user problem does this solve?" (Not just "what is the feature")
-2. "What are the success criteria (quantitative/qualitative)?"
-3. "What is explicitly OUT OF SCOPE?" (Anti-scope)
+Ask these questions using `AskUserQuestion` with appropriate options. Group related questions (max 4 per call):
 
-**Technical Context:**
-4. "Current tech stack and version constraints?"
-5. "Existing patterns or libraries we MUST use?"
-6. "Does this involve database schema changes?"
+**Round 1 - Core Value & Scope:**
+```
+Use AskUserQuestion with these questions:
+1. Question: "What user problem does this solve?"
+   Header: "Problem"
+   Options: [Custom input expected - use open-ended options like "Let me describe...", "Show existing code"]
 
-**Risk & Constraints:**
-7. "What happens if this feature fails in production?"
-8. "Strict security/privacy requirements (PII, compliance)?"
-9. "Performance budgets (latency, memory, disk)?"
+2. Question: "What are the success criteria?"
+   Header: "Success"
+   Options: ["Quantitative metrics", "Qualitative feedback", "Both", "Not sure yet"]
 
-**Historical Context:**
-10. "Have we tried this before? If so, why did it fail?"
-11. "Will this require new libraries or infrastructure costs?"
+3. Question: "What is explicitly OUT OF SCOPE?"
+   Header: "Anti-scope"
+   Options: ["I'll list exclusions", "Nothing specific", "Need help defining"]
+```
+
+**Round 2 - Technical Context:**
+```
+Use AskUserQuestion:
+4. Question: "Does this involve database schema changes?"
+   Header: "Database"
+   Options: ["Yes - new tables", "Yes - modify existing", "No changes", "Not sure"]
+
+5. Question: "Are there existing patterns we MUST follow?"
+   Header: "Patterns"
+   Options: ["Yes, I'll specify", "Use codebase conventions", "No constraints", "Need guidance"]
+```
+
+**Round 3 - Risk & Constraints:**
+```
+Use AskUserQuestion:
+6. Question: "What happens if this feature fails in production?"
+   Header: "Risk Level"
+   Options: ["Critical - system down", "High - major impact", "Medium - degraded", "Low - minimal"]
+
+7. Question: "Any security/privacy requirements?"
+   Header: "Security"
+   Options: ["PII handling", "Auth/AuthZ", "Compliance (SOC2/GDPR)", "Standard practices only"]
+
+8. Question: "Performance budgets?"
+   Header: "Performance"
+   Options: ["Strict latency < 100ms", "Standard < 500ms", "Relaxed < 2s", "No specific target"]
+```
+
+**Round 4 - Historical Context:**
+```
+Use AskUserQuestion:
+9. Question: "Have we tried building this before?"
+   Header: "History"
+   Options: ["Yes - failed", "Yes - partial", "No - first attempt", "Unknown"]
+
+10. Question: "Will this require new dependencies or infrastructure?"
+    Header: "Dependencies"
+    Options: ["New libraries", "New infrastructure", "Both", "None expected"]
+```
 
 ### Step 2: Deep Dive Questions (Iterative)
 
-Based on answers, keep asking until:
+Continue using `AskUserQuestion` for follow-ups until:
 - [ ] Requirements are unambiguous
 - [ ] "Sad path" flows are defined
 - [ ] Integration seams identified
@@ -49,7 +88,7 @@ Based on answers, keep asking until:
 - [ ] Edge cases documented
 - [ ] Success criteria measurable
 
-**Rule: Keep asking until you have EVERYTHING needed. Never guess.**
+**Rule: Keep using AskUserQuestion until you have EVERYTHING needed. Never guess.**
 
 ## 3. Research Phase
 
@@ -274,10 +313,12 @@ gemini "Final review. Rate implementation readiness 1-10. List any blocking issu
 ## 6. Execution Flow
 
 ```
-1. DISCOVER
-   ├── Ask initial questions (all 11)
-   ├── Deep dive follow-ups
-   ├── Confirm anti-scope
+1. DISCOVER (use AskUserQuestion tool)
+   ├── Round 1: Core value & scope questions
+   ├── Round 2: Technical context questions
+   ├── Round 3: Risk & constraints questions
+   ├── Round 4: Historical context questions
+   ├── Deep dive follow-ups (iterative)
    └── Get explicit sign-off
 
 2. RESEARCH
@@ -331,7 +372,8 @@ Before completing, verify:
 
 | Don't | Do Instead |
 |-------|------------|
-| Guess requirements | Keep asking questions |
+| Guess requirements | Use AskUserQuestion tool iteratively |
+| Output questions as text | Use AskUserQuestion with options |
 | Skip validation | Always run all Gemini personas |
 | Ignore gaps | Research until resolved |
 | Over-engineer | Keep it minimal, iterate |
@@ -351,4 +393,4 @@ Final plan should be:
 - Clear success criteria
 
 ---
-Tokens: ~900 | Integrates with: gemini-cli, context7, WebSearch, codebase tools
+Tokens: ~1100 | Integrates with: gemini-cli, context7, WebSearch, AskUserQuestion, codebase tools
