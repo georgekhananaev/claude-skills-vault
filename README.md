@@ -1,5 +1,7 @@
 # Claude Skills Vault
 
+![Preview](preview.jpg)
+
 A curated collection of skills, commands, and MCP servers for Claude Code.
 
 ## Skills

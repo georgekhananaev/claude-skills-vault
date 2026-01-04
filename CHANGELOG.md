@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - CLAUDE.md project configuration file
 
 ### Changed
+- Replace preview.webp with preview.jpg and add to README
 - **commands**: Clarify changelog requirement in commit command as REQUIRED step
 - **commands**: Compress commit.md using token-formatter (~54% reduction)
 - **commands**: Make commit command dynamic (use git config for author)
