@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add gemini-cli skill for local Gemini CLI interaction (run queries, compare responses)
 
 ### Changed
 
