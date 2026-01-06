@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add doc-navigator skill for efficient codebase documentation navigation
+- **skills**: Add ux-toolkit skill for comprehensive UX evaluation
+- **commands**: Add create-pr command for GitHub pull request creation
 
 ### Changed
+- Normalize line endings to LF for cross-platform consistency
 
 ### Fixed
 
