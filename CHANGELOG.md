@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Normalize line endings to LF for cross-platform consistency
 
 ### Fixed
+- **readme**: Correct toon skill description to Token-Oriented Object Notation
 
 ## [1.0.5] - 2026-01-05
 

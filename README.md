@@ -10,6 +10,7 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 
 | Skill | Description |
 |-------|-------------|
+| **doc-navigator** | Efficient codebase documentation navigation during research |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for production-ready FastAPI |
 | **gemini-cli** | Run Gemini CLI for AI queries and comparisons |
 | **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
@@ -19,6 +20,7 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **system-architect** | System architecture patterns and design guidance |
 | **testing-automation-expert** | Production-grade testing strategies (pytest, Jest, Playwright) |
 | **token-formatter** | Token compression and formatting utilities |
+| **ux-toolkit** | Comprehensive UX evaluation and UI/UX audits |
 
 ### Document Skills
 
@@ -38,6 +40,7 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | `/git-commit` | Safe git commit with conventional commits format |
 | `/git-push` | Git push with uncommitted changes check and changelog versioning |
 | `/create-skill` | Create new skills from templates |
+| `/create-pr` | Prepare GitHub pull request with essential details |
 | `/plan-feature` | Production-grade feature planning with multi-source validation |
 
 ## MCP Servers
