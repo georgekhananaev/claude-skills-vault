@@ -1,0 +1,127 @@
+# Beautiful Code - Pre-commit Configuration
+# Copy this file to your project root as .pre-commit-config.yaml
+# Run: pre-commit install
+
+default_install_hook_types: [pre-commit, pre-push]
+
+repos:
+  # ============================================
+  # Secrets Detection (CRITICAL - runs first)
+  # ============================================
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+
+  # ============================================
+  # General
+  # ============================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  # ============================================
+  # TypeScript
+  # ============================================
+  - repo: local
+    hooks:
+      - id: eslint
+        name: ESLint
+        entry: npx eslint --fix --max-warnings=0
+        language: system
+        files: \.(ts|tsx|js|jsx)$
+        exclude: (node_modules|dist|build|\.generated\.)
+
+      - id: prettier
+        name: Prettier
+        entry: npx prettier --write
+        language: system
+        files: \.(ts|tsx|js|jsx|json|md|css|scss)$
+        exclude: (node_modules|dist|build|\.generated\.)
+
+      - id: typecheck
+        name: TypeScript Check
+        entry: npx tsc --noEmit
+        language: system
+        files: \.tsx?$
+        pass_filenames: false
+
+  # ============================================
+  # Python
+  # ============================================
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-all
+        args: [--strict]
+
+  # ============================================
+  # Go
+  # ============================================
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.57.0
+    hooks:
+      - id: golangci-lint
+        args: [--new-from-rev=HEAD~1]
+
+  - repo: local
+    hooks:
+      - id: go-test
+        name: Go Tests (race)
+        entry: go test -race ./...
+        language: system
+        files: \.go$
+        pass_filenames: false
+        stages: [pre-push]
+
+  # ============================================
+  # Rust
+  # ============================================
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: Cargo Format
+        entry: cargo fmt --all --
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
+      - id: cargo-clippy
+        name: Cargo Clippy
+        entry: cargo clippy --all-targets --all-features -- -D warnings
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
+      - id: cargo-test
+        name: Cargo Test
+        entry: cargo test
+        language: system
+        files: \.rs$
+        pass_filenames: false
+        stages: [pre-push]
+
+# ============================================
+# CI-only hooks (run with --hook-stage push)
+# ============================================
+ci:
+  autofix_commit_msg: 'style: auto-fix by pre-commit'
+  autoupdate_commit_msg: 'chore: update pre-commit hooks'

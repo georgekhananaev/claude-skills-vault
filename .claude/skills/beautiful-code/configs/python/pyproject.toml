@@ -1,0 +1,90 @@
+# Beautiful Code - Python Configuration
+# Copy relevant sections to your project's pyproject.toml
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E", "W",     # pycodestyle
+    "F",          # pyflakes
+    "I",          # isort
+    "B",          # flake8-bugbear
+    "C4",         # flake8-comprehensions
+    "C90",        # mccabe complexity
+    "UP",         # pyupgrade
+    "N",          # pep8-naming
+    "S",          # flake8-bandit (security)
+    "T20",        # flake8-print
+    "SIM",        # flake8-simplify
+    "RUF",        # ruff-specific
+    "PTH",        # flake8-use-pathlib
+    "ASYNC",      # flake8-async
+    "ANN",        # flake8-annotations
+    "ARG",        # flake8-unused-arguments
+    "ERA",        # eradicate (commented code)
+    "PL",         # pylint
+    "PERF",       # perflint
+    "LOG",        # flake8-logging
+]
+ignore = ["E501", "ANN101", "ANN102"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-args = 5
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "src"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "ANN", "ARG"]
+"conftest.py" = ["ANN"]
+"migrations/**" = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+no_implicit_optional = true
+check_untyped_defs = true
+show_error_codes = true
+enable_error_code = ["ignore-without-code", "redundant-cast"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = [
+    "--strict-markers",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "*/migrations/*",
+    "*/__generated__/*",
+    "*/conftest.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]

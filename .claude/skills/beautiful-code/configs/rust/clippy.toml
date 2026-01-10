@@ -1,0 +1,49 @@
+# Beautiful Code - Rust Clippy Configuration
+# Place this file in your project root as clippy.toml
+# Also add lints to Cargo.toml (see below)
+
+# Complexity limits
+cognitive-complexity-threshold = 15
+too-many-arguments-threshold = 5
+too-many-lines-threshold = 50
+type-complexity-threshold = 250
+
+# Allow these patterns
+allowed-idents-below-min-chars = ["i", "j", "k", "n", "x", "y", "z", "id"]
+min-ident-chars-threshold = 2
+
+# Documentation
+missing-docs-in-crate-items = true
+
+# ============================================
+# Add to your Cargo.toml:
+# ============================================
+#
+# [lints.rust]
+# unsafe_code = "warn"
+# missing_docs = "warn"
+# rust_2018_idioms = "warn"
+# rust_2024_compatibility = "warn"
+#
+# [lints.clippy]
+# # Enable lint groups
+# all = "warn"
+# pedantic = "warn"
+# nursery = "warn"
+# cargo = "warn"
+#
+# # Deny dangerous patterns
+# unwrap_used = "deny"
+# expect_used = "deny"
+# panic = "deny"
+# todo = "deny"
+# unimplemented = "deny"
+# unreachable = "deny"
+# indexing_slicing = "deny"
+#
+# # Allow specific noisy lints
+# module_name_repetitions = "allow"
+# must_use_candidate = "allow"
+# missing_errors_doc = "allow"
+# missing_panics_doc = "allow"
+# ============================================

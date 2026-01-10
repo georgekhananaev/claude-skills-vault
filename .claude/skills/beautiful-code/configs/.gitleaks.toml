@@ -1,0 +1,60 @@
+# Beautiful Code - Gitleaks Configuration
+# Copy this file to your project root as .gitleaks.toml
+
+title = "Beautiful Code Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist for false positives"
+
+# File patterns to ignore
+paths = [
+    '''\.test\.ts$''',
+    '''\.spec\.ts$''',
+    '''_test\.go$''',
+    '''_test\.py$''',
+    '''test_.*\.py$''',
+    '''fixtures/''',
+    '''__mocks__/''',
+    '''\.mock\.''',
+    '''testdata/''',
+    '''\.snap$''',
+]
+
+# Regex patterns to ignore
+regexes = [
+    '''(?i)example''',
+    '''(?i)sample''',
+    '''(?i)placeholder''',
+    '''(?i)dummy''',
+    '''CHANGE_ME''',
+    '''<your-.*>''',
+]
+
+# Specific commits to ignore (add as needed)
+commits = []
+
+# ============================================
+# Custom rules for your project
+# ============================================
+
+# [[rules]]
+# id = "custom-internal-api-key"
+# description = "Internal API key pattern"
+# regex = '''INTERNAL_API_KEY\s*=\s*['"][a-zA-Z0-9]{32,}['"]'''
+# tags = ["key", "internal"]
+
+# ============================================
+# Override default rules if needed
+# ============================================
+
+# [[rules]]
+# id = "aws-access-key-id"
+# description = "AWS Access Key ID"
+# regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+# tags = ["aws", "credentials"]
+
+# [[rules.allowlist]]
+# regexes = ['''AKIAEXAMPLE''']
