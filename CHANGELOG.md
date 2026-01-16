@@ -13,6 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+## [1.0.11] - 2026-01-14
+
+### Added
+- **skills**: Add test-levels skill for explaining Unit/Integration/E2E testing with car analogy and Playwright examples
+- **skills**: Add plan-to-tdd skill for transforming feature plans into test-driven implementation using Outside-In methodology
+
+### Changed
+- **skills**: Normalize line endings (CRLF to LF) in doc-navigator and ux-toolkit skills
+
 ## [1.0.10] - 2026-01-10
 
 ### Added
