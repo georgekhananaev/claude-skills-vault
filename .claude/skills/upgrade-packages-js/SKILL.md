@@ -1,7 +1,7 @@
 ---
 name: upgrade-packages-js
 description: Safely upgrade JavaScript packages with breaking change detection, migration guidance, and automated code migrations (npm/pnpm/yarn). Cross-platform with git safety branch enforcement.
-version: 2.4.0
+version: 2.5.0
 author: Palakorn V. <palakorn@me.com>
 tags: [npm, pnpm, yarn, upgrade, dependencies, semver, migration, codemod, monorepo]
 triggers: [upgrade packages, update dependencies, check outdated, dependency upgrade]
@@ -516,82 +516,108 @@ gh pr create --title "chore(deps): upgrade packages $(date +%Y-%m-%d)" --body "#
 
 ---
 
-## Known Major Version Blockers
+## Detecting Major Version Blockers
 
-**IMPORTANT:** Before upgrading these packages, check if your project is CommonJS (`"type": "module"` NOT in package.json). If CommonJS, these upgrades require significant migration work.
+Before upgrading any major version, run these checks to detect potential blockers.
 
-### ESM-Only Packages (Breaking for CommonJS Projects)
-
-| Package | Version | Blocker | Check Command | Migration |
-|---------|---------|---------|---------------|-----------|
-| `prisma` | 7.x | ESM-only, schema changes, driver adapters required | `npm view prisma@7 type` | [Prisma 7 Guide](https://www.prisma.io/docs/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-7) |
-| `@prisma/client` | 7.x | Must match `prisma` version | - | Same as above |
-| `chalk` | 5.x | ESM-only | `npm view chalk@5 type` | Use `chalk@4` or add `"type": "module"` |
-| `node-fetch` | 3.x | ESM-only | `npm view node-fetch@3 type` | Use native `fetch` (Node 18+) or `undici` |
-| `ora` | 6.x | ESM-only | `npm view ora@6 type` | Use `ora@5` or add `"type": "module"` |
-| `execa` | 6.x | ESM-only | `npm view execa@6 type` | Use `execa@5` or add `"type": "module"` |
-| `got` | 12.x | ESM-only | `npm view got@12 type` | Use `got@11` or `undici` |
-| `globby` | 12.x | ESM-only | `npm view globby@12 type` | Use `globby@11` or `fast-glob` |
-| `p-*` (sindresorhus) | varies | Most are ESM-only | Check each package | Pin to last CJS version |
-| `strip-ansi` | 7.x | ESM-only | `npm view strip-ansi@7 type` | Use `strip-ansi@6` |
-| `wrap-ansi` | 8.x | ESM-only | `npm view wrap-ansi@8 type` | Use `wrap-ansi@7` |
-
-### Quick Check: Is Package ESM-Only?
+### Step 1: Check Your Project Module Type
 
 ```bash
-# Returns "module" if ESM-only, undefined/missing if CJS
-npm view {package}@{version} type
+node -e "const pkg=require('./package.json'); console.log('Project type:', pkg.type || 'commonjs')"
 ```
 
-### Packages with Major Breaking Changes (Not ESM-Related)
+| Result | Meaning |
+|--------|---------|
+| `commonjs` | Default Node.js, may have issues with ESM-only packages |
+| `module` | ESM project, compatible with all modern packages |
 
-| Package | Version | Blocker | Notes |
-|---------|---------|---------|-------|
-| `recharts` | 3.x | API changes, React 18+ required | Check component props changes |
-| `@types/node` | 25.x | May conflict with older TypeScript | Ensure `typescript >= 5.x` |
-| `react-query` | 5.x | Renamed to `@tanstack/react-query` | Different package name |
-| `moment` | - | Deprecated | Migrate to `date-fns` or `dayjs` |
-| `request` | - | Deprecated | Migrate to `undici` or native `fetch` |
+### Step 2: Check if Target Package is ESM-Only
 
-### Decision: Skip or Migrate?
+```bash
+# Check the target version's module type
+npm view {package}@{version} type
 
-| Project Type | Package is ESM-only | Action |
-|--------------|---------------------|--------|
-| CommonJS (no `"type": "module"`) | Yes | **Skip** - add to Skipped Packages |
-| ESM (`"type": "module"`) | Yes | Safe to upgrade |
-| CommonJS with bundler (webpack/vite) | Yes | **Maybe** - test thoroughly |
-| CommonJS, willing to migrate | Yes | Plan full ESM migration first |
+# Returns "module" = ESM-only
+# Returns nothing/undefined = CommonJS compatible
+```
 
-### Prisma 7 Specific Blockers
+### Step 3: ESM/CJS Compatibility Decision
 
-If upgrading Prisma from 6.x to 7.x, these changes are required:
+| Your Project | Package Type | Compatible? | Action |
+|--------------|--------------|-------------|--------|
+| `commonjs` | `module` (ESM-only) | ❌ No | Skip, find alternative, or migrate project to ESM |
+| `commonjs` | (empty/commonjs) | ✅ Yes | Safe to upgrade |
+| `module` | `module` (ESM-only) | ✅ Yes | Safe to upgrade |
+| `module` | (empty/commonjs) | ✅ Yes | Safe to upgrade |
 
-1. **Schema changes:**
-   ```prisma
-   # Before (v6)
-   generator client {
-     provider = "prisma-client-js"
-   }
+### Step 4: Check Node.js Engine Compatibility
 
-   # After (v7)
-   generator client {
-     provider = "prisma-client"
-     output   = "./generated/client"  # Now required
-   }
-   ```
+```bash
+# Check required Node.js version
+npm view {package}@{version} engines
 
-2. **Driver adapters required** - No more direct connections:
-   ```typescript
-   // v7 requires adapter
-   import { PrismaClient } from './generated/client'
-   import { PrismaPg } from '@prisma/adapter-pg'
+# Compare with your project's Node version
+node --version
+```
 
-   const adapter = new PrismaPg(pool)
-   const prisma = new PrismaClient({ adapter })
-   ```
+If package requires newer Node.js than your project supports, skip or upgrade Node.js first.
 
-3. **New config file:** Create `prisma.config.ts` at project root
+### Step 5: Check for Deprecation
 
-4. **Import path changes:** Update all `@prisma/client` imports
+```bash
+# Check if package is deprecated
+npm view {package} deprecated
 
-**Recommendation:** Defer Prisma 7 upgrade until project migrates to ESM.
+# If deprecated, find alternative
+npm search {alternative-keywords}
+```
+
+### Step 6: Check Peer Dependencies
+
+```bash
+# View peer dependency requirements
+npm view {package}@{version} peerDependencies
+
+# Ensure your installed versions satisfy requirements
+```
+
+### Quick Pre-Upgrade Script
+
+Run this before any major upgrade:
+
+```bash
+# Replace {pkg} and {ver} with actual values
+node -e "
+const pkg='{pkg}', ver='{ver}';
+const {execSync}=require('child_process');
+const run=c=>{try{return execSync(c,{encoding:'utf8'}).trim()}catch{return''}};
+const projType=require('./package.json').type||'commonjs';
+const pkgType=run('npm view '+pkg+'@'+ver+' type');
+const engines=run('npm view '+pkg+'@'+ver+' engines');
+const deprecated=run('npm view '+pkg+' deprecated');
+console.log('Package:', pkg+'@'+ver);
+console.log('Project type:', projType);
+console.log('Package type:', pkgType||'commonjs');
+console.log('Engines:', engines||'any');
+console.log('Deprecated:', deprecated||'no');
+console.log('---');
+if(projType==='commonjs'&&pkgType==='module'){
+  console.log('⚠️  BLOCKER: ESM-only package in CommonJS project');
+  console.log('Options: 1) Skip upgrade  2) Find alternative  3) Migrate project to ESM');
+}else if(deprecated){
+  console.log('⚠️  BLOCKER: Package is deprecated');
+}else{
+  console.log('✅ No blockers detected - verify build after upgrade');
+}
+"
+```
+
+### CommonJS Project with ESM-Only Package: Options
+
+If you encounter an ESM-only package in a CommonJS project:
+
+1. **Skip upgrade** - Stay on last CommonJS-compatible version
+2. **Find alternative** - Search for CJS-compatible package with similar functionality
+3. **Use dynamic import** - `const pkg = await import('{package}')` (async only)
+4. **Use bundler** - Webpack/Vite can sometimes handle ESM in CJS projects
+5. **Migrate to ESM** - Add `"type": "module"` to package.json (major change)

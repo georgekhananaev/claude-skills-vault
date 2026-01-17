@@ -10,7 +10,7 @@ Safely upgrade JavaScript/TypeScript packages with breaking change detection, mi
 - **Breaking change detection** - Checks migration docs before major upgrades
 - **Automatic web search** - Searches for migration guides when docs not found
 - **ESM/CJS compatibility** - Warns about module system conflicts
-- **Known blockers** - Built-in knowledge of problematic upgrades
+- **Blocker detection** - Automatically detects ESM/CJS conflicts, Node.js requirements, deprecations
 
 ## Quick Start
 
@@ -179,21 +179,26 @@ flowchart TD
     style WebSearch fill:#06b6d4,color:#fff
 ```
 
-## Known Major Version Blockers
+## Detecting Major Version Blockers
 
-The skill has built-in knowledge of problematic upgrades:
+The skill automatically detects blockers before upgrading:
 
-### ESM-Only Packages (Breaking for CommonJS Projects)
+### Detection Commands
 
-| Package | Version | Issue | Alternative |
-|---------|---------|-------|-------------|
-| `prisma` | 7.x | ESM-only, schema changes | Stay on 6.x |
-| `chalk` | 5.x | ESM-only | Use `chalk@4` |
-| `node-fetch` | 3.x | ESM-only | Use native `fetch` |
-| `ora` | 6.x | ESM-only | Use `ora@5` |
-| `execa` | 6.x | ESM-only | Use `execa@5` |
-| `got` | 12.x | ESM-only | Use `got@11` |
-| `globby` | 12.x | ESM-only | Use `globby@11` |
+```bash
+# Check if package is ESM-only
+npm view {package}@{version} type
+# Returns "module" = ESM-only, empty = CommonJS compatible
+
+# Check your project type
+node -e "console.log(require('./package.json').type || 'commonjs')"
+
+# Check Node.js requirements
+npm view {package}@{version} engines
+
+# Check if deprecated
+npm view {package} deprecated
+```
 
 ### Decision Flow for ESM Packages
 
