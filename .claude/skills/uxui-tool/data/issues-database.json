@@ -1,0 +1,288 @@
+{
+  "version": "1.0.0",
+  "description": "Common UX issues with remediation guidance",
+  "categories": {
+    "visual": "Visual Design",
+    "typography": "Typography",
+    "color": "Color & Contrast",
+    "a11y": "Accessibility",
+    "usability": "Usability",
+    "flow": "User Flow",
+    "responsive": "Responsive",
+    "interaction": "Interaction",
+    "content": "Content",
+    "privacy": "Privacy & Ethics"
+  },
+  "issues": [
+    {
+      "id": "COLOR-001",
+      "category": "color",
+      "title": "Insufficient text contrast",
+      "description": "Text does not meet WCAG AA contrast ratio of 4.5:1 for normal text",
+      "severity": "critical",
+      "effort": "low",
+      "wcag": "1.4.3",
+      "detection": "Contrast checker, axe-core",
+      "remediation": "Increase color difference. Use darker text or lighter background. Aim for 4.5:1 minimum, 7:1 for AAA.",
+      "examples": {
+        "bad": "#999999 on #ffffff (2.85:1)",
+        "good": "#595959 on #ffffff (7:1)"
+      }
+    },
+    {
+      "id": "COLOR-002",
+      "category": "color",
+      "title": "Color as only indicator",
+      "description": "Information is conveyed through color alone without additional visual cues",
+      "severity": "major",
+      "effort": "low",
+      "wcag": "1.4.1",
+      "detection": "Grayscale test, manual review",
+      "remediation": "Add icons, patterns, or text labels alongside color. Error states should have icons, not just red color.",
+      "examples": {
+        "bad": "Red text for errors (no icon)",
+        "good": "Red text + ⚠️ icon for errors"
+      }
+    },
+    {
+      "id": "A11Y-001",
+      "category": "a11y",
+      "title": "Missing form labels",
+      "description": "Form inputs lack associated <label> elements or aria-label",
+      "severity": "critical",
+      "effort": "low",
+      "wcag": "1.3.1",
+      "detection": "axe-core, screen reader test",
+      "remediation": "Add <label for='id'> for each input, or use aria-label for icon-only inputs.",
+      "examples": {
+        "bad": "<input type='email' placeholder='Email'>",
+        "good": "<label for='email'>Email</label><input id='email' type='email'>"
+      }
+    },
+    {
+      "id": "A11Y-002",
+      "category": "a11y",
+      "title": "Missing alt text on images",
+      "description": "Informative images lack alternative text descriptions",
+      "severity": "critical",
+      "effort": "low",
+      "wcag": "1.1.1",
+      "detection": "axe-core, image inspection",
+      "remediation": "Add descriptive alt text. Use alt='' for decorative images. Avoid 'image of' prefix.",
+      "examples": {
+        "bad": "<img src='chart.png'>",
+        "good": "<img src='chart.png' alt='Sales increased 40% in Q3'>"
+      }
+    },
+    {
+      "id": "A11Y-003",
+      "category": "a11y",
+      "title": "Keyboard trap",
+      "description": "Users cannot navigate away from a component using keyboard",
+      "severity": "critical",
+      "effort": "medium",
+      "wcag": "2.1.2",
+      "detection": "Keyboard testing, Tab through all elements",
+      "remediation": "Ensure Tab and Shift+Tab move focus. Escape should close modals. Implement proper focus management.",
+      "examples": {
+        "bad": "Modal with no escape route",
+        "good": "Modal closes on Escape, focus returns to trigger"
+      }
+    },
+    {
+      "id": "A11Y-004",
+      "category": "a11y",
+      "title": "Missing focus indicators",
+      "description": "Interactive elements have no visible focus state",
+      "severity": "critical",
+      "effort": "low",
+      "wcag": "2.4.7",
+      "detection": "Tab through page, observe focus",
+      "remediation": "Add visible focus styles. Use outline with 3:1 contrast. Don't use outline: none without replacement.",
+      "examples": {
+        "bad": ":focus { outline: none; }",
+        "good": ":focus { outline: 2px solid #0066cc; outline-offset: 2px; }"
+      }
+    },
+    {
+      "id": "A11Y-005",
+      "category": "a11y",
+      "title": "Touch targets too small",
+      "description": "Interactive elements are smaller than 44x44px",
+      "severity": "critical",
+      "effort": "low",
+      "wcag": "2.5.8",
+      "detection": "Measure element dimensions",
+      "remediation": "Increase clickable area to at least 44x44px. Add padding if visual size must stay small.",
+      "examples": {
+        "bad": "24px icon button",
+        "good": "24px icon with 44px touch target (padding)"
+      }
+    },
+    {
+      "id": "TYPO-001",
+      "category": "typography",
+      "title": "Text too small",
+      "description": "Body text is smaller than 14px, causing readability issues",
+      "severity": "major",
+      "effort": "low",
+      "wcag": null,
+      "detection": "Inspect element, measure font-size",
+      "remediation": "Use minimum 16px for body text on desktop, 14px absolute minimum. Consider responsive scaling.",
+      "examples": {
+        "bad": "font-size: 12px for body text",
+        "good": "font-size: 16px or clamp(14px, 1rem, 18px)"
+      }
+    },
+    {
+      "id": "TYPO-002",
+      "category": "typography",
+      "title": "Line length too long",
+      "description": "Text lines exceed 75 characters, reducing readability",
+      "severity": "minor",
+      "effort": "low",
+      "wcag": null,
+      "detection": "Count characters per line, check max-width",
+      "remediation": "Add max-width to text containers. Aim for 45-75 characters per line.",
+      "examples": {
+        "bad": "Full-width paragraph on large screen",
+        "good": "max-width: 65ch; or max-width: 680px;"
+      }
+    },
+    {
+      "id": "FLOW-001",
+      "category": "flow",
+      "title": "No loading indicator",
+      "description": "Async operations provide no feedback that action is in progress",
+      "severity": "major",
+      "effort": "low",
+      "wcag": null,
+      "detection": "Trigger async actions, observe feedback",
+      "remediation": "Show loading state within 300ms. Use spinners, skeletons, or progress bars.",
+      "examples": {
+        "bad": "Button does nothing visible for 2 seconds",
+        "good": "Button shows spinner immediately, success message on complete"
+      }
+    },
+    {
+      "id": "FLOW-002",
+      "category": "flow",
+      "title": "Data lost on error",
+      "description": "Form data is cleared when validation or submission fails",
+      "severity": "major",
+      "effort": "medium",
+      "wcag": null,
+      "detection": "Submit invalid form, check data preservation",
+      "remediation": "Preserve all form data on errors. Use controlled inputs or autosave.",
+      "examples": {
+        "bad": "Form resets on server error",
+        "good": "Error message shown, all fields retain values"
+      }
+    },
+    {
+      "id": "USAB-001",
+      "category": "usability",
+      "title": "Unclear error message",
+      "description": "Error messages don't explain the problem or how to fix it",
+      "severity": "major",
+      "effort": "low",
+      "wcag": "3.3.1",
+      "detection": "Trigger errors, read messages",
+      "remediation": "Use pattern: What happened + How to fix. Be specific and helpful.",
+      "examples": {
+        "bad": "Invalid input",
+        "good": "Password must be at least 8 characters. Add 3 more."
+      }
+    },
+    {
+      "id": "USAB-002",
+      "category": "usability",
+      "title": "No undo for destructive action",
+      "description": "Destructive actions cannot be undone and lack confirmation",
+      "severity": "major",
+      "effort": "medium",
+      "wcag": null,
+      "detection": "Test delete/destructive actions",
+      "remediation": "Add confirmation dialog or undo option. Soft delete where possible.",
+      "examples": {
+        "bad": "Single click permanently deletes",
+        "good": "Confirmation dialog + 'Undo' toast for 10 seconds"
+      }
+    },
+    {
+      "id": "RESP-001",
+      "category": "responsive",
+      "title": "Horizontal scroll on mobile",
+      "description": "Content causes horizontal overflow on narrow viewports",
+      "severity": "major",
+      "effort": "medium",
+      "wcag": "1.4.10",
+      "detection": "View at 320px width, check for horizontal scroll",
+      "remediation": "Use responsive units (%, vw). Add overflow handling. Test at 320px minimum.",
+      "examples": {
+        "bad": "Fixed 400px width table",
+        "good": "Responsive table with horizontal scroll container or card layout"
+      }
+    },
+    {
+      "id": "DARK-001",
+      "category": "privacy",
+      "title": "Confirm-shaming",
+      "description": "Decline option uses guilt-inducing or negative language",
+      "severity": "critical",
+      "effort": "low",
+      "wcag": null,
+      "detection": "Review opt-out copy",
+      "remediation": "Use neutral, equal-weight options. No guilt, no judgment.",
+      "examples": {
+        "bad": "No thanks, I don't want to save money",
+        "good": "No thanks"
+      }
+    },
+    {
+      "id": "DARK-002",
+      "category": "privacy",
+      "title": "Hidden costs",
+      "description": "Additional fees revealed only at final checkout step",
+      "severity": "critical",
+      "effort": "medium",
+      "wcag": null,
+      "detection": "Complete checkout flow, note when costs appear",
+      "remediation": "Show all costs upfront. Display fees on product/cart pages.",
+      "examples": {
+        "bad": "Service fee shown only on payment page",
+        "good": "All fees visible on product page and cart"
+      }
+    },
+    {
+      "id": "INT-001",
+      "category": "interaction",
+      "title": "Missing hover state",
+      "description": "Interactive elements have no visual feedback on hover",
+      "severity": "minor",
+      "effort": "low",
+      "wcag": null,
+      "detection": "Hover over interactive elements",
+      "remediation": "Add hover state with subtle visual change. Use cursor: pointer for clickables.",
+      "examples": {
+        "bad": "Button looks same on hover",
+        "good": "Button has background color change and cursor: pointer"
+      }
+    },
+    {
+      "id": "CONT-001",
+      "category": "content",
+      "title": "Jargon in user-facing text",
+      "description": "Technical or internal terminology used in UI copy",
+      "severity": "minor",
+      "effort": "low",
+      "wcag": null,
+      "detection": "Content review, user testing",
+      "remediation": "Replace with plain language. Write for grade 6-8 reading level.",
+      "examples": {
+        "bad": "Initialize your configuration settings",
+        "good": "Set up your preferences"
+      }
+    }
+  ]
+}
