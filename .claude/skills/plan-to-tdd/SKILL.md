@@ -24,8 +24,8 @@ Invoke when:
 
 | Skill | Location | Phase |
 |-------|----------|-------|
-| `docs-navigator` | `.claude/skills/docs-navigator` | Load/Design - find existing patterns |
-| `ux-toolkit` | `.claude/skills/ux-toolkit` | Verify - 9-domain UX evaluation |
+| `doc-navigator` | `.claude/skills/doc-navigator` | Load/Design - find existing patterns |
+| `uiux-toolkit` | `.claude/skills/uiux-toolkit` | Verify - 9-domain UX evaluation |
 | `test-levels` | `.claude/skills/test-levels` | Plan/Execute - test distribution |
 
 ---

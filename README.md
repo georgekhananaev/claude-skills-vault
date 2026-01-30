@@ -19,14 +19,18 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
 | **nextjs-senior-dev** | Senior Next.js 15/16 Engineer skill for App Router, RSC patterns, and performance |
 | **pep8** | Python 3.11+ style enforcement with PEP 8, type hints, and check scripts |
+| **plan-to-tdd** | Transform feature plans into TDD implementation with Outside-In methodology |
 | **project-change-log** | Automatic CHANGELOG.md maintenance following Keep a Changelog |
 | **prompt-compressor** | Compress verbose prompts for 40-60% token reduction |
 | **pydantic-model** | Pydantic v2 model patterns for validation and MongoDB |
 | **skill-creator** | Guide for creating Claude Code skills |
+| **supabase-expert** | Production-grade Supabase expertise for commercial applications |
 | **system-architect** | System architecture patterns and design guidance |
+| **test-levels** | Unit vs Integration vs E2E testing guide with car analogy |
 | **testing-automation-expert** | Production-grade testing strategies (pytest, Jest, Playwright) |
 | **token-formatter** | Token compression and formatting utilities |
-| **ux-toolkit** | Comprehensive UX evaluation and UI/UX audits |
+| **upgrade-packages-js** | Safely upgrade JS/TS packages with breaking change detection (npm/pnpm/yarn) |
+| **uiux-toolkit** | Comprehensive UI/UX evaluation and design audits |
 
 ### Document Skills
 

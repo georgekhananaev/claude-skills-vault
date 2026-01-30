@@ -8,8 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add upgrade-packages-js skill for safe package upgrades with breaking change detection
+- **skills**: Add supabase-expert skill for production-grade Supabase development (RLS, auth, Edge Functions, enterprise)
 
 ### Changed
+- **skills**: Rename uxui-tool to uiux-toolkit for clarity and consistency
+- **commands**: Remove version bumping from git-commit (only adds to Unreleased)
+- **commands**: Add interactive version selection to git-push (Patch/Minor/Major/Skip)
 
 ### Fixed
 

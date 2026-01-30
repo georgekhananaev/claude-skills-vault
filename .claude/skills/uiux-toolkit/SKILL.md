@@ -1,9 +1,9 @@
 ---
-name: uxui-tool
+name: uiux-toolkit
 description: Comprehensive UX/UI evaluation meta-skill combining design theory and UX methodology. Use when conducting UI/UX audits, visual design reviews, accessibility compliance (WCAG 2.2), user flow analysis, responsive testing, interaction design evaluation, or design system audits. Evaluates using Nielsen's heuristics, Gestalt principles, typography theory, color theory, and modern methodologies (OOUX, JTBD, Cognitive Walkthrough).
 ---
 
-# UX Toolkit
+# UI/UX Toolkit
 
 Professional UX/UI evaluation across 9 domains. Combines design theory w/ UX methodology. Framework-agnostic for web, mobile & desktop.
 

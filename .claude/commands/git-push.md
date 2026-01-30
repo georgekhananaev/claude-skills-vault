@@ -28,13 +28,31 @@ git log origin/$(git branch --show-current)..HEAD --oneline
 
 ## 2. Version Bump & Changelog
 
-### Step 1: Determine New Version
-- Read current version from `CHANGELOG.md` (find `## [Unreleased]` then next `## [x.x.x]`)
-- If latest version is `[1.0.0]`, new version = `1.0.1` (patch bump +0.0.1)
-- Format: `MAJOR.MINOR.PATCH`
+### Step 1: Check for Unreleased Changes
+- Read `CHANGELOG.md` and check if `## [Unreleased]` section has content
+- **If empty**: Skip version bump, proceed directly to push
+- **If has content**: Continue to version selection
 
-### Step 2: Update CHANGELOG.md
-1. Replace `## [Unreleased]` section header with versioned release
+### Step 2: Ask User for Version Bump
+Use **AskUserQuestion** tool to prompt user:
+
+```
+Question: "Which version bump for this release?"
+Options:
+- Patch (+0.0.1) - Bug fixes, minor updates (Recommended)
+- Minor (+0.1.0) - New features, backwards compatible
+- Major (+1.0.0) - Breaking changes
+- Skip - Don't create release, push as-is
+```
+
+**Based on selection:**
+- **Patch**: Increment last number (1.0.0 → 1.0.1)
+- **Minor**: Increment middle, reset last (1.0.5 → 1.1.0)
+- **Major**: Increment first, reset others (1.2.3 → 2.0.0)
+- **Skip**: Proceed to push without versioning
+
+### Step 3: Update CHANGELOG.md (if version selected)
+1. Replace `## [Unreleased]` content with versioned release
 2. Add today's date in format `YYYY-MM-DD`
 3. Create new empty `## [Unreleased]` section above
 
@@ -48,7 +66,7 @@ git log origin/$(git branch --show-current)..HEAD --oneline
 ## [1.0.0] - 2026-01-04
 ```
 
-**After:**
+**After (Patch bump example):**
 ```markdown
 ## [Unreleased]
 
@@ -66,7 +84,7 @@ git log origin/$(git branch --show-current)..HEAD --oneline
 ## [1.0.0] - 2026-01-04
 ```
 
-### Step 3: Commit Changelog
+### Step 4: Commit Changelog (if version selected)
 ```bash
 git add CHANGELOG.md
 git commit -m "chore(release): bump version to X.X.X"
@@ -87,10 +105,10 @@ git push origin $(git branch --show-current)
 1. `git status --porcelain` - check uncommitted
 2. **Ask**: "Uncommitted changes found. Run /commit?" (if applicable)
 3. `git fetch && git log` - check if ahead of origin
-4. Read `CHANGELOG.md` - get current version
-5. Calculate new version (+0.0.1)
-6. Update `CHANGELOG.md` - version Unreleased, add new Unreleased section
-7. `git add CHANGELOG.md && git commit` - commit changelog
+4. Read `CHANGELOG.md` - check if [Unreleased] has content
+5. **If has content**: Use AskUserQuestion - "Which version bump?" (Patch/Minor/Major/Skip)
+6. **If version selected**: Update `CHANGELOG.md` - version Unreleased, add new Unreleased section
+7. **If version selected**: `git add CHANGELOG.md && git commit` - commit changelog
 8. `git push origin <branch>` - push all changes
 9. Confirm success
 
