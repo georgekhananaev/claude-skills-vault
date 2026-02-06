@@ -8,18 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [1.1.3] - 2026-02-07
+
+### Added
 - **skills**: Add github-cli skill — safety-first GitHub CLI wrapper with 4-tier risk classification (Safe/Write/Destructive/Forbidden), AskUserQuestion templates, and triple-confirmation protocol for dangerous operations
 - **skills**: Add code-quality skill (merges beautiful-code + code-reviewer + pep8) with unified severity levels, review process, and multi-language standards
 - **skills**: Add token-optimizer skill (merges prompt-compressor + token-formatter + elements-of-style) with prompt compression, doc formatting, prose clarity, and TOON integration
-
-### Changed
 
 ### Removed
 - **skills**: Remove supabase-expert skill (consolidated into supabase-cli)
 - **skills**: Deprecate beautiful-code, code-reviewer, pep8 (replaced by code-quality)
 - **skills**: Deprecate prompt-compressor, token-formatter, elements-of-style (replaced by token-optimizer)
-
-### Fixed
 
 ## [1.1.2] - 2026-02-07
 
