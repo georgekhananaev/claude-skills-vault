@@ -8,9 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add brainstorm skill for collaborative idea refinement
+- **skills**: Add codex-cli skill for OpenAI Codex CLI second-opinion audits
+- **skills**: Add elements-of-style skill for clear writing following Strunk's style
+- **skills**: Add supabase-cli skill for CLI automation (migrations, Edge Functions, type gen)
+- **readme**: Add 5 missing skills to Core Skills table
 
 ### Changed
 - **skills**: Refactor semantic-colors into semantic-coding (comprehensive design system: colors, typography, spacing, sizing, shadows, z-index)
+- **commands**: Enhance plan-feature with brainstorm integration and updated template
 
 ### Fixed
 
