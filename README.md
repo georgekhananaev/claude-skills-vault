@@ -16,6 +16,7 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **doc-navigator** | Efficient codebase documentation navigation during research |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for production-ready FastAPI |
 | **gemini-cli** | Run Gemini CLI for AI queries and comparisons |
+| **github-cli** | Safety-first GitHub CLI wrapper with risk classification and confirmation protocols |
 | **materialreacttable-mastery** | Material React Table V3 expert for MUI data tables with CRUD and virtualization |
 | **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
 | **nextjs-senior-dev** | Senior Next.js 15/16 Engineer skill for App Router, RSC patterns, and performance |
