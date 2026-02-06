@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [1.1.2] - 2026-02-07
+
+### Added
 - **skills**: Add brainstorm skill for collaborative idea refinement
 - **skills**: Add codex-cli skill for OpenAI Codex CLI second-opinion audits
 - **skills**: Add elements-of-style skill for clear writing following Strunk's style
@@ -17,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - **skills**: Refactor semantic-colors into semantic-coding (comprehensive design system: colors, typography, spacing, sizing, shadows, z-index)
 - **commands**: Enhance plan-feature with brainstorm integration and updated template
-
-### Fixed
 
 ## [1.1.1] - 2026-01-31
 
