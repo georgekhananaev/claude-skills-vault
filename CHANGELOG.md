@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - **skills**: Enhance nextjs-senior-dev with 3 new references: scripts (next/script, 3rd-party loading), self-hosting (Docker standalone, multi-instance ISR), debug tricks (MCP debugging)
 
 ### Fixed
+- **skills**: Remove non-standard metadata.json from react-best-practices causing incorrect CLI display
 
 ## [1.1.3] - 2026-02-07
 

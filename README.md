@@ -186,6 +186,8 @@ Created by **George Khananaev**
 
 Skills sourced from [ComposioHQ](https://github.com/ComposioHQ): document-skills (xlsx, docx, pptx, pdf), project-change-log, skill-creator, mcp-builder
 
+Skills contributed by [garesuta](https://github.com/garesuta) ([PR #4](https://github.com/georgekhananaev/claude-skills-vault/pull/4)): react-best-practices, next-cache-components, next-upgrade, senior-backend
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
