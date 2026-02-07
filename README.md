@@ -19,6 +19,7 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **github-cli** | Safety-first GitHub CLI wrapper with risk classification and confirmation protocols |
 | **materialreacttable-mastery** | Material React Table V3 expert for MUI data tables with CRUD and virtualization |
 | **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
+| **monday-com** | Monday.com workspace management via official MCP — create/update/delete items, boards, groups, columns |
 | **next-cache-components** | Next.js 16 Cache Components — PPR, `use cache` directive, cacheLife, cacheTag, updateTag |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration guides and codemods |
 | **nextjs-senior-dev** | Senior Next.js 15/16 Engineer skill for App Router, RSC patterns, and performance |
