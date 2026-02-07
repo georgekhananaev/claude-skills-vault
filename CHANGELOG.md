@@ -11,11 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+### Fixed
+
+## [1.1.5] - 2026-02-07
+
 ### Removed
 - **skills**: Remove deprecated beautiful-code, code-reviewer, pep8 (already merged into code-quality)
 - **skills**: Remove deprecated prompt-compressor, token-formatter, elements-of-style (already merged into token-optimizer)
-
-### Fixed
 
 ## [1.1.4] - 2026-02-07
 
