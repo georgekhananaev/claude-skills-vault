@@ -13,6 +13,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+## [1.1.8] - 2026-02-09
+
+### Added
+- **skills**: Add salesforce-cli skill — safety-first Salesforce CLI (`sf` v2) wrapper with 4-tier risk classification (Safe/Write/Destructive/Forbidden), 4 safety-enforcing scripts (query, deploy, export, org-guard), 5 reference docs (safety rules, SOQL/SOSL, MCP integration, auth flows, data operations), production guardrails with typed alias confirmation, fail-safe org detection, PII warnings, destructive deploy blocking, governor limit checks, file-converter integration, and dual-AI security audit (Gemini 2.5 Pro + Codex GPT-5.2) with all critical/important findings fixed
+
+## [1.1.7] - 2026-02-08
+
+### Added
+- **skills**: Add file-converter skill — 8 cross-platform conversion scripts (image resize/convert, markdown to HTML/PDF, HTML to markdown, CSV/JSON/YAML/TOML/XML, SVG, base64, text encoding) with shared platform_utils for native library loading on macOS/Linux/Windows, dual-AI audited (Gemini + Codex), 51 passing tests
+
+## [1.1.6] - 2026-02-08
+
+### Added
+- **skills**: Add monday-com skill — Monday.com workspace management via official MCP server with direct API fallback, smart tool selection, safety classification, and comprehensive GraphQL reference docs
+
+## [1.1.5] - 2026-02-07
+
+### Removed
+- **skills**: Remove deprecated beautiful-code, code-reviewer, pep8 (already merged into code-quality)
+- **skills**: Remove deprecated prompt-compressor, token-formatter, elements-of-style (already merged into token-optimizer)
+
+## [1.1.4] - 2026-02-07
+
+### Added
+- **skills**: Add react-best-practices skill — 45 Vercel Engineering performance rules across 8 categories (waterfalls, bundle size, server-side, client-side, re-render, rendering, JS perf, advanced patterns)
+- **skills**: Add next-cache-components skill — Next.js 16 Cache Components with PPR, `use cache` directive, cacheLife, cacheTag, updateTag
+- **skills**: Add next-upgrade skill — Next.js version upgrade workflow with codemods and migration guides
+- **skills**: Add senior-backend skill — Node.js/Express/Fastify backend patterns with API scaffolding, database migration, and load testing scripts
+
+### Changed
+- **skills**: Enhance nextjs-senior-dev with 3 new references: scripts (next/script, 3rd-party loading), self-hosting (Docker standalone, multi-instance ISR), debug tricks (MCP debugging)
+
+### Fixed
+- **skills**: Remove non-standard metadata.json from react-best-practices causing incorrect CLI display
+
+## [1.1.3] - 2026-02-07
+
+### Added
+- **skills**: Add github-cli skill — safety-first GitHub CLI wrapper with 4-tier risk classification (Safe/Write/Destructive/Forbidden), AskUserQuestion templates, and triple-confirmation protocol for dangerous operations
+- **skills**: Add code-quality skill (merges beautiful-code + code-reviewer + pep8) with unified severity levels, review process, and multi-language standards
+- **skills**: Add token-optimizer skill (merges prompt-compressor + token-formatter + elements-of-style) with prompt compression, doc formatting, prose clarity, and TOON integration
+
+### Removed
+- **skills**: Remove supabase-expert skill (consolidated into supabase-cli)
+- **skills**: Deprecate beautiful-code, code-reviewer, pep8 (replaced by code-quality)
+- **skills**: Deprecate prompt-compressor, token-formatter, elements-of-style (replaced by token-optimizer)
+
+## [1.1.2] - 2026-02-07
+
+### Added
+- **skills**: Add brainstorm skill for collaborative idea refinement
+- **skills**: Add codex-cli skill for OpenAI Codex CLI second-opinion audits
+- **skills**: Add elements-of-style skill for clear writing following Strunk's style
+- **skills**: Add supabase-cli skill for CLI automation (migrations, Edge Functions, type gen)
+- **readme**: Add 5 missing skills to Core Skills table
+
+### Changed
+- **skills**: Refactor semantic-colors into semantic-coding (comprehensive design system: colors, typography, spacing, sizing, shadows, z-index)
+- **commands**: Enhance plan-feature with brainstorm integration and updated template
+
 ## [1.1.1] - 2026-01-31
 
 ### Added
