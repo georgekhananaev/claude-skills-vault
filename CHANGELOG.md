@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add multi-agent-patterns skill — orchestrator, peer-to-peer, and hierarchical multi-agent architectures with token economics, consensus protocols, context isolation mechanisms, and failure mode mitigations
+- **skills**: Add parallel-agents skill — native Claude Code agent orchestration with 17 specialized agents, 3 orchestration patterns (comprehensive analysis, feature review, security audit), synthesis protocol, and sequential/parallel invocation support
 
 ### Changed
 
