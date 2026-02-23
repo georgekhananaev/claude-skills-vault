@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - **skills**: Add parallel-agents skill — native Claude Code agent orchestration with 17 specialized agents, 3 orchestration patterns (comprehensive analysis, feature review, security audit), synthesis protocol, and sequential/parallel invocation support
 
 ### Changed
+- **readme**: Add 7 missing skills to core skills table (file-converter, multi-agent-patterns, next-best-practices, parallel-agents, salesforce-cli, senior-qa, vercel-react-native-skills)
 
 ### Fixed
 
