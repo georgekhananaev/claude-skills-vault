@@ -15,20 +15,26 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **codex-cli** | Run OpenAI Codex CLI for second-opinion audits and code review |
 | **doc-navigator** | Efficient codebase documentation navigation during research |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for production-ready FastAPI |
+| **file-converter** | Convert & transform files — images, markdown, data formats (CSV/JSON/YAML/TOML/XML), SVG, base64, text encoding |
 | **gemini-cli** | Run Gemini CLI for AI queries and comparisons |
 | **github-cli** | Safety-first GitHub CLI wrapper with risk classification and confirmation protocols |
 | **materialreacttable-mastery** | Material React Table V3 expert for MUI data tables with CRUD and virtualization |
 | **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
 | **monday-com** | Monday.com workspace management via official MCP — create/update/delete items, boards, groups, columns |
+| **multi-agent-patterns** | Master orchestrator, peer-to-peer, and hierarchical multi-agent architectures |
+| **next-best-practices** | Next.js best practices — file conventions, RSC boundaries, data patterns, async APIs, metadata, error handling |
 | **next-cache-components** | Next.js 16 Cache Components — PPR, `use cache` directive, cacheLife, cacheTag, updateTag |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration guides and codemods |
 | **nextjs-senior-dev** | Senior Next.js 15/16 Engineer skill for App Router, RSC patterns, and performance |
+| **parallel-agents** | Multi-agent orchestration for running independent tasks with different domain expertise |
 | **plan-to-tdd** | Transform feature plans into TDD implementation with Outside-In methodology |
 | **project-change-log** | Automatic CHANGELOG.md maintenance following Keep a Changelog |
 | **pydantic-model** | Pydantic v2 model patterns for validation and MongoDB |
 | **react-best-practices** | React/Next.js performance optimization — 45 Vercel Engineering rules across 8 categories |
+| **salesforce-cli** | Safety-first Salesforce CLI wrapper for SOQL/SOSL, metadata, data import/export, Apex, org management |
 | **semantic-coding** | Refactor hardcoded styles to semantic design tokens (colors, typography, spacing, sizing) |
 | **senior-backend** | Node.js/Express/Fastify backend patterns — REST APIs, database optimization, security, load testing |
+| **senior-qa** | Testing skill for React/Next.js — Jest, React Testing Library, Playwright, coverage analysis |
 | **skill-creator** | Guide for creating Claude Code skills |
 | **supabase-cli** | CLI automation for Supabase migrations, Edge Functions, and type generation |
 | **system-architect** | System architecture patterns and design guidance |
@@ -37,6 +43,7 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **token-optimizer** | Reduce tokens in prompts, docs, and prose. Replaces prompt-compressor, token-formatter, elements-of-style |
 | **upgrade-packages-js** | Safely upgrade JS/TS packages with breaking change detection (npm/pnpm/yarn) |
 | **uiux-toolkit** | Comprehensive UI/UX evaluation and design audits |
+| **vercel-react-native-skills** | React Native and Expo best practices for performant mobile apps, animations, and native modules |
 
 ### Document Skills
 
