@@ -20,26 +20,16 @@ Goal: Safe, attributed git commit for the configured git user.
 - No `--no-gpg-sign` (sign if GPG configured)
 - No `--amend` (unless fixing immediate prev commit)
 
-## 3. Version Control (Interactive)
-
-**Prompt**: "Update project version?"
-
-**If YES:**
-1. **Detect**: `package.json` | `pyproject.toml` | `setup.py` | `Cargo.toml` | `VERSION`
-2. **Bump**: Major (+1.0.0) | Minor (+0.1.0) | Patch (+0.0.1)
-3. **Execute**: Update file → Stage → Commit
-
-## 4. Execution Flow
+## 3. Execution Flow
 
 1. `git status` - check state
 2. `git diff` - review (**stop** if secrets/debug found)
-3. Version check (above)
-4. Stage: `git add <file>` (use `-p` for mixed changes, avoid `git add .` w/ junk)
-5. Construct message (Conventional Commits)
-6. `git commit -m "..."`
-7. `git status` - verify
+3. Stage: `git add <file>` (use `-p` for mixed changes, avoid `git add .` w/ junk)
+4. Construct message (Conventional Commits)
+5. `git commit -m "..."`
+6. `git status` - verify
 
-## 5. Commit Message Standard
+## 4. Commit Message Standard
 
 **Format**: `<type>(<scope>): <description>`
 
@@ -59,12 +49,12 @@ Goal: Safe, attributed git commit for the configured git user.
 
 **Rules**: Imperative mood, no period, max 72 chars, scope opt but recommended
 
-## 6. Grouping
+## 5. Grouping
 
 - **Atomic**: Split unrelated changes into separate commits
 - **Ask**: "Changes in X & Y. Separate commits?"
 
-## 7. Changelog (REQUIRED)
+## 6. Changelog (REQUIRED)
 
 After EVERY commit → update `CHANGELOG.md`
 
@@ -107,7 +97,7 @@ git commit --amend --no-edit
 
 **Ref**: `.claude/skills/project-change-log/SKILL.md`
 
-## 8. README Updates
+## 7. README Updates
 
 ### When to Update:
 - `feat`: usage/API/feature docs
