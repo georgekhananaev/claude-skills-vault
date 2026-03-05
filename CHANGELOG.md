@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add data-wrangler skill — production-grade tabular data manipulation using pandas & openpyxl with 2 scripts (data_wrangler.py: 18 operations — inspect, filter, sort, group, merge, pivot, dedupe, fill, drop, rename, cast, derive, sample, split, validate, formula, convert, query; excel_toolkit.py: 9 Excel operations — sheets, extract, combine, format, freeze, autofilter, validate, protect, create), pandas-patterns reference doc, file-converter integration, supports CSV/Excel/JSON/Parquet/TSV, all 27 operations tested and passing
 
 ### Changed
 
