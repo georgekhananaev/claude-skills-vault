@@ -24,44 +24,56 @@ Gemini CLI must be installed & configured:
 
 ## Usage
 
+**IMPORTANT:** Use `-p` flag for non-interactive (headless) one-shot queries. Without `-p`, gemini opens interactive mode which hangs in automation.
+
 ```bash
-# One-shot query
-gemini "Your prompt"
+# One-shot query (MUST use -p for non-interactive)
+gemini -p "Your prompt"
 
 # Specific model
-gemini -m gemini-3-pro-preview "prompt"
+gemini -p "prompt" -m gemini-3-pro
 
 # JSON output
-gemini -o json "prompt"
+gemini -p "prompt" -o json
 
-# YOLO mode (auto-approve)
-gemini -y "prompt"
+# YOLO mode (auto-approve tool use)
+gemini -y -p "prompt"
 
 # File analysis
-cat file.txt | gemini "Analyze this"
+cat file.txt | gemini -p "Analyze this"
 ```
 
-## Comparison Workflow
+## Models (Gemini 3+ only)
 
-1. Provide Claude's response first
-2. Run same query via Gemini CLI
-3. Present both for comparison
+| Model | Use case |
+|-------|----------|
+| `gemini-3-pro` | Default, best all-round |
+| `gemini-3-flash` | Fast, lightweight tasks |
+
+Omit `-m` to use the CLI default (latest stable).
 
 ## CLI Options
 
 | Flag | Desc |
 |------|------|
-| `-m` | Model (gemini-3-pro) |
+| `-p` | **Required for headless.** Non-interactive prompt |
+| `-m` | Model selection |
 | `-o` | Output: text/json/stream-json |
-| `-y` | Auto-approve (YOLO) |
+| `-y` | Auto-approve all actions (YOLO) |
 | `-d` | Debug mode |
 | `-s` | Sandbox mode |
 | `-r` | Resume session |
-| `-i` | Interactive after prompt |
+| `-i` | Execute prompt then continue interactive |
+
+## Comparison Workflow
+
+1. Provide Claude's response first
+2. Run same query via `gemini -p "prompt"`
+3. Present both for comparison
 
 ## Best Practices
 
+- Always use `-p` for automation/one-shot queries
 - Quote prompts w/ double quotes
 - Use `-o json` for parsing
 - Pipe files for context
-- Specify model for specific capabilities
