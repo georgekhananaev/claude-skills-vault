@@ -11,8 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - **skills**: Add data-wrangler skill — production-grade tabular data manipulation using pandas & openpyxl with 2 scripts (data_wrangler.py: 18 operations — inspect, filter, sort, group, merge, pivot, dedupe, fill, drop, rename, cast, derive, sample, split, validate, formula, convert, query; excel_toolkit.py: 9 Excel operations — sheets, extract, combine, format, freeze, autofilter, validate, protect, create), pandas-patterns reference doc, file-converter integration, supports CSV/Excel/JSON/Parquet/TSV, all 27 operations tested and passing
 
 ### Changed
+- **skills**: Update codex-cli skill — upgrade default model to gpt-5.4, add argument compatibility rules for exec/review, set medium reasoning effort as default
+- **skills**: Update gemini-cli skill — add `-p` flag requirement for headless mode, update model table to Gemini 3+
 
 ### Fixed
+- **config**: Add SSE type to monday-mcp server config
 
 ## [1.1.8] - 2026-02-09
 

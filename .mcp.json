@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "monday-mcp": {
+      "type": "sse",
       "url": "https://mcp.monday.com/mcp"
     }
   }
