@@ -1,0 +1,36 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Generate manifest
+        run: node scripts/generate-manifest.js
+
+      - name: Sync version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          cd cli
+          npm version "$TAG" --no-git-tag-version --allow-same-version
+
+      - name: Install dependencies
+        run: cd cli && npm ci
+
+      - name: Publish
+        run: cd cli && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
