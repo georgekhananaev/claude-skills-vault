@@ -8,13 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-- **commands**: Add 4 DevOps commands from wshobson/commands — docker-optimize (Dockerfile generation), k8s-manifest (Kubernetes YAML), db-migrate (migration files/rollback), doc-generate (OpenAPI/JSDoc/TypeDoc)
-- **skills**: Add mermaid-diagram skill — 19 diagram types (flowchart, sequence, ER, class, state, pie, gantt, mindmap, timeline, gitgraph, C4, kanban, block, quadrant, sankey, XY, journey, requirement, architecture), Codex-audited, semantic colors, accessibility
-- **skills**: Add excalidraw-diagram skill — Excalidraw JSON generation with Playwright rendering
 
 ### Changed
 
 ### Fixed
+
+## [1.4.1] - 2026-03-16
+
+### Added
+- **commands**: Add 4 DevOps commands from wshobson/commands — docker-optimize (Dockerfile generation), k8s-manifest (Kubernetes YAML), db-migrate (migration files/rollback), doc-generate (OpenAPI/JSDoc/TypeDoc)
+- **skills**: Add mermaid-diagram skill — 19 diagram types (flowchart, sequence, ER, class, state, pie, gantt, mindmap, timeline, gitgraph, C4, kanban, block, quadrant, sankey, XY, journey, requirement, architecture), Codex-audited, semantic colors, accessibility
+- **skills**: Add excalidraw-diagram skill — Excalidraw JSON generation with Playwright rendering
 
 ## [1.4.0] - 2026-03-16
 
