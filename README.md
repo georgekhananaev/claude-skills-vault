@@ -34,162 +34,13 @@ npx claude-skills-vault install brainstorm --force
 
 Skills are downloaded directly from this repository into your project's `.claude/skills/` directory. No git clone required.
 
-## Skills
+## What's Inside
 
-### Core Skills
-
-| Skill | Description |
-|-------|-------------|
-| **brainstorm** | Transform ideas into fully-formed designs through collaborative dialogue |
-| **code-quality** | Multi-language code quality standards and review for TS, Python, Go, Rust. Replaces beautiful-code, code-reviewer, pep8 |
-| **codex-cli** | Run OpenAI Codex CLI for second-opinion audits and code review |
-| **color-accessibility-audit** | WCAG 2.1/2.2 color contrast analysis with color blindness simulation and auto-fix |
-| **data-wrangler** | Production-grade tabular data manipulation using pandas & openpyxl |
-| **doc-navigator** | Efficient codebase documentation navigation during research |
-| **fastapi-senior-dev** | Senior Python Backend Engineer skill for production-ready FastAPI |
-| **file-converter** | Convert & transform files — images, markdown, data formats, SVG, base64, text encoding |
-| **gemini-cli** | Run Gemini CLI for AI queries and comparisons |
-| **github-cli** | Safety-first GitHub CLI wrapper with risk classification and confirmation protocols |
-| **materialreacttable-mastery** | Material React Table V3 expert for MUI data tables with CRUD and virtualization |
-| **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
-| **monday-com** | Monday.com workspace management via official MCP — create/update/delete items, boards, groups, columns |
-| **multi-agent-patterns** | Orchestrator, peer-to-peer, and hierarchical multi-agent architectures |
-| **next-cache-components** | Next.js 16 Cache Components — PPR, `use cache` directive, cacheLife, cacheTag, updateTag |
-| **next-upgrade** | Upgrade Next.js to the latest version following official migration guides and codemods |
-| **nextjs-senior-dev** | Senior Next.js 15/16 Engineer skill for App Router, RSC patterns, and performance |
-| **owasp-security** | OWASP Top 10:2025 security review, ASVS 5.0, and secure code patterns |
-| **parallel-agents** | Multi-agent orchestration for running tasks with different domain expertise |
-| **plan-to-tdd** | Transform feature plans into TDD implementation with Outside-In methodology |
-| **project-change-log** | Automatic CHANGELOG.md maintenance following Keep a Changelog |
-| **pydantic-model** | Pydantic v2 model patterns for validation and MongoDB |
-| **react-best-practices** | React/Next.js performance optimization — 45 Vercel Engineering rules across 8 categories |
-| **salesforce-cli** | Safety-first Salesforce CLI wrapper for SOQL/SOSL, metadata, data import/export, Apex |
-| **semantic-coding** | Refactor hardcoded styles to semantic design tokens (colors, typography, spacing, sizing) |
-| **senior-backend** | Node.js/Express/Fastify backend patterns — REST APIs, database optimization, security, load testing |
-| **skill-creator** | Guide for creating Claude Code skills |
-| **supabase-cli** | CLI automation for Supabase migrations, Edge Functions, and type generation |
-| **swift-concurrency6.2** | Swift 6.2 Approachable Concurrency — single-threaded default, @concurrent, isolated conformances |
-| **swiftui-patterns** | SwiftUI architecture, @Observable state management, view composition, and navigation |
-| **system-architect** | System architecture patterns and design guidance |
-| **test-levels** | Unit vs Integration vs E2E testing guide with car analogy |
-| **testing-automation-expert** | Production-grade testing strategies (pytest, Jest, Playwright) |
-| **token-optimizer** | Reduce tokens in prompts, docs, and prose. Replaces prompt-compressor, token-formatter, elements-of-style |
-| **ui-ux-pro-max** | UI/UX design intelligence — 50 styles, 21 palettes, 50 font pairings, 9 framework stacks |
-| **uiux-toolkit** | Comprehensive UI/UX evaluation and design audits |
-| **upgrade-packages-js** | Safely upgrade JS/TS packages with breaking change detection (npm/pnpm/yarn) |
-| **vercel-react-native-skills** | React Native and Expo best practices — performance, animations, navigation, UI patterns |
-
-### Document Skills
-
-| Skill | Description |
-|-------|-------------|
-| **docx** | Word document handling with OOXML schemas |
-| **md** | Markdown validation and processing |
-| **pdf** | PDF form filling, extraction, and validation |
-| **pptx** | PowerPoint manipulation and HTML-to-PPTX |
-| **toon** | Token-Oriented Object Notation - compact, schema-aware data format for LLM prompts |
-| **xlsx** | Excel spreadsheet handling and formula recalculation |
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `/git-commit` | Safe git commit with conventional commits format |
-| `/git-push` | Git push with uncommitted changes check and changelog versioning |
-| `/create-skill` | Create new skills from templates |
-| `/create-pr` | Prepare GitHub pull request with essential details |
-| `/git-review-pr` | Review PR for skills/commands/MCP - validates docs, quality, formatting |
-| `/plan-feature` | Production-grade feature planning with multi-source validation |
-
-## MCP Servers
-
-### Custom Implementations
-
-Full source code with advanced features:
-
-| Server | Description |
-|--------|-------------|
-| **[jira-bridge](mcp-servers/jira-bridge)** | Jira issues, JQL search, sprint management |
-| **[mongodb](mcp-servers/mongodb)** | MongoDB with aggregation, schema analysis, indexes |
-| **[postgres-mcp](mcp-servers/postgres-mcp)** | PostgreSQL queries, explain plans, table stats |
-| **[supabase](mcp-servers/supabase)** | Database, auth, storage, edge functions |
-
-### Reference Configurations
-
-Ready-to-use configurations for official MCP servers:
-
-#### Official @modelcontextprotocol Servers (Active)
-
-| Server | Description | Source |
-|--------|-------------|--------|
-| **[everything](mcp-servers/everything)** | Reference/test server with all MCP features | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/everything) |
-| **[fetch](mcp-servers/fetch)** | Web content fetching for LLM consumption | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) |
-| **[filesystem](mcp-servers/filesystem)** | Secure file operations with access controls | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem) |
-| **[memory](mcp-servers/memory)** | Knowledge graph persistent memory | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/memory) |
-| **[sequential-thinking](mcp-servers/sequential-thinking)** | Step-by-step problem solving | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) |
-| **[time](mcp-servers/time)** | Time and timezone operations | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/time) |
-
-#### Official @modelcontextprotocol Servers (Archived)
-
-These servers are still functional but no longer actively maintained:
-
-| Server | Description | Source |
-|--------|-------------|--------|
-| **[git](mcp-servers/git)** | Git repository operations | [GitHub](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/git) |
-| **[slack](mcp-servers/slack)** | Slack messaging and channels | [GitHub](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/slack) |
-| **[sqlite](mcp-servers/sqlite)** | SQLite database access | [GitHub](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/sqlite) |
-
-#### Third-Party Official Servers
-
-| Server | Description | Source |
-|--------|-------------|--------|
-| **[airtable](mcp-servers/airtable)** | Airtable spreadsheet/database | [npm](https://www.npmjs.com/package/@domdomegg/airtable-mcp-server) |
-| **[atlassian](mcp-servers/atlassian)** | Jira and Confluence integration | [Atlassian](https://mcp.atlassian.com) |
-| **[aws](mcp-servers/aws)** | AWS Labs MCP servers (64+ servers) | [GitHub](https://github.com/awslabs/mcp) |
-| **[canva](mcp-servers/canva)** | Canva design platform | [Canva](https://mcp.canva.com) |
-| **[chrome-devtools](mcp-servers/chrome-devtools)** | Browser automation, performance analysis, debugging | [GitHub](https://github.com/ChromeDevTools/chrome-devtools-mcp) |
-| **[cloudflare](mcp-servers/cloudflare)** | Cloudflare Workers, KV, R2, D1 | [Docs](https://developers.cloudflare.com/agents/model-context-protocol/) |
-| **[codex](mcp-servers/codex)** | OpenAI Codex integration | [OpenAI](https://platform.openai.com/) |
-| **[context7](mcp-servers/context7)** | Library documentation fetching | [Upstash](https://upstash.com/docs/context7) |
-| **[figma](mcp-servers/figma)** | Figma design inspection | [Docs](https://developers.figma.com/docs/figma-mcp-server/) |
-| **[gcp](mcp-servers/gcp)** | Google Cloud Platform | [npm](https://www.npmjs.com/package/@eniayomi/gcp-mcp-server) |
-| **[github](mcp-servers/github)** | GitHub repos, issues, PRs, Actions | [GitHub](https://github.com/github/github-mcp-server) |
-| **[kubernetes](mcp-servers/kubernetes)** | Kubernetes cluster management | [GitHub](https://github.com/Flux159/mcp-server-kubernetes) |
-| **[linear](mcp-servers/linear)** | Linear issue tracking | [Docs](https://linear.app/docs/mcp) |
-| **[monday](mcp-servers/monday)** | Monday.com work management | [GitHub](https://github.com/mondaycom/mcp) |
-| **[mui](mcp-servers/mui)** | Material UI documentation | [npm](https://www.npmjs.com/package/@mui/mcp) |
-| **[netlify](mcp-servers/netlify)** | Netlify site deployment | [Netlify](https://netlify-mcp.netlify.app) |
-| **[nextjs](mcp-servers/nextjs)** | Next.js dev server integration | [Docs](https://nextjs.org/docs/app/guides/mcp) |
-| **[notion](mcp-servers/notion)** | Notion pages and databases | [GitHub](https://github.com/makenotion/notion-mcp-server) |
-| **[playwright](mcp-servers/playwright)** | Browser automation | [npm](https://www.npmjs.com/package/@playwright/mcp) |
-| **[posthog](mcp-servers/posthog)** | Product analytics | [PostHog](https://mcp.posthog.com) |
-| **[puppeteer](mcp-servers/puppeteer)** | Browser automation (Anthropic) | [npm](https://www.npmjs.com/package/@anthropic-ai/mcp-puppeteer) |
-| **[sentry](mcp-servers/sentry)** | Error tracking & monitoring | [Sentry](https://mcp.sentry.dev) |
-| **[stripe](mcp-servers/stripe)** | Payments integration | [Stripe](https://mcp.stripe.com) |
-| **[vercel](mcp-servers/vercel)** | Vercel deployment platform | [Vercel](https://mcp.vercel.com) |
-
-### SDK References
-
-Official SDKs for building MCP servers: **[sdk-references](mcp-servers/sdk-references)**
-
-| Language | Repository | Maintainer |
-|----------|------------|------------|
-| TypeScript | [typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | Anthropic |
-| Python | [python-sdk](https://github.com/modelcontextprotocol/python-sdk) | Anthropic |
-| Go | [go-sdk](https://github.com/modelcontextprotocol/go-sdk) | Google |
-| Rust | [rust-sdk](https://github.com/modelcontextprotocol/rust-sdk) | Anthropic |
-| Java | [java-sdk](https://github.com/modelcontextprotocol/java-sdk) | Community |
-| Kotlin | [kotlin-sdk](https://github.com/modelcontextprotocol/kotlin-sdk) | JetBrains |
-| C# | [csharp-sdk](https://github.com/modelcontextprotocol/csharp-sdk) | Microsoft |
-| Swift | [swift-sdk](https://github.com/modelcontextprotocol/swift-sdk) | Community |
-| Ruby | [ruby-sdk](https://github.com/modelcontextprotocol/ruby-sdk) | Shopify |
-| PHP | [php-sdk](https://github.com/modelcontextprotocol/php-sdk) | PHP Foundation |
-
-## Tutorials
-
-- [Commands Tutorial](tutorials/COMMANDS_TUTORIAL.md) - Creating slash commands
-- [Skills Tutorial](tutorials/SKILLS_TUTORIAL.md) - Creating and using skills
-- [MCP Servers Tutorial](tutorials/MCP_SERVERS_TUTORIAL.md) - Building MCP servers
+| Category | Count | Details |
+|----------|-------|---------|
+| **Skills** | 39+ | Development, security, testing, frontend, backend, mobile, AI | See [SKILLS.md](SKILLS.md) |
+| **Commands** | 7 | Git workflow, PR management, feature planning, npm release | See [COMMANDS.md](COMMANDS.md) |
+| **MCP Servers** | 38 | Database, cloud, design, analytics, CI/CD configs | See [MCP-SERVERS.md](MCP-SERVERS.md) |
 
 ## Manual Installation
 
@@ -198,23 +49,11 @@ git clone https://github.com/georgekhananaev/claude-skills-vault.git
 cp -r claude-skills-vault/.claude your-project/
 ```
 
-## Quick Start
+## Tutorials
 
-### Add an MCP Server
-
-```bash
-# Remote servers (OAuth)
-claude mcp add linear --transport sse https://mcp.linear.app/sse
-claude mcp add figma --transport http https://mcp.figma.com/mcp
-
-# NPX-based servers
-claude mcp add github -s user -- npx -y @modelcontextprotocol/server-github
-claude mcp add memory -s user -- npx -y @modelcontextprotocol/server-memory
-```
-
-### Use a Skill
-
-Skills are automatically loaded from `.claude/skills/`. Reference them in your prompts or use the `/create-skill` command to create new ones.
+- [Commands Tutorial](tutorials/COMMANDS_TUTORIAL.md) - Creating slash commands
+- [Skills Tutorial](tutorials/SKILLS_TUTORIAL.md) - Creating and using skills
+- [MCP Servers Tutorial](tutorials/MCP_SERVERS_TUTORIAL.md) - Building MCP servers
 
 ## Contributing
 
