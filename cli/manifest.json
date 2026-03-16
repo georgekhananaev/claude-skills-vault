@@ -1,6 +1,6 @@
 {
   "version": "1.4.0",
-  "generated": "2026-03-16T20:19:57.759Z",
+  "generated": "2026-03-16T21:02:24.121Z",
   "skills": [
     {
       "name": "better-auth",
@@ -120,6 +120,14 @@
       "path": ".claude/skills/mcp-builder",
       "files": 10,
       "category": "frontend"
+    },
+    {
+      "name": "mermaid-diagram",
+      "description": "Generate beautiful Mermaid diagrams — flowcharts, sequence, ER, class, state, pie, gantt, mindmap, timeline, gitgraph, C4, kanban, block, quadrant, sankey, XY charts. Renders to PNG locally and Markdown for GitHub. Use when the user asks for diagrams, visualizations, schemas, flowcharts, architecture overviews, database schemas, API flows, project timelines, git branching strategies, org charts, or any visual representation of systems, workflows, or data.",
+      "path": ".claude/skills/mermaid-diagram",
+      "files": 1,
+      "category": "backend",
+      "author": "George Khananaev"
     },
     {
       "name": "monday-com",
