@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [1.2.0] - 2026-03-16
+
+### Added
 - **skills**: Add multi-agent-patterns skill — orchestrator, peer-to-peer, and hierarchical multi-agent architectures with token economics and failure modes (from PR #5)
 - **skills**: Add parallel-agents skill — native Claude Code agent orchestration with 17 specialist agents and 3 orchestration patterns (from PR #5)
 - **skills**: Add vercel-react-native-skills — React Native and Expo best practices with 37 rules covering performance, animations, navigation, UI patterns (from PR #5)
@@ -20,8 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - **readme**: Add 8 new skills and 3 previously missing skills (data-wrangler, file-converter, salesforce-cli) to core skills table
 - **readme**: Add contributor credits for garesuta (PR #5) and palakorn-moonholidays (PR #6)
-
-### Fixed
 
 ## [1.1.9] - 2026-03-05
 
