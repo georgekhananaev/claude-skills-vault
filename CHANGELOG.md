@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [1.4.0] - 2026-03-16
+
+### Added
 - **skills**: Add 13 external skills — frontend-design (Anthropic), webapp-testing (Anthropic), trailofbits-security (Trail of Bits), web-quality (Addy Osmani), stripe-best-practices (Stripe), terraform (HashiCorp), firecrawl-cli (Firecrawl), composition-patterns (Vercel), better-auth (Better Auth), planning-with-files (OthmanAdi), obsidian-skills (Kepano), claude-seo (AgriciDaniel), notebooklm-skill (PleasePrompto)
 - **docs**: Create SKILLS.md, COMMANDS.md, MCP-SERVERS.md reference docs with install commands
 - **cli**: Enhanced info command with author, source, risk, category labels, word-wrapped descriptions
@@ -23,8 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 - Removed empty CLAUDE.md
-
-### Fixed
 
 ## [1.3.1] - 2026-03-16
 

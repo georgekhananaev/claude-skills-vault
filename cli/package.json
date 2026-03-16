@@ -1,6 +1,6 @@
 {
   "name": "claude-skills-vault",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Install Claude Code skills, commands, and MCP servers from the community vault",
   "bin": {
     "claude-skills-vault": "bin/cli.js"
