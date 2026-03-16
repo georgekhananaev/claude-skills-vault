@@ -8,8 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add multi-agent-patterns skill — orchestrator, peer-to-peer, and hierarchical multi-agent architectures with token economics and failure modes (from PR #5)
+- **skills**: Add parallel-agents skill — native Claude Code agent orchestration with 17 specialist agents and 3 orchestration patterns (from PR #5)
+- **skills**: Add vercel-react-native-skills — React Native and Expo best practices with 37 rules covering performance, animations, navigation, UI patterns (from PR #5)
+- **skills**: Add owasp-security skill — OWASP Top 10:2025 security review, ASVS 5.0, and secure code patterns (from PR #6)
+- **skills**: Add color-accessibility-audit skill — WCAG 2.1/2.2 contrast analysis with 5 Python scanners and color blindness simulation (from PR #6)
+- **skills**: Add swift-concurrency skill — Swift 6.2 Approachable Concurrency patterns
+- **skills**: Add swiftui-patterns skill — SwiftUI architecture, @Observable state management, view composition
+- **skills**: Add ui-ux-pro-max skill — UI/UX design intelligence with 50 styles, 21 palettes, 9 framework stacks
 
 ### Changed
+- **readme**: Add 8 new skills and 3 previously missing skills (data-wrangler, file-converter, salesforce-cli) to core skills table
+- **readme**: Add contributor credits for garesuta (PR #5) and palakorn-moonholidays (PR #6)
 
 ### Fixed
 

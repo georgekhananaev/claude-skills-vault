@@ -13,30 +13,41 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 | **brainstorm** | Transform ideas into fully-formed designs through collaborative dialogue |
 | **code-quality** | Multi-language code quality standards and review for TS, Python, Go, Rust. Replaces beautiful-code, code-reviewer, pep8 |
 | **codex-cli** | Run OpenAI Codex CLI for second-opinion audits and code review |
+| **color-accessibility-audit** | WCAG 2.1/2.2 color contrast analysis with color blindness simulation and auto-fix |
+| **data-wrangler** | Production-grade tabular data manipulation using pandas & openpyxl |
 | **doc-navigator** | Efficient codebase documentation navigation during research |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for production-ready FastAPI |
+| **file-converter** | Convert & transform files — images, markdown, data formats, SVG, base64, text encoding |
 | **gemini-cli** | Run Gemini CLI for AI queries and comparisons |
 | **github-cli** | Safety-first GitHub CLI wrapper with risk classification and confirmation protocols |
 | **materialreacttable-mastery** | Material React Table V3 expert for MUI data tables with CRUD and virtualization |
 | **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) |
 | **monday-com** | Monday.com workspace management via official MCP — create/update/delete items, boards, groups, columns |
+| **multi-agent-patterns** | Orchestrator, peer-to-peer, and hierarchical multi-agent architectures |
 | **next-cache-components** | Next.js 16 Cache Components — PPR, `use cache` directive, cacheLife, cacheTag, updateTag |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration guides and codemods |
 | **nextjs-senior-dev** | Senior Next.js 15/16 Engineer skill for App Router, RSC patterns, and performance |
+| **owasp-security** | OWASP Top 10:2025 security review, ASVS 5.0, and secure code patterns |
+| **parallel-agents** | Multi-agent orchestration for running tasks with different domain expertise |
 | **plan-to-tdd** | Transform feature plans into TDD implementation with Outside-In methodology |
 | **project-change-log** | Automatic CHANGELOG.md maintenance following Keep a Changelog |
 | **pydantic-model** | Pydantic v2 model patterns for validation and MongoDB |
 | **react-best-practices** | React/Next.js performance optimization — 45 Vercel Engineering rules across 8 categories |
+| **salesforce-cli** | Safety-first Salesforce CLI wrapper for SOQL/SOSL, metadata, data import/export, Apex |
 | **semantic-coding** | Refactor hardcoded styles to semantic design tokens (colors, typography, spacing, sizing) |
 | **senior-backend** | Node.js/Express/Fastify backend patterns — REST APIs, database optimization, security, load testing |
 | **skill-creator** | Guide for creating Claude Code skills |
 | **supabase-cli** | CLI automation for Supabase migrations, Edge Functions, and type generation |
+| **swift-concurrency6.2** | Swift 6.2 Approachable Concurrency — single-threaded default, @concurrent, isolated conformances |
+| **swiftui-patterns** | SwiftUI architecture, @Observable state management, view composition, and navigation |
 | **system-architect** | System architecture patterns and design guidance |
 | **test-levels** | Unit vs Integration vs E2E testing guide with car analogy |
 | **testing-automation-expert** | Production-grade testing strategies (pytest, Jest, Playwright) |
 | **token-optimizer** | Reduce tokens in prompts, docs, and prose. Replaces prompt-compressor, token-formatter, elements-of-style |
-| **upgrade-packages-js** | Safely upgrade JS/TS packages with breaking change detection (npm/pnpm/yarn) |
+| **ui-ux-pro-max** | UI/UX design intelligence — 50 styles, 21 palettes, 50 font pairings, 9 framework stacks |
 | **uiux-toolkit** | Comprehensive UI/UX evaluation and design audits |
+| **upgrade-packages-js** | Safely upgrade JS/TS packages with breaking change detection (npm/pnpm/yarn) |
+| **vercel-react-native-skills** | React Native and Expo best practices — performance, animations, navigation, UI patterns |
 
 ### Document Skills
 
@@ -187,7 +198,9 @@ Created by **George Khananaev**
 
 Skills sourced from [ComposioHQ](https://github.com/ComposioHQ): document-skills (xlsx, docx, pptx, pdf), project-change-log, skill-creator, mcp-builder
 
-Skills contributed by [garesuta](https://github.com/garesuta) ([PR #4](https://github.com/georgekhananaev/claude-skills-vault/pull/4)): react-best-practices, next-cache-components, next-upgrade, senior-backend
+Skills contributed by [garesuta](https://github.com/garesuta) ([PR #4](https://github.com/georgekhananaev/claude-skills-vault/pull/4), [PR #5](https://github.com/georgekhananaev/claude-skills-vault/pull/5)): react-best-practices, next-cache-components, next-upgrade, senior-backend, multi-agent-patterns, parallel-agents, vercel-react-native-skills
+
+Skills contributed by [palakorn-moonholidays](https://github.com/palakorn-moonholidays) ([PR #6](https://github.com/georgekhananaev/claude-skills-vault/pull/6)): owasp-security, color-accessibility-audit
 
 ## Changelog
 
