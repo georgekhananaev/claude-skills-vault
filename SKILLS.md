@@ -2,62 +2,61 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills
+## Core Skills (51)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
-| **brainstorm** | Transform ideas into fully-formed designs through collaborative dialogue | `npx claude-skills-vault install brainstorm` |
-| **claude-seo** | SEO toolkit — 12 sub-skills for audits, technical SEO, content, schema, hreflang | `npx claude-skills-vault install claude-seo` |
-| **code-quality** | Multi-language code quality standards and review for TS, Python, Go, Rust | `npx claude-skills-vault install code-quality` |
-| **codex-cli** | Run OpenAI Codex CLI for second-opinion audits and code review | `npx claude-skills-vault install codex-cli` |
-| **color-accessibility-audit** | WCAG 2.1/2.2 color contrast analysis with color blindness simulation | `npx claude-skills-vault install color-accessibility-audit` |
-| **data-wrangler** | Tabular data manipulation using pandas & openpyxl (CSV, Excel, JSON, Parquet) | `npx claude-skills-vault install data-wrangler` |
-| **doc-navigator** | Efficient codebase documentation navigation during research | `npx claude-skills-vault install doc-navigator` |
-| **fastapi-senior-dev** | Senior Python Backend Engineer for production-ready FastAPI | `npx claude-skills-vault install fastapi-senior-dev` |
-| **file-converter** | Convert files — images, markdown, data formats, SVG, base64, text encoding | `npx claude-skills-vault install file-converter` |
-| **gemini-cli** | Run Gemini CLI for AI queries and comparisons | `npx claude-skills-vault install gemini-cli` |
-| **github-cli** | Safety-first GitHub CLI wrapper with risk classification | `npx claude-skills-vault install github-cli` |
-| **materialreacttable-mastery** | Material React Table V3 expert for MUI data tables | `npx claude-skills-vault install materialreacttable-mastery` |
-| **mcp-builder** | Guide for creating high-quality MCP servers (Python/TypeScript) | `npx claude-skills-vault install mcp-builder` |
-| **monday-com** | Monday.com workspace management via official MCP | `npx claude-skills-vault install monday-com` |
-| **multi-agent-patterns** | Orchestrator, peer-to-peer, and hierarchical multi-agent architectures | `npx claude-skills-vault install multi-agent-patterns` |
-| **next-cache-components** | Next.js 16 Cache Components — PPR, `use cache`, cacheLife, cacheTag | `npx claude-skills-vault install next-cache-components` |
-| **notebooklm-skill** | Query Google NotebookLM for source-grounded, citation-backed answers | `npx claude-skills-vault install notebooklm-skill` |
-| **next-upgrade** | Upgrade Next.js following official migration guides and codemods | `npx claude-skills-vault install next-upgrade` |
-| **nextjs-senior-dev** | Senior Next.js 15/16 Engineer for App Router, RSC, performance | `npx claude-skills-vault install nextjs-senior-dev` |
-| **obsidian-skills** | Obsidian vault management — CLI, Markdown extensions, JSON Canvas, Bases | `npx claude-skills-vault install obsidian-skills` |
-| **owasp-security** | OWASP Top 10:2025 security review, ASVS 5.0, secure code patterns | `npx claude-skills-vault install owasp-security` |
-| **parallel-agents** | Multi-agent orchestration for running tasks with different expertise | `npx claude-skills-vault install parallel-agents` |
-| **plan-to-tdd** | Transform feature plans into TDD implementation (Outside-In) | `npx claude-skills-vault install plan-to-tdd` |
-| **project-change-log** | Automatic CHANGELOG.md maintenance (Keep a Changelog) | `npx claude-skills-vault install project-change-log` |
-| **pydantic-model** | Pydantic v2 model patterns for validation and MongoDB | `npx claude-skills-vault install pydantic-model` |
-| **react-best-practices** | React/Next.js performance — 45 Vercel Engineering rules | `npx claude-skills-vault install react-best-practices` |
-| **salesforce-cli** | Safety-first Salesforce CLI wrapper for SOQL/SOSL, metadata, Apex | `npx claude-skills-vault install salesforce-cli` |
-| **semantic-coding** | Refactor hardcoded styles to semantic design tokens | `npx claude-skills-vault install semantic-coding` |
-| **senior-backend** | Node.js/Express/Fastify — REST APIs, DB optimization, security | `npx claude-skills-vault install senior-backend` |
-| **skill-creator** | Guide for creating Claude Code skills | `npx claude-skills-vault install skill-creator` |
-| **supabase-cli** | CLI automation for Supabase migrations, Edge Functions, type gen | `npx claude-skills-vault install supabase-cli` |
-| **swift-concurrency6.2** | Swift 6.2 Approachable Concurrency patterns | `npx claude-skills-vault install swift-concurrency6.2` |
-| **swiftui-patterns** | SwiftUI architecture, @Observable, view composition, navigation | `npx claude-skills-vault install swiftui-patterns` |
-| **system-architect** | System architecture patterns and design guidance | `npx claude-skills-vault install system-architect` |
-| **test-levels** | Unit vs Integration vs E2E testing guide with car analogy | `npx claude-skills-vault install test-levels` |
-| **testing-automation-expert** | Production-grade testing strategies (pytest, Jest, Playwright) | `npx claude-skills-vault install testing-automation-expert` |
-| **token-optimizer** | Reduce tokens in prompts, docs, and prose | `npx claude-skills-vault install token-optimizer` |
-| **ui-ux-pro-max** | UI/UX design intelligence — 50 styles, 21 palettes, 9 stacks | `npx claude-skills-vault install ui-ux-pro-max` |
-| **uiux-toolkit** | Comprehensive UI/UX evaluation and design audits | `npx claude-skills-vault install uiux-toolkit` |
-| **upgrade-packages-js** | Safely upgrade JS/TS packages with breaking change detection | `npx claude-skills-vault install upgrade-packages-js` |
-| **vercel-react-native-skills** | React Native/Expo best practices — performance, animations, nav | `npx claude-skills-vault install vercel-react-native-skills` |
-
-## Document Skills
-
-| Skill | Description | Install |
-|-------|-------------|---------|
-| **docx** | Word document handling with OOXML schemas | `npx claude-skills-vault install document-skills` |
-| **md** | Markdown validation and processing | `npx claude-skills-vault install document-skills` |
-| **pdf** | PDF form filling, extraction, and validation | `npx claude-skills-vault install document-skills` |
-| **pptx** | PowerPoint manipulation and HTML-to-PPTX | `npx claude-skills-vault install document-skills` |
-| **toon** | Token-Oriented Object Notation for compact LLM data | `npx claude-skills-vault install document-skills` |
-| **xlsx** | Excel spreadsheet handling and formula recalculation | `npx claude-skills-vault install document-skills` |
+| **better-auth** | Better Auth integration guide for TypeScript/JavaScript authenticatio… | `npx claude-skills-vault install better-auth` |
+| **brainstorm** | Transform ideas into fully-formed designs through collaborative dialo… | `npx claude-skills-vault install brainstorm` |
+| **claude-seo** | SEO toolkit with 12 specialist sub-skills — full site audits, technic… | `npx claude-skills-vault install claude-seo` |
+| **code-quality** | Multi-language code quality standards and review for TypeScript, Pyth… | `npx claude-skills-vault install code-quality` |
+| **codex-cli** | Run OpenAI Codex CLI for coding tasks and second-opinion audits. Use … | `npx claude-skills-vault install codex-cli` |
+| **color-accessibility-audit** | Analyze color combinations for readability and accessibility complian… | `npx claude-skills-vault install color-accessibility-audit` |
+| **vercel-composition-patterns** | React composition patterns that scale. Use when refactoring component… | `npx claude-skills-vault install composition-patterns` |
+| **data-wrangler** | Production-grade tabular data manipulation using pandas & openpyxl. T… | `npx claude-skills-vault install data-wrangler` |
+| **doc-navigator** | Efficiently navigate codebase documentation during Research phase. Us… | `npx claude-skills-vault install doc-navigator` |
+| **fastapi-senior-dev** | Senior Python Backend Engineer skill for FastAPI. Use when scaffoldin… | `npx claude-skills-vault install fastapi-senior-dev` |
+| **file-converter** | Convert & transform files - images (resize, format, HEIC), markdown (… | `npx claude-skills-vault install file-converter` |
+| **firecrawl** | Web scraping, search, crawling, and browser automation via the Firecr… | `npx claude-skills-vault install firecrawl-cli` |
+| **frontend-design** | Create distinctive, production-grade frontend interfaces with high de… | `npx claude-skills-vault install frontend-design` |
+| **gemini-cli** | Run Gemini CLI for AI queries. Use when user asks to "run/ask/use gem… | `npx claude-skills-vault install gemini-cli` |
+| **github-cli** | Safety-first GitHub CLI skill wrapping `gh` (v2.86+). Use when perfor… | `npx claude-skills-vault install github-cli` |
+| **materialreacttable-mastery** | Material React Table V3 expert skill. Use when building feature-rich … | `npx claude-skills-vault install materialreacttable-mastery` |
+| **mcp-builder** | Guide for creating high-quality MCP (Model Context Protocol) servers … | `npx claude-skills-vault install mcp-builder` |
+| **monday-com** | Monday.com workspace management via official MCP server. This skill s… | `npx claude-skills-vault install monday-com` |
+| **multi-agent-patterns** | Master orchestrator, peer-to-peer, and hierarchical multi-agent archi… | `npx claude-skills-vault install multi-agent-patterns` |
+| **next-cache-components** | Next.js 16 Cache Components - PPR, use cache directive, cacheLife, ca… | `npx claude-skills-vault install next-cache-components` |
+| **next-upgrade** | Upgrade Next.js to the latest version following official migration gu… | `npx claude-skills-vault install next-upgrade` |
+| **nextjs-senior-dev** | Senior Next.js 15+/16 Engineer skill for App Router. Use when scaffol… | `npx claude-skills-vault install nextjs-senior-dev` |
+| **notebooklm** | Use this skill to query your Google NotebookLM notebooks directly fro… | `npx claude-skills-vault install notebooklm-skill` |
+| **obsidian-skills** | Obsidian vault management — CLI operations, Markdown extensions, JSON… | `npx claude-skills-vault install obsidian-skills` |
+| **owasp-security** | Use when reviewing code for security vulnerabilities, implementing au… | `npx claude-skills-vault install owasp-security` |
+| **parallel-agents** | Multi-agent orchestration patterns. Use when multiple independent tas… | `npx claude-skills-vault install parallel-agents` |
+| **plan-to-tdd** | Transform feature plans into test-driven implementation using Outside… | `npx claude-skills-vault install plan-to-tdd` |
+| **planning-with-files** | Implements Manus-style file-based planning to organize and track prog… | `npx claude-skills-vault install planning-with-files` |
+| **project-change-log** | Automatically maintain a CHANGELOG.md file following the Keep a Chang… | `npx claude-skills-vault install project-change-log` |
+| **pydantic-model** | Pydantic v2 model patterns for req/res validation, MongoDB conversion… | `npx claude-skills-vault install pydantic-model` |
+| **react-best-practices** | React and Next.js performance optimization guidelines from Vercel Eng… | `npx claude-skills-vault install react-best-practices` |
+| **salesforce-cli** | Safety-first Salesforce CLI skill wrapping `sf` (v2). This skill shou… | `npx claude-skills-vault install salesforce-cli` |
+| **semantic-coding** | Scan files, replace hardcoded styles with semantic design tokens (col… | `npx claude-skills-vault install semantic-coding` |
+| **senior-backend** | This skill should be used when the user asks to "design REST APIs", "… | `npx claude-skills-vault install senior-backend` |
+| **skill-creator** | Guide for creating effective skills. This skill should be used when u… | `npx claude-skills-vault install skill-creator` |
+| **stripe-best-practices** | Guides Stripe integration decisions — API selection (Checkout Session… | `npx claude-skills-vault install stripe-best-practices` |
+| **supabase-cli** | CLI automation for Supabase development workflows. Provides scripts f… | `npx claude-skills-vault install supabase-cli` |
+| **swift-concurrency-6-2** | Swift 6.2 Approachable Concurrency — single-threaded by default, @con… | `npx claude-skills-vault install swift-concurrency6.2` |
+| **swiftui-patterns** | SwiftUI architecture patterns, state management with @Observable, vie… | `npx claude-skills-vault install swiftui-patterns` |
+| **system-architect** | System architecture skill for designing scalable, maintainable softwa… | `npx claude-skills-vault install system-architect` |
+| **terraform** | Terraform infrastructure-as-code skills from HashiCorp. Covers HCL co… | `npx claude-skills-vault install terraform` |
+| **test-levels** | This skill explains the 3 test levels (Unit, Integration, E2E) using … | `npx claude-skills-vault install test-levels` |
+| **testing-automation-expert** | Production-grade testing strategies for robust, maintainable systems.… | `npx claude-skills-vault install testing-automation-expert` |
+| **token-optimizer** | Reduce token count in prompts, docs, and prose. Covers prompt compres… | `npx claude-skills-vault install token-optimizer` |
+| **trailofbits-security** | Security-focused static analysis and code auditing skills from Trail … | `npx claude-skills-vault install trailofbits-security` |
+| **ui-ux-pro-max** | UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings, … | `npx claude-skills-vault install ui-ux-pro-max` |
+| **uiux-toolkit** | Comprehensive UX/UI evaluation meta-skill combining design theory and… | `npx claude-skills-vault install uiux-toolkit` |
+| **upgrade-packages-js** | Safely upgrade JavaScript packages with breaking change detection, mi… | `npx claude-skills-vault install upgrade-packages-js` |
+| **vercel-react-native-skills** | React Native and Expo best practices for building performant mobile a… | `npx claude-skills-vault install vercel-react-native-skills` |
+| **web-quality** | Web quality optimization skills based on Google Lighthouse guidelines… | `npx claude-skills-vault install web-quality` |
+| **webapp-testing** | Toolkit for interacting with and testing local web applications using… | `npx claude-skills-vault install webapp-testing` |
 
 ## External Skills (Install via npx)
 
@@ -67,15 +66,7 @@ Top community and official skills from external repos:
 |-------|--------|--------------|---------|
 | **frontend-design** | [Anthropic](https://github.com/anthropics/skills) | Bold UI design, avoids AI slop (277K+ installs) | `npx skills add anthropics/skills --skill frontend-design` |
 | **webapp-testing** | [Anthropic](https://github.com/anthropics/skills) | Test local web apps with Playwright | `npx skills add anthropics/skills --skill webapp-testing` |
-| **trailofbits-security** | [Trail of Bits](https://github.com/trailofbits/skills) | CodeQL + Semgrep static analysis, code auditing | `npx skills add trailofbits/skills` |
-| **web-quality** | [Addy Osmani](https://github.com/addyosmani/web-quality-skills) | Core Web Vitals, WCAG, SEO, performance audits | `npx skills add addyosmani/web-quality-skills` |
-| **composition-patterns** | [Vercel](https://github.com/vercel-labs/agent-skills) | Compound component patterns for React | `npx skills add vercel-labs/agent-skills --skill composition-patterns` |
 | **web-design-guidelines** | [Vercel](https://github.com/vercel-labs/agent-skills) | 100+ accessibility and UX rules | `npx skills add vercel-labs/agent-skills --skill web-design-guidelines` |
-| **stripe-best-practices** | [Stripe](https://github.com/stripe/ai) | Official Stripe integration patterns | `npx skills add stripe/ai --skill stripe-best-practices` |
-| **terraform** | [HashiCorp](https://github.com/hashicorp/agent-skills) | Terraform code gen, testing, module refactoring | `npx skills add hashicorp/agent-skills` |
-| **better-auth** | [Better Auth](https://github.com/better-auth/skills) | Modern auth setup and best practices | `npx skills add better-auth/skills` |
-| **firecrawl-cli** | [Firecrawl](https://github.com/firecrawl/cli) | Web scraping, crawling, search (93.9K stars) | `npx -y firecrawl-cli@latest init --all` |
-| **planning-with-files** | [OthmanAdi](https://github.com/OthmanAdi/planning-with-files) | Persistent markdown files for long sessions (13.4K stars) | `npx skills add OthmanAdi/planning-with-files` |
 | **superpowers** | [obra](https://github.com/obra/superpowers) | 20+ skills: brainstorm→spec→plan→execute→review (40.9K stars) | `npx skills add obra/superpowers` |
 | **shadcn-ui** | [shadcn](https://ui.shadcn.com/docs/skills) | Component context + pattern enforcement | See [docs](https://ui.shadcn.com/docs/skills) |
 | **snyk-fix** | [Snyk](https://github.com/snyk/studio-recipes) | Auto-fix vulnerabilities, validate, create PRs | See [repo](https://github.com/snyk/studio-recipes) |

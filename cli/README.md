@@ -2,6 +2,8 @@
 
 Install [Claude Code](https://claude.ai/code) skills, commands, and MCP servers from the community vault.
 
+**52 skills** | **7 commands** | **38 MCP servers**
+
 ## Quick Start
 
 ```bash
@@ -25,7 +27,7 @@ npx claude-skills-vault install --all
 | `list` | List all available skills, commands, and MCP servers |
 | `install <name> [names...]` | Install skills/commands by name |
 | `search <query>` | Search by keyword |
-| `info <name>` | Show details about a skill |
+| `info <name>` | Show details about a skill (author, source, category) |
 
 ## Install Options
 
@@ -48,4 +50,4 @@ Skills are downloaded directly from the [claude-skills-vault](https://github.com
 
 ## License
 
-MIT
+MIT — See [GitHub](https://github.com/georgekhananaev/claude-skills-vault) for full details.

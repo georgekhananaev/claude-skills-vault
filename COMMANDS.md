@@ -6,25 +6,18 @@ Slash commands available in Claude Code. Install all commands with:
 npx claude-skills-vault install --commands
 ```
 
-## Available Commands
+## Available Commands (7)
 
 | Command | Description | Invocation |
 |---------|-------------|------------|
-| **git-commit** | Safe git commit with conventional commits, changelog update | `/git-commit` |
-| **git-push** | Git push with uncommitted changes check and changelog versioning | `/git-push` |
-| **git-npm-release** | Version bump, manifest regen, tag, push → auto npm publish | `/git-npm-release` |
-| **git-review-pr** | Review PR for skills/commands/MCP — validates docs, quality, formatting | `/git-review-pr` |
-| **create-pr** | Prepare GitHub pull request with essential details | `/create-pr` |
-| **create-skill** | Create new skills from templates with validation and testing | `/create-skill` |
-| **plan-feature** | Production-grade feature planning with dual-AI validation | `/plan-feature` |
+| **pr** | Prepare GitHub Pull Request with essential details | `/pr` |
+| **create-skill** | Create production-ready skills w/ validation, testing & optimization. | `/create-skill` |
+| **git-commit** | Safe, attributed git commit for the configured git user. | `/git-commit` |
+| **git-npm-release** | Create a versioned release — bump CHANGELOG, regenerate manifest, com… | `/git-npm-release` |
+| **git-push** | Safe git push with pre-push checks, commit integration, and changelog… | `/git-push` |
+| **review-pr** | Review PR for skills/commands/MCP - validates docs, quality, formatti… | `/review-pr` |
+| **plan-feature** | Production-grade feature planning with dual-AI validation (Claude + G… | `/plan-feature` |
 
 ## Usage
 
-Commands are loaded automatically from `.claude/commands/`. Invoke them in Claude Code by typing the slash command.
-
-```
-/git-commit          # Commit with conventional format
-/git-push            # Push to remote
-/git-npm-release     # Version + tag + npm publish
-/plan-feature        # Plan a new feature
-```
+Commands are loaded automatically from `.claude/commands/`. Invoke them by typing the slash command in Claude Code.

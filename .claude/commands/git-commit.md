@@ -20,16 +20,36 @@ Goal: Safe, attributed git commit for the configured git user.
 - No `--no-gpg-sign` (sign if GPG configured)
 - No `--amend` (unless fixing immediate prev commit)
 
-## 3. Execution Flow
+## 3. Auto-Regenerate Docs (if needed)
+
+Before staging, check if any skills, commands, or scripts changed:
+
+```bash
+git diff --name-only HEAD ; git ls-files --others --exclude-standard
+```
+
+**If changes touch `.claude/skills/`, `.claude/commands/`, or `scripts/`:**
+```bash
+node scripts/generate-manifest.js   # manifest.json + cli/manifest.json
+node scripts/generate-docs.js       # SKILLS.md, COMMANDS.md, cli/README.md
+node scripts/generate-notice.js     # NOTICE
+```
+
+Then include the regenerated files in the commit.
+
+**If no skill/command/script changes:** skip regeneration.
+
+## 4. Execution Flow
 
 1. `git status` - check state
 2. `git diff` - review (**stop** if secrets/debug found)
-3. Stage: `git add <file>` (use `-p` for mixed changes, avoid `git add .` w/ junk)
-4. Construct message (Conventional Commits)
-5. `git commit -m "..."`
-6. `git status` - verify
+3. Check if `.claude/skills/`, `.claude/commands/`, or `scripts/` changed → regenerate docs if so
+4. Stage: `git add <file>` (use `-p` for mixed changes, avoid `git add .` w/ junk)
+5. Construct message (Conventional Commits)
+6. `git commit -m "..."`
+7. `git status` - verify
 
-## 4. Commit Message Standard
+## 5. Commit Message Standard
 
 **Format**: `<type>(<scope>): <description>`
 
@@ -49,12 +69,12 @@ Goal: Safe, attributed git commit for the configured git user.
 
 **Rules**: Imperative mood, no period, max 72 chars, scope opt but recommended
 
-## 5. Grouping
+## 6. Grouping
 
 - **Atomic**: Split unrelated changes into separate commits
 - **Ask**: "Changes in X & Y. Separate commits?"
 
-## 6. Changelog (REQUIRED)
+## 7. Changelog (REQUIRED)
 
 After EVERY commit → update `CHANGELOG.md`
 
@@ -97,7 +117,7 @@ git commit --amend --no-edit
 
 **Ref**: `.claude/skills/project-change-log/SKILL.md`
 
-## 7. README Updates
+## 8. README Updates
 
 ### When to Update:
 - `feat`: usage/API/feature docs

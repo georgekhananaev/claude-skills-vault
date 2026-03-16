@@ -12,10 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - **docs**: Create SKILLS.md, COMMANDS.md, MCP-SERVERS.md reference docs with install commands
 - **cli**: Enhanced info command with author, source, risk, category labels, word-wrapped descriptions
 - **scripts**: Add check-skill-updates.js to detect upstream changes for external skills
+- **scripts**: Add generate-docs.js to auto-generate SKILLS.md, COMMANDS.md, cli/README.md from frontmatter
+- **scripts**: Add generate-notice.js to auto-generate NOTICE with credits from source/author fields
 
 ### Changed
 - **readme**: Slim down README to reference SKILLS.md, COMMANDS.md, MCP-SERVERS.md
 - **scripts**: Manifest generator extracts author/source/risk from frontmatter, recursive file counting, smarter command descriptions
+- **commands**: /git-commit auto-regenerates docs when skills/commands/scripts change
+- **commands**: /git-npm-release runs all generators (manifest, docs, notice) before tagging
+
+### Removed
+- Removed empty CLAUDE.md
 
 ### Fixed
 

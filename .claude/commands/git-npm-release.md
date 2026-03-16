@@ -1,6 +1,6 @@
 # Release Command
 
-**IMPORTANT: This command ONLY runs when explicitly invoked via `/git-release`. Do NOT auto-release.**
+**IMPORTANT: This command ONLY runs when explicitly invoked via `/git-npm-release`. Do NOT auto-release.**
 
 Goal: Create a versioned release — bump CHANGELOG, regenerate manifest, commit, push, tag, and trigger npm publish via GitHub Actions.
 
@@ -39,12 +39,19 @@ Options:
 1. Move `## [Unreleased]` content into new `## [X.X.X] - YYYY-MM-DD` section
 2. Create fresh empty `## [Unreleased]` above it
 
-### Step 2: Regenerate Manifest
+### Step 2: Regenerate All Auto-Generated Files
 ```bash
 node scripts/generate-manifest.js
+node scripts/generate-docs.js
+node scripts/generate-notice.js
 ```
 
-This updates both `manifest.json` (repo root) and `cli/manifest.json` (npm package) with the new version.
+This updates:
+- `manifest.json` + `cli/manifest.json` — skill/command/mcp index
+- `SKILLS.md` — skill table with install commands
+- `COMMANDS.md` — command table with invocations
+- `cli/README.md` — npm package README with current counts
+- `NOTICE` — credits and attribution
 
 ### Step 3: Update CLI package version
 ```bash
@@ -53,7 +60,7 @@ cd cli && npm version X.X.X --no-git-tag-version --allow-same-version
 
 ### Step 4: Commit
 ```bash
-git add CHANGELOG.md manifest.json cli/manifest.json cli/package.json
+git add CHANGELOG.md manifest.json cli/manifest.json cli/package.json cli/README.md SKILLS.md COMMANDS.md NOTICE
 git commit -m "chore(release): bump version to X.X.X"
 ```
 
@@ -87,12 +94,14 @@ Report: "Tag vX.X.X pushed → npm publish Action triggered."
 3. **AskUserQuestion** - "Which version bump?" (Patch/Minor/Major)
 4. Update `CHANGELOG.md` - version the Unreleased section
 5. `node scripts/generate-manifest.js` - regenerate manifest
-6. `cd cli && npm version X.X.X` - sync CLI package version
-7. `git add && git commit` - commit release
-8. `git push origin <branch>` - push commits
-9. `git tag vX.X.X && git push origin vX.X.X` - create tag → triggers npm publish
-10. `gh run list --limit 1` - verify Action triggered
-11. Confirm success
+6. `node scripts/generate-docs.js` - regenerate SKILLS.md, COMMANDS.md, cli/README.md
+7. `node scripts/generate-notice.js` - regenerate NOTICE
+8. `cd cli && npm version X.X.X` - sync CLI package version
+9. `git add && git commit` - commit release
+9. `git push origin <branch>` - push commits
+10. `git tag vX.X.X && git push origin vX.X.X` - create tag → triggers npm publish
+11. `gh run list --limit 1` - verify Action triggered
+12. Confirm success
 
 ## 6. Safety Protocols
 
