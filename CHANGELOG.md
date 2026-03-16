@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- **readme**: Move Quick Install section with npx commands to top of README, consolidate duplicate installation sections
 
 ### Fixed
 

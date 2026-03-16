@@ -4,6 +4,36 @@
 
 A curated collection of skills, commands, and MCP servers for Claude Code.
 
+## Quick Install
+
+```bash
+# Install the CLI globally or use npx
+npx claude-skills-vault list                # Browse all available skills
+npx claude-skills-vault install brainstorm  # Install a specific skill
+npx claude-skills-vault search react        # Search by keyword
+npx claude-skills-vault info owasp-security # View skill details
+```
+
+```bash
+# Install multiple skills at once
+npx claude-skills-vault install brainstorm owasp-security github-cli
+
+# Install all skills and commands
+npx claude-skills-vault install --all
+
+# Install only skills or only commands
+npx claude-skills-vault install --skills
+npx claude-skills-vault install --commands
+
+# Preview without installing
+npx claude-skills-vault install brainstorm --dry-run
+
+# Overwrite existing skills
+npx claude-skills-vault install brainstorm --force
+```
+
+Skills are downloaded directly from this repository into your project's `.claude/skills/` directory. No git clone required.
+
 ## Skills
 
 ### Core Skills
@@ -161,30 +191,10 @@ Official SDKs for building MCP servers: **[sdk-references](mcp-servers/sdk-refer
 - [Skills Tutorial](tutorials/SKILLS_TUTORIAL.md) - Creating and using skills
 - [MCP Servers Tutorial](tutorials/MCP_SERVERS_TUTORIAL.md) - Building MCP servers
 
-## Installation
-
-### Via npm (Recommended)
-
-```bash
-# List all available skills
-npx claude-skills-vault list
-
-# Install specific skills
-npx claude-skills-vault install brainstorm owasp-security github-cli
-
-# Install all skills
-npx claude-skills-vault install --all
-
-# Search skills by keyword
-npx claude-skills-vault search react
-```
-
-### Manual
+## Manual Installation
 
 ```bash
 git clone https://github.com/georgekhananaev/claude-skills-vault.git
-
-# Copy skills to your project
 cp -r claude-skills-vault/.claude your-project/
 ```
 
