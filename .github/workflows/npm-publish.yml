@@ -28,7 +28,7 @@ jobs:
           npm version "$TAG" --no-git-tag-version --allow-same-version
 
       - name: Install dependencies
-        run: cd cli && npm ci
+        run: cd cli && npm install
 
       - name: Publish
         run: cd cli && npm publish
