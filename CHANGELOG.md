@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **cli**: Add `npx claude-skills-vault` npm CLI for installing skills, commands, and MCP servers — list, install, search, info commands with giget-based GitHub downloads, path validation, version-pinned tags, CI-friendly non-TTY support, Codex-audited
 
 ### Changed
+- **gitignore**: Scope Python `lib/` pattern to root only, add node_modules and lock file exclusions
+- **readme**: Add npm installation section with `npx claude-skills-vault` usage examples
 
 ### Fixed
 

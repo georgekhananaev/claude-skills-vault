@@ -20,8 +20,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+# Python lib directories (not cli/src/lib/)
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -213,3 +214,12 @@ personal_docs/
 
 # Tests
 tests/
+
+# Plans
+plans/
+
+# Node
+node_modules/
+cli/node_modules/
+package-lock.json
+cli/package-lock.json

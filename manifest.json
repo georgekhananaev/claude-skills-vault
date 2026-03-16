@@ -1,0 +1,496 @@
+{
+  "version": "1.2.0",
+  "generated": "2026-03-16T17:54:11.552Z",
+  "skills": [
+    {
+      "name": "brainstorm",
+      "description": "Transform ideas into fully-formed designs through collaborative dialogue. This skill should be used when brainstorming features, exploring implementation approaches, designing system architecture, or when the user has a vague idea that needs refinement. Uses incremental validation with 200-300 word sections.",
+      "path": ".claude/skills/brainstorm",
+      "files": 1,
+      "category": "productivity"
+    },
+    {
+      "name": "code-quality",
+      "description": "Multi-language code quality standards and review for TypeScript, Python, Go, and Rust. Enforces type safety, security, performance, and maintainability. Use when writing, reviewing, or refactoring code. Includes review process, checklist, and Python PEP 8 deep-dive.",
+      "path": ".claude/skills/code-quality",
+      "files": 1,
+      "category": "security"
+    },
+    {
+      "name": "codex-cli",
+      "description": "Run OpenAI Codex CLI for coding tasks and second-opinion audits. Use when a user asks to run/ask/use Codex, says \"codex prompt\", or wants Claude to delegate a logic/code review to OpenAI models.",
+      "path": ".claude/skills/codex-cli",
+      "files": 1,
+      "category": "devops"
+    },
+    {
+      "name": "color-accessibility-audit",
+      "description": "Analyze color combinations for readability and accessibility compliance per WCAG 2.1/2.2 standards (Contrast Minimums 1.4.3 and Enhanced Contrast 1.4.6). Use this skill whenever the user shares a design, color palette, CSS, HTML, Tailwind config, theme file, screenshot of a UI, or mentions anything about text being hard to read, colors clashing, poor contrast, accessibility compliance (WCAG), or asks \"can you check if these colors work together?\" Also trigger when reviewing any frontend code, design tokens, or style sheets — even if the user doesn't explicitly ask about contrast. If colors are involved, check them. Covers: hex codes, RGB, HSL, named CSS colors, Tailwind classes, design tool exports, and UI screenshots. Includes color blindness simulation for Protanopia, Deuteranopia, and Tritanopia.",
+      "path": ".claude/skills/color-accessibility-audit",
+      "files": 2,
+      "category": "frontend"
+    },
+    {
+      "name": "data-wrangler",
+      "description": "Production-grade tabular data manipulation using pandas & openpyxl. This skill should be used when editing, creating, filtering, sorting, merging, pivoting, deduplicating, validating, or transforming CSV, Excel (xlsx/xls), JSON, Parquet, or TSV files. Supports 18 operations via CLI scripts, advanced Excel formatting (multi-sheet, freeze, auto-filter, validation, styling), and file-converter integration for format pipelines.",
+      "path": ".claude/skills/data-wrangler",
+      "files": 1,
+      "category": "devops"
+    },
+    {
+      "name": "doc-navigator",
+      "description": "Efficiently navigate codebase documentation during Research phase. Use instead of Grep/Glob for finding architectural decisions, feature specs, and technical docs. Maps topics to doc locations for fast context retrieval. If codebase lacks documentation structure, provides patterns to establish one.",
+      "path": ".claude/skills/doc-navigator",
+      "files": 1,
+      "category": "productivity"
+    },
+    {
+      "name": "fastapi-senior-dev",
+      "description": "Senior Python Backend Engineer skill for FastAPI. Use when scaffolding production-ready APIs, enforcing clean architecture, optimizing async patterns, or auditing FastAPI codebases.",
+      "path": ".claude/skills/fastapi-senior-dev",
+      "files": 1,
+      "category": "backend"
+    },
+    {
+      "name": "file-converter",
+      "description": "Convert & transform files - images (resize, format, HEIC), markdown (PDF/HTML), data (CSV/JSON/YAML/TOML/XML), SVG, base64, text encoding. Cross-platform, single & batch mode. This skill should be used when converting file formats, resizing images, generating PDFs from markdown, or transforming data between formats.",
+      "path": ".claude/skills/file-converter",
+      "files": 1,
+      "category": "productivity"
+    },
+    {
+      "name": "gemini-cli",
+      "description": "Run Gemini CLI for AI queries. Use when user asks to \"run/ask/use gemini\", compare Claude vs Gemini, or delegate tasks to Gemini.",
+      "path": ".claude/skills/gemini-cli",
+      "files": 1,
+      "category": "devops"
+    },
+    {
+      "name": "github-cli",
+      "description": "Safety-first GitHub CLI skill wrapping `gh` (v2.86+). Use when performing GitHub operations — PRs, issues, releases, repos, Actions, API calls. Enforces risk classification with mandatory confirmation for destructive/forbidden operations.",
+      "path": ".claude/skills/github-cli",
+      "files": 1,
+      "category": "backend"
+    },
+    {
+      "name": "materialreacttable-mastery",
+      "description": "Material React Table V3 expert skill. Use when building feature-rich data tables w/ MUI styling, server-side ops, CRUD editing, virtualization, or complex filtering/sorting.",
+      "path": ".claude/skills/materialreacttable-mastery",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "mcp-builder",
+      "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
+      "path": ".claude/skills/mcp-builder",
+      "files": 2,
+      "category": "frontend"
+    },
+    {
+      "name": "monday-com",
+      "description": "\"Monday.com workspace management via official MCP server. This skill should be used when creating, updating, moving, archiving, or deleting items/boards/groups on Monday.com, managing columns, adding comments, or querying workspace data. Supports both hosted and local MCP deployment with interactive setup guidance.\"",
+      "path": ".claude/skills/monday-com",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "multi-agent-patterns",
+      "description": "\"Master orchestrator, peer-to-peer, and hierarchical multi-agent architectures\"",
+      "path": ".claude/skills/multi-agent-patterns",
+      "files": 1,
+      "category": "ai"
+    },
+    {
+      "name": "next-cache-components",
+      "description": "Next.js 16 Cache Components - PPR, use cache directive, cacheLife, cacheTag, updateTag",
+      "path": ".claude/skills/next-cache-components",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "next-upgrade",
+      "description": "Upgrade Next.js to the latest version following official migration guides and codemods",
+      "path": ".claude/skills/next-upgrade",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "nextjs-senior-dev",
+      "description": "Senior Next.js 15+/16 Engineer skill for App Router. Use when scaffolding production apps, enforcing RSC patterns, auditing codebases, or optimizing performance.",
+      "path": ".claude/skills/nextjs-senior-dev",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "owasp-security",
+      "description": "Use when reviewing code for security vulnerabilities, implementing authentication/authorization, handling user input, or discussing web application security. Covers OWASP Top 10:2025, ASVS 5.0, and Agentic AI security (2026).",
+      "path": ".claude/skills/owasp-security",
+      "files": 1,
+      "category": "security"
+    },
+    {
+      "name": "parallel-agents",
+      "description": "Multi-agent orchestration patterns. Use when multiple independent tasks can run w/ different domain expertise or when comprehensive analysis requires multiple perspectives.",
+      "path": ".claude/skills/parallel-agents",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "plan-to-tdd",
+      "description": "Transform feature plans into test-driven implementation using Outside-In methodology. This skill should be used when converting documented plans from docs/plan/ into testable code w/ proper test structure (Unit, Integration, E2E).",
+      "path": ".claude/skills/plan-to-tdd",
+      "files": 3,
+      "category": "testing"
+    },
+    {
+      "name": "project-change-log",
+      "description": "Automatically maintain a CHANGELOG.md file following the Keep a Changelog standard.",
+      "path": ".claude/skills/project-change-log",
+      "files": 1,
+      "category": "productivity"
+    },
+    {
+      "name": "pydantic-model",
+      "description": "Pydantic v2 model patterns for req/res validation, MongoDB conversion, validation rules. Travel Panel conventions.",
+      "path": ".claude/skills/pydantic-model",
+      "files": 1,
+      "category": "productivity"
+    },
+    {
+      "name": "react-best-practices",
+      "description": "React and Next.js performance optimization guidelines from Vercel Engineering. Use when writing, reviewing, or refactoring React/Next.js code. 45 rules across 8 categories prioritized by impact.",
+      "path": ".claude/skills/react-best-practices",
+      "files": 2,
+      "category": "frontend"
+    },
+    {
+      "name": "salesforce-cli",
+      "description": "Safety-first Salesforce CLI skill wrapping `sf` (v2). This skill should be used when performing Salesforce operations — SOQL/SOSL queries, metadata deploy/retrieve, data import/export, Apex execution, org management, auth, and platform events. Enforces risk classification w/ mandatory confirmation for all write/destructive operations. Integrates w/ Salesforce MCP servers and file-converter skill for format conversion.",
+      "path": ".claude/skills/salesforce-cli",
+      "files": 1,
+      "category": "security"
+    },
+    {
+      "name": "semantic-coding",
+      "description": "Scan files, replace hardcoded styles with semantic design tokens (colors, typography, spacing, sizing), edit files directly.",
+      "path": ".claude/skills/semantic-coding",
+      "files": 2,
+      "category": "productivity"
+    },
+    {
+      "name": "senior-backend",
+      "description": "This skill should be used when the user asks to \"design REST APIs\", \"optimize database queries\", \"implement authentication\", \"build microservices\", \"review backend code\", \"set up GraphQL\", \"handle database migrations\", or \"load test APIs\". Use for Node.js/Express/Fastify development, PostgreSQL optimization, API security, and backend architecture patterns.",
+      "path": ".claude/skills/senior-backend",
+      "files": 1,
+      "category": "security"
+    },
+    {
+      "name": "skill-creator",
+      "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
+      "path": ".claude/skills/skill-creator",
+      "files": 2,
+      "category": "frontend"
+    },
+    {
+      "name": "supabase-cli",
+      "description": "CLI automation for Supabase development workflows. Provides scripts for migrations, Edge Functions, secrets management, type generation, and SQL execution with safety checks.",
+      "path": ".claude/skills/supabase-cli",
+      "files": 1,
+      "category": "devops"
+    },
+    {
+      "name": "swift-concurrency-6-2",
+      "description": "Swift 6.2 Approachable Concurrency — single-threaded by default, @concurrent for explicit background offloading, isolated conformances for main actor types.",
+      "path": ".claude/skills/swift-concurrency6.2",
+      "files": 1,
+      "category": "mobile"
+    },
+    {
+      "name": "swiftui-patterns",
+      "description": "SwiftUI architecture patterns, state management with @Observable, view composition, navigation, performance optimization, and modern iOS/macOS UI best practices.",
+      "path": ".claude/skills/swiftui-patterns",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "system-architect",
+      "description": "System architecture skill for designing scalable, maintainable software systems. Covers microservices/monolith decisions, API design, DB selection, caching, security, and scalability planning.",
+      "path": ".claude/skills/system-architect",
+      "files": 3,
+      "category": "security"
+    },
+    {
+      "name": "test-levels",
+      "description": "This skill explains the 3 test levels (Unit, Integration, E2E) using the \"Building a Car\" analogy and provides guidance on when to use each type. Includes project-specific Playwright examples.",
+      "path": ".claude/skills/test-levels",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "testing-automation-expert",
+      "description": "Production-grade testing strategies for robust, maintainable systems. Covers unit/integration/E2E testing, contract testing, accessibility, mutation testing, and CI/CD patterns. Supports Python (pytest) and TypeScript (Jest/Vitest/Playwright).",
+      "path": ".claude/skills/testing-automation-expert",
+      "files": 1,
+      "category": "testing"
+    },
+    {
+      "name": "token-optimizer",
+      "description": "Reduce token count in prompts, docs, and prose. Covers prompt compression (40-60% savings), doc formatting, TOON data serialization, and Strunk's prose clarity rules. Use when compressing prompts, optimizing docs for LLM context, or writing clear technical prose.",
+      "path": ".claude/skills/token-optimizer",
+      "files": 1,
+      "category": "productivity"
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "description": "\"UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings, 20 charts, 9 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app, .html, .tsx, .vue, .svelte. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design. Topics: color palette, accessibility, animation, layout, typography, font pairing, spacing, hover, shadow, gradient. Integrations: shadcn/ui MCP for component search and examples.\"",
+      "path": ".claude/skills/ui-ux-pro-max",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "uiux-toolkit",
+      "description": "Comprehensive UX/UI evaluation meta-skill combining design theory and UX methodology. Use when conducting UI/UX audits, visual design reviews, accessibility compliance (WCAG 2.2), user flow analysis, responsive testing, interaction design evaluation, or design system audits. Evaluates using Nielsen's heuristics, Gestalt principles, typography theory, color theory, and modern methodologies (OOUX, JTBD, Cognitive Walkthrough).",
+      "path": ".claude/skills/uiux-toolkit",
+      "files": 1,
+      "category": "frontend"
+    },
+    {
+      "name": "upgrade-packages-js",
+      "description": "Safely upgrade JavaScript packages with breaking change detection, migration guidance, and automated code migrations (npm/pnpm/yarn). Cross-platform with git safety branch enforcement.",
+      "path": ".claude/skills/upgrade-packages-js",
+      "files": 2,
+      "category": "frontend"
+    },
+    {
+      "name": "vercel-react-native-skills",
+      "description": "React Native and Expo best practices for building performant mobile apps. Use when building React Native components, optimizing list performance, implementing animations, or working with native modules. Triggers on tasks involving React Native, Expo, mobile performance, or native platform APIs.",
+      "path": ".claude/skills/vercel-react-native-skills",
+      "files": 2,
+      "category": "frontend"
+    }
+  ],
+  "commands": [
+    {
+      "name": "create-skill",
+      "description": "Goal: Create production-ready skills w/ validation, testing & optimization.",
+      "path": ".claude/commands/create-skill.md"
+    },
+    {
+      "name": "git-commit",
+      "description": "IMPORTANT: This command ONLY runs when explicitly invoked via /commit.",
+      "path": ".claude/commands/git-commit.md"
+    },
+    {
+      "name": "git-push",
+      "description": "IMPORTANT: This command ONLY runs when explicitly invoked via /push.",
+      "path": ".claude/commands/git-push.md"
+    },
+    {
+      "name": "plan-feature",
+      "description": "Production-grade feature planning with dual-AI validation (Claude + Gemini)",
+      "path": ".claude/commands/plan-feature.md"
+    },
+    {
+      "name": "pr",
+      "description": "Prepare GitHub Pull Request with essential details",
+      "path": ".claude/commands/create-pr.md"
+    },
+    {
+      "name": "review-pr",
+      "description": "Review PR for skills/commands/MCP - validates docs, quality, formatting",
+      "path": ".claude/commands/git-review-pr.md"
+    }
+  ],
+  "mcp_servers": [
+    {
+      "name": "airtable",
+      "description": "Spreadsheet and database platform integration.",
+      "path": "mcp-servers/airtable"
+    },
+    {
+      "name": "atlassian",
+      "description": "Jira and Confluence integration for project management and documentation.",
+      "path": "mcp-servers/atlassian"
+    },
+    {
+      "name": "aws",
+      "description": "Official AWS MCP servers from AWS Labs - 64+ servers for AWS service integration.",
+      "path": "mcp-servers/aws"
+    },
+    {
+      "name": "canva",
+      "description": "Design platform integration for Canva.",
+      "path": "mcp-servers/canva"
+    },
+    {
+      "name": "chrome-devtools",
+      "description": "Chrome DevTools for coding agents - enables browser automation, performance analysis, and debugging capabilities.",
+      "path": "mcp-servers/chrome-devtools"
+    },
+    {
+      "name": "cloudflare",
+      "description": "Managed remote MCP servers for Cloudflare services.",
+      "path": "mcp-servers/cloudflare"
+    },
+    {
+      "name": "codex",
+      "description": "Integration with OpenAI's advanced Codex models for enhanced coding capabilities.",
+      "path": "mcp-servers/codex"
+    },
+    {
+      "name": "context7",
+      "description": "Resolve library IDs and fetch up-to-date documentation for libraries and frameworks.",
+      "path": "mcp-servers/context7"
+    },
+    {
+      "name": "everything",
+      "description": "Reference/test server demonstrating MCP capabilities with prompts, resources, and tools.",
+      "path": "mcp-servers/everything"
+    },
+    {
+      "name": "fetch",
+      "description": "Web content fetching and conversion optimized for LLM consumption.",
+      "path": "mcp-servers/fetch"
+    },
+    {
+      "name": "figma",
+      "description": "Access and inspect Figma designs directly from Claude.",
+      "path": "mcp-servers/figma"
+    },
+    {
+      "name": "filesystem",
+      "description": "Secure file operations with configurable access controls.",
+      "path": "mcp-servers/filesystem"
+    },
+    {
+      "name": "gcp",
+      "description": "Google Cloud Platform integration for managing GCP services.",
+      "path": "mcp-servers/gcp"
+    },
+    {
+      "name": "git",
+      "description": "Tools to read, search, and manipulate Git repositories.",
+      "path": "mcp-servers/git"
+    },
+    {
+      "name": "github",
+      "description": "Official GitHub MCP server for AI-powered repository management, issues, PRs, and workflows.",
+      "path": "mcp-servers/github"
+    },
+    {
+      "name": "jira-bridge",
+      "description": "A Model Context Protocol (MCP) server that provides Claude with access to Jira for issue management, project tracking, and workflow automation.",
+      "path": "mcp-servers/jira-bridge"
+    },
+    {
+      "name": "kubernetes",
+      "description": "Manage Kubernetes clusters, pods, and deployments.",
+      "path": "mcp-servers/kubernetes"
+    },
+    {
+      "name": "linear",
+      "description": "Issue tracking and project management integration with Linear.",
+      "path": "mcp-servers/linear"
+    },
+    {
+      "name": "memory",
+      "description": "Knowledge graph-based persistent memory system for LLMs.",
+      "path": "mcp-servers/memory"
+    },
+    {
+      "name": "monday",
+      "description": "AI agent integration with the monday.com work operating system.",
+      "path": "mcp-servers/monday"
+    },
+    {
+      "name": "mongodb",
+      "description": "Custom MCP server for MongoDB with advanced query, aggregation, and schema analysis tools.",
+      "path": "mcp-servers/mongodb"
+    },
+    {
+      "name": "mui",
+      "description": "Access MUI component documentation, API references, and code snippets.",
+      "path": "mcp-servers/mui"
+    },
+    {
+      "name": "netlify",
+      "description": "Site deployment and management for Netlify platform.",
+      "path": "mcp-servers/netlify"
+    },
+    {
+      "name": "nextjs",
+      "description": "Real-time integration with Next.js development server for AI-powered debugging, error detection, and application insights.",
+      "path": "mcp-servers/nextjs"
+    },
+    {
+      "name": "notion",
+      "description": "Read, search, and update Notion pages and databases.",
+      "path": "mcp-servers/notion"
+    },
+    {
+      "name": "playwright",
+      "description": "Browser automation using Playwright's accessibility tree for fast, deterministic interactions.",
+      "path": "mcp-servers/playwright"
+    },
+    {
+      "name": "postgres-mcp",
+      "description": "A Model Context Protocol (MCP) server that provides Claude with direct access to PostgreSQL databases for querying, schema exploration, and data analysis.",
+      "path": "mcp-servers/postgres-mcp"
+    },
+    {
+      "name": "posthog",
+      "description": "Product analytics and observability platform integration.",
+      "path": "mcp-servers/posthog"
+    },
+    {
+      "name": "puppeteer",
+      "description": "Browser automation for web scraping, testing, and workflow automation.",
+      "path": "mcp-servers/puppeteer"
+    },
+    {
+      "name": "sdk-references",
+      "description": "Official SDKs for building Model Context Protocol servers and clients.",
+      "path": "mcp-servers/sdk-references"
+    },
+    {
+      "name": "sentry",
+      "description": "Error tracking and performance monitoring integration.",
+      "path": "mcp-servers/sentry"
+    },
+    {
+      "name": "sequential-thinking",
+      "description": "Dynamic and reflective problem-solving through thought sequences.",
+      "path": "mcp-servers/sequential-thinking"
+    },
+    {
+      "name": "slack",
+      "description": "Channel management and messaging capabilities for Slack workspaces.",
+      "path": "mcp-servers/slack"
+    },
+    {
+      "name": "sqlite",
+      "description": "Local SQLite database file access with schema inspection.",
+      "path": "mcp-servers/sqlite"
+    },
+    {
+      "name": "stripe",
+      "description": "Payments integration for handling payments, managing customers, and accessing payment data.",
+      "path": "mcp-servers/stripe"
+    },
+    {
+      "name": "supabase",
+      "description": "Custom MCP server for Supabase with database, auth, storage, and edge functions integration.",
+      "path": "mcp-servers/supabase"
+    },
+    {
+      "name": "time",
+      "description": "Time and timezone conversion capabilities.",
+      "path": "mcp-servers/time"
+    },
+    {
+      "name": "vercel",
+      "description": "Deployment platform integration for managing Vercel projects and deployments.",
+      "path": "mcp-servers/vercel"
+    }
+  ]
+}

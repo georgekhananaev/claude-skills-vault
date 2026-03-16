@@ -163,6 +163,24 @@ Official SDKs for building MCP servers: **[sdk-references](mcp-servers/sdk-refer
 
 ## Installation
 
+### Via npm (Recommended)
+
+```bash
+# List all available skills
+npx claude-skills-vault list
+
+# Install specific skills
+npx claude-skills-vault install brainstorm owasp-security github-cli
+
+# Install all skills
+npx claude-skills-vault install --all
+
+# Search skills by keyword
+npx claude-skills-vault search react
+```
+
+### Manual
+
 ```bash
 git clone https://github.com/georgekhananaev/claude-skills-vault.git
 

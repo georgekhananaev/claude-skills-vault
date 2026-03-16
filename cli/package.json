@@ -1,0 +1,41 @@
+{
+  "name": "claude-skills-vault",
+  "version": "1.2.0",
+  "description": "Install Claude Code skills, commands, and MCP servers from the community vault",
+  "bin": {
+    "claude-skills-vault": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "manifest.json",
+    "README.md"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "mcp",
+    "ai",
+    "anthropic",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/georgekhananaev/claude-skills-vault",
+    "directory": "cli"
+  },
+  "bugs": {
+    "url": "https://github.com/georgekhananaev/claude-skills-vault/issues"
+  },
+  "homepage": "https://github.com/georgekhananaev/claude-skills-vault#readme",
+  "author": "George Khananaev",
+  "license": "MIT",
+  "dependencies": {
+    "giget": "^2.0.0"
+  }
+}
