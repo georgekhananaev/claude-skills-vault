@@ -1,6 +1,6 @@
 {
   "version": "1.4.0",
-  "generated": "2026-03-16T20:09:03.777Z",
+  "generated": "2026-03-16T20:19:57.759Z",
   "skills": [
     {
       "name": "better-auth",
@@ -383,6 +383,21 @@
       "path": ".claude/commands/create-skill.md"
     },
     {
+      "name": "db-migrate",
+      "description": "You are a database migration expert specializing in zero-downtime deployments, data integrity, and multi-database environments.",
+      "path": ".claude/commands/db-migrate.md"
+    },
+    {
+      "name": "doc-generate",
+      "description": "You are a documentation expert specializing in creating comprehensive, maintainable documentation from code.",
+      "path": ".claude/commands/doc-generate.md"
+    },
+    {
+      "name": "docker-optimize",
+      "description": "You are a Docker optimization expert specializing in creating efficient, secure, and minimal container images.",
+      "path": ".claude/commands/docker-optimize.md"
+    },
+    {
       "name": "git-commit",
       "description": "Safe, attributed git commit for the configured git user.",
       "path": ".claude/commands/git-commit.md"
@@ -396,6 +411,11 @@
       "name": "git-push",
       "description": "Safe git push with pre-push checks, commit integration, and changelog versioning.",
       "path": ".claude/commands/git-push.md"
+    },
+    {
+      "name": "k8s-manifest",
+      "description": "You are a Kubernetes expert specializing in creating production-ready manifests, Helm charts, and cloud-native deployment configurations.",
+      "path": ".claude/commands/k8s-manifest.md"
     },
     {
       "name": "plan-feature",

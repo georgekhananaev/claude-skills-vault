@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **commands**: Add 4 DevOps commands from wshobson/commands — docker-optimize (Dockerfile generation), k8s-manifest (Kubernetes YAML), db-migrate (migration files/rollback), doc-generate (OpenAPI/JSDoc/TypeDoc)
 
 ### Changed
 
