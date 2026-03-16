@@ -84,29 +84,19 @@ Options:
 ## [1.0.0] - 2026-01-04
 ```
 
-### Step 4: Regenerate Manifest & Commit (if version selected)
+### Step 4: Commit Changelog (if version selected)
 ```bash
-node scripts/generate-manifest.js
-git add CHANGELOG.md manifest.json cli/manifest.json
+git add CHANGELOG.md
 git commit -m "chore(release): bump version to X.X.X"
 ```
 
-## 3. Execute Push & Tag
+## 3. Execute Push
 
-### Step 1: Push commits
 ```bash
 git push origin $(git branch --show-current)
 ```
 
-### Step 2: Create and push version tag (if version was selected)
-```bash
-git tag vX.X.X
-git push origin vX.X.X
-```
-
-This triggers the GitHub Action (`.github/workflows/npm-publish.yml`) which automatically publishes the new version to npm.
-
-**On success:** "Successfully pushed to origin. Tag vX.X.X created → npm publish triggered."
+**On success:** "Successfully pushed to origin"
 
 **On failure:** Display error, do not retry automatically
 
@@ -118,11 +108,9 @@ This triggers the GitHub Action (`.github/workflows/npm-publish.yml`) which auto
 4. Read `CHANGELOG.md` - check if [Unreleased] has content
 5. **If has content**: Use AskUserQuestion - "Which version bump?" (Patch/Minor/Major/Skip)
 6. **If version selected**: Update `CHANGELOG.md` - version Unreleased, add new Unreleased section
-7. **If version selected**: Run `node scripts/generate-manifest.js` - regenerate manifest
-8. **If version selected**: `git add CHANGELOG.md manifest.json cli/manifest.json && git commit` - commit release
-9. `git push origin <branch>` - push all changes
-10. **If version selected**: `git tag vX.X.X && git push origin vX.X.X` - create tag → triggers npm publish
-11. Confirm success
+7. **If version selected**: `git add CHANGELOG.md && git commit` - commit changelog
+8. `git push origin <branch>` - push all changes
+9. Confirm success
 
 ## 5. Safety Protocols
 
