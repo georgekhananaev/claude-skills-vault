@@ -1,6 +1,6 @@
 # Commit Command
 
-**IMPORTANT: This command ONLY runs when explicitly invoked via `/commit`. Do NOT auto-commit after code modifications. Wait for user to explicitly run `/commit`.**
+**IMPORTANT: This command ONLY runs when explicitly invoked via `/git-commit`. Do NOT auto-commit after code modifications. Wait for user to explicitly run `/git-commit`.**
 
 Goal: Safe, attributed git commit for the configured git user.
 

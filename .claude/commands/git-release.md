@@ -1,6 +1,6 @@
 # Release Command
 
-**IMPORTANT: This command ONLY runs when explicitly invoked via `/release`. Do NOT auto-release.**
+**IMPORTANT: This command ONLY runs when explicitly invoked via `/git-release`. Do NOT auto-release.**
 
 Goal: Create a versioned release — bump CHANGELOG, regenerate manifest, commit, push, tag, and trigger npm publish via GitHub Actions.
 
@@ -12,7 +12,7 @@ git status --porcelain
 ```
 
 **If uncommitted changes exist:**
-- Ask user: "You have uncommitted changes. Run /commit first?"
+- Ask user: "You have uncommitted changes. Run /git-commit first?"
 - **If NO**: Abort
 
 ### Step 2: Check Unreleased Content

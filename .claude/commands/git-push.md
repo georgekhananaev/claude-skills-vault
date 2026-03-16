@@ -1,6 +1,6 @@
 # Push Command
 
-**IMPORTANT: This command ONLY runs when explicitly invoked via `/push`. Do NOT auto-push after commits or modifications. Wait for user to explicitly run `/push`.**
+**IMPORTANT: This command ONLY runs when explicitly invoked via `/git-push`. Do NOT auto-push after commits or modifications. Wait for user to explicitly run `/push`.**
 
 Goal: Safe git push with pre-push checks, commit integration, and changelog versioning.
 
@@ -12,8 +12,8 @@ git status --porcelain
 ```
 
 **If output not empty (uncommitted changes exist):**
-- Ask user: "You have uncommitted changes. Run /commit first?"
-- **If YES**: Execute commit command via `.claude/commands/commit.md`, then continue
+- Ask user: "You have uncommitted changes. Run /git-commit first?"
+- **If YES**: Execute commit command via `.claude/commands/git-commit.md`, then continue
 - **If NO**: Abort push with message "Push cancelled - uncommitted changes exist"
 
 ### Step 2: Check Remote Differences
@@ -120,4 +120,4 @@ git push origin $(git branch --show-current)
 - Preserve all existing changelog entries
 
 ---
-Tokens: ~400 | Integrates with: commit.md
+Tokens: ~400 | Integrates with: git-commit.md
