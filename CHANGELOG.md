@@ -8,8 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add 13 external skills — frontend-design (Anthropic), webapp-testing (Anthropic), trailofbits-security (Trail of Bits), web-quality (Addy Osmani), stripe-best-practices (Stripe), terraform (HashiCorp), firecrawl-cli (Firecrawl), composition-patterns (Vercel), better-auth (Better Auth), planning-with-files (OthmanAdi), obsidian-skills (Kepano), claude-seo (AgriciDaniel), notebooklm-skill (PleasePrompto)
+- **docs**: Create SKILLS.md, COMMANDS.md, MCP-SERVERS.md reference docs with install commands
+- **cli**: Enhanced info command with author, source, risk, category labels, word-wrapped descriptions
+- **scripts**: Add check-skill-updates.js to detect upstream changes for external skills
 
 ### Changed
+- **readme**: Slim down README to reference SKILLS.md, COMMANDS.md, MCP-SERVERS.md
+- **scripts**: Manifest generator extracts author/source/risk from frontmatter, recursive file counting, smarter command descriptions
 
 ### Fixed
 

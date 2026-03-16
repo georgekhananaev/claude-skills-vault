@@ -7,6 +7,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | Skill | Description | Install |
 |-------|-------------|---------|
 | **brainstorm** | Transform ideas into fully-formed designs through collaborative dialogue | `npx claude-skills-vault install brainstorm` |
+| **claude-seo** | SEO toolkit — 12 sub-skills for audits, technical SEO, content, schema, hreflang | `npx claude-skills-vault install claude-seo` |
 | **code-quality** | Multi-language code quality standards and review for TS, Python, Go, Rust | `npx claude-skills-vault install code-quality` |
 | **codex-cli** | Run OpenAI Codex CLI for second-opinion audits and code review | `npx claude-skills-vault install codex-cli` |
 | **color-accessibility-audit** | WCAG 2.1/2.2 color contrast analysis with color blindness simulation | `npx claude-skills-vault install color-accessibility-audit` |
@@ -21,8 +22,10 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **monday-com** | Monday.com workspace management via official MCP | `npx claude-skills-vault install monday-com` |
 | **multi-agent-patterns** | Orchestrator, peer-to-peer, and hierarchical multi-agent architectures | `npx claude-skills-vault install multi-agent-patterns` |
 | **next-cache-components** | Next.js 16 Cache Components — PPR, `use cache`, cacheLife, cacheTag | `npx claude-skills-vault install next-cache-components` |
+| **notebooklm-skill** | Query Google NotebookLM for source-grounded, citation-backed answers | `npx claude-skills-vault install notebooklm-skill` |
 | **next-upgrade** | Upgrade Next.js following official migration guides and codemods | `npx claude-skills-vault install next-upgrade` |
 | **nextjs-senior-dev** | Senior Next.js 15/16 Engineer for App Router, RSC, performance | `npx claude-skills-vault install nextjs-senior-dev` |
+| **obsidian-skills** | Obsidian vault management — CLI, Markdown extensions, JSON Canvas, Bases | `npx claude-skills-vault install obsidian-skills` |
 | **owasp-security** | OWASP Top 10:2025 security review, ASVS 5.0, secure code patterns | `npx claude-skills-vault install owasp-security` |
 | **parallel-agents** | Multi-agent orchestration for running tasks with different expertise | `npx claude-skills-vault install parallel-agents` |
 | **plan-to-tdd** | Transform feature plans into TDD implementation (Outside-In) | `npx claude-skills-vault install plan-to-tdd` |

@@ -125,13 +125,31 @@ function scanSkills() {
         }
       }
 
-      return {
+      // Count files recursively
+      function countFilesRecursive(dir) {
+        let count = 0;
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+          if (entry.isFile()) count++;
+          else if (entry.isDirectory()) count += countFilesRecursive(path.join(dir, entry.name));
+        }
+        return count;
+      }
+
+      const entry = {
         name: fm.name || d.name,
         description,
         path: `.claude/skills/${d.name}`,
-        files: countFiles(dir),
+        files: countFilesRecursive(dir),
         category: detectCategory(description + ' ' + (fm.name || d.name)),
       };
+
+      // Optional fields from frontmatter
+      if (fm.author) entry.author = fm.author;
+      if (fm.source) entry.source = fm.source.replace(/^["']|["']$/g, '');
+      if (fm.risk) entry.risk = fm.risk;
+      if (fm['user-invocable']) entry.invocable = fm['user-invocable'] === 'true';
+
+      return entry;
     })
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -152,11 +170,24 @@ function scanCommands() {
 
       let description = fm.description || '';
       if (!description) {
-        // Try first heading line after frontmatter, then first paragraph
+        // Try first meaningful line after frontmatter (skip headings, IMPORTANT guards, empty lines)
         const body = content.replace(/^---[\s\S]*?---\s*/, '');
-        const headingMatch = body.match(/^#\s+(.+)/m);
-        const paraMatch = body.match(/^(?!#)(\S.+)/m);
-        description = firstSentence(paraMatch ? paraMatch[1] : (headingMatch ? headingMatch[1] : ''));
+        const lines = body.split('\n');
+        let foundGoal = false;
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) continue;
+          if (trimmed.startsWith('**IMPORTANT')) continue;
+          if (trimmed.startsWith('Goal:')) {
+            description = firstSentence(trimmed.replace(/^Goal:\s*/, ''));
+            foundGoal = true;
+            break;
+          }
+          if (!foundGoal) {
+            description = firstSentence(trimmed);
+            break;
+          }
+        }
       }
 
       const name = fm.name || f.replace(/\.md$/, '');

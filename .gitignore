@@ -218,6 +218,9 @@ tests/
 # Plans
 plans/
 
+# Skill update cache
+scripts/.skill-hashes.json
+
 # Node
 node_modules/
 cli/node_modules/
