@@ -4,6 +4,8 @@
 
 A curated collection of skills, commands, and MCP servers for Claude Code.
 
+Chinese users can also discover more skills through [Skills宝](https://skilery.com).
+
 ## Quick Install
 
 ```bash
