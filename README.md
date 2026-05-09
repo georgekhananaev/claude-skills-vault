@@ -38,7 +38,7 @@ Skills are downloaded directly from this repository into your project's `.claude
 
 | Category | Count | Details |
 |----------|-------|---------|
-| **Skills** | 54 | Development, security, testing, frontend, backend, mobile, AI, databases, SEO | See [SKILLS.md](SKILLS.md) |
+| **Skills** | 55 | Development, security, testing, frontend, backend, mobile, AI, databases, automation, SEO | See [SKILLS.md](SKILLS.md) |
 | **Commands** | 11 | Git workflow, PR management, feature planning, DevOps, releases | See [COMMANDS.md](COMMANDS.md) |
 | **MCP Servers** | 38 | Database, cloud, design, analytics, CI/CD configs | See [MCP-SERVERS.md](MCP-SERVERS.md) |
 

@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (53)
+## Core Skills (54)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -27,6 +27,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **monday-com** | Monday.com workspace management via official MCP server. This skill s… | `npx claude-skills-vault install monday-com` |
 | **mongodb-atlas-cli** | Comprehensive MongoDB Atlas + mongosh skill for performance auditing,… | `npx claude-skills-vault install mongodb-atlas-cli` |
 | **multi-agent-patterns** | Master orchestrator, peer-to-peer, and hierarchical multi-agent archi… | `npx claude-skills-vault install multi-agent-patterns` |
+| **n8n-cli** | Safety-first n8n management skill — list/inspect workflows, execution… | `npx claude-skills-vault install n8n-cli` |
 | **next-cache-components** | Next.js 16 Cache Components - PPR, use cache directive, cacheLife, ca… | `npx claude-skills-vault install next-cache-components` |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration gu… | `npx claude-skills-vault install next-upgrade` |
 | **nextjs-senior-dev** | Senior Next.js 15+/16 Engineer skill for App Router. Use when scaffol… | `npx claude-skills-vault install nextjs-senior-dev` |

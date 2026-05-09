@@ -1,6 +1,6 @@
 {
   "version": "1.5.0",
-  "generated": "2026-05-09T09:12:37.435Z",
+  "generated": "2026-05-09T10:01:10.559Z",
   "skills": [
     {
       "name": "better-auth",
@@ -151,6 +151,13 @@
       "category": "ai",
       "source": "https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/multi-agent-patterns",
       "risk": "safe"
+    },
+    {
+      "name": "n8n-cli",
+      "description": "Safety-first n8n management skill — list/inspect workflows, executions, credentials, tags, projects, variables, source-control status; trigger runs (CLI/webhook); activate/deactivate; backup/restore; audit; diff. Two backends auto-detect: REST API (cloud + remote self-hosted, urllib stdlib) & `n8n` CLI (self-hosted only, full surface incl. encrypted/decrypted credential export). Read-only by default; mutations require `--confirm` + dry-run preview. Hard-blocks 14 destructive CLI prefixes (delete, reset, encryption-key, executionData, user-management role changes, mfa, ldap, db ops, license) and 22 DELETE/PUT/PATCH/POST API endpoints (workflows/credentials/executions/users/tags/variables/projects/source-control/license). CLI refusal guard uses flag-stripping + chain matching to block bypasses. URL paths validated against `/api/v1/` allowlist + traversal-resistant. Resource IDs regex-validated before URL interpolation. API key redacted from error output; HTTPS warning on http://. Decrypted credential export double-gated (--decrypted + --confirm-secrets). Output paths sanitized. n8n REST API uses `/activate`+`/deactivate` for both 1.x & 2.x — public API has no `run` endpoint, so trigger_workflow is CLI-only w/ webhook URL helper. Faster than n8n MCP for bulk reads, backups, exports, diffs, CI/cron; complements MCP which is better for workflow authoring.",
+      "path": ".claude/skills/n8n-cli",
+      "files": 29,
+      "category": "security"
     },
     {
       "name": "next-cache-components",
