@@ -1,6 +1,6 @@
 {
-  "version": "1.4.1",
-  "generated": "2026-05-09T09:07:49.713Z",
+  "version": "1.5.0",
+  "generated": "2026-05-09T09:12:37.435Z",
   "skills": [
     {
       "name": "better-auth",
@@ -140,7 +140,7 @@
       "name": "mongodb-atlas-cli",
       "description": "Comprehensive MongoDB Atlas + mongosh skill for performance auditing, all index types (b-tree/text/2dsphere/hashed/TTL/partial/wildcard/Atlas-Search/Vector-Search), Performance Advisor analysis, query explain, schema advice, backup status, alerts, week-over-week diffs, and additive index creation. Read-only by default; create-index ops gated behind explicit `--confirm`. Hard-blocks any destructive op (delete, drop, restore, pause, terminate, kill, dbuser write, network change). Works against Atlas Cloud (full feature set) and self-hosted/local mongo (mongosh-based subset).",
       "path": ".claude/skills/mongodb-atlas-cli",
-      "files": 53,
+      "files": 32,
       "category": "devops"
     },
     {
