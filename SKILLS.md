@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (52)
+## Core Skills (53)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -25,6 +25,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **mcp-builder** | Guide for creating high-quality MCP (Model Context Protocol) servers … | `npx claude-skills-vault install mcp-builder` |
 | **mermaid-diagram** | Generate beautiful Mermaid diagrams — flowcharts, sequence, ER, class… | `npx claude-skills-vault install mermaid-diagram` |
 | **monday-com** | Monday.com workspace management via official MCP server. This skill s… | `npx claude-skills-vault install monday-com` |
+| **mongodb-atlas-cli** | Comprehensive MongoDB Atlas + mongosh skill for performance auditing,… | `npx claude-skills-vault install mongodb-atlas-cli` |
 | **multi-agent-patterns** | Master orchestrator, peer-to-peer, and hierarchical multi-agent archi… | `npx claude-skills-vault install multi-agent-patterns` |
 | **next-cache-components** | Next.js 16 Cache Components - PPR, use cache directive, cacheLife, ca… | `npx claude-skills-vault install next-cache-components` |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration gu… | `npx claude-skills-vault install next-upgrade` |

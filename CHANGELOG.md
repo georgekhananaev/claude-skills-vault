@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add `mongodb-atlas-cli` — comprehensive MongoDB Atlas + mongosh skill. 21 scripts covering Performance Advisor reads (slow queries, suggested/drop indexes, schema advice, namespaces), cluster metrics, alerts, backups, events, Atlas Search & Vector Search list/create, mongosh-based index listing, query explain, profiler status, in-progress index build status, week-over-week audit diffs. Hard-blocks 44 destructive prefixes (delete/drop/restore/pause/terminate/kill/dbuser-write/network-change/cluster-update). Two-layer JS injection guard for all mongosh interactions. Password fed through stdin (not argv) to avoid `/proc/cmdline` exposure. Pre-flight duplicate detection w/ option awareness (unique/sparse/TTL/partial). Works on Atlas Cloud (full) + local Docker mongo (mongosh subset + `--print-mongosh`). 13/13 tests pass. 10 reference docs (CLI commands, Performance Advisor, index strategy, all 13+ index types, Atlas Search, local-vs-Atlas matrix, mongosh integration, quick recipes, safety boundaries, troubleshooting).
 
 ### Changed
 
