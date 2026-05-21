@@ -24,6 +24,7 @@ George Khananaev (maintainer):
   - data-wrangler
   - doc-navigator
   - document-skills
+  - domain-checker
   - fastapi-senior-dev
   - file-converter
   - gemini-cli

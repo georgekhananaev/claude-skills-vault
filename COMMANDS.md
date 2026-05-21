@@ -6,7 +6,7 @@ Slash commands available in Claude Code. Install all commands with:
 npx claude-skills-vault install --commands
 ```
 
-## Available Commands (11)
+## Available Commands (12)
 
 | Command | Description | Invocation |
 |---------|-------------|------------|
@@ -15,6 +15,7 @@ npx claude-skills-vault install --commands
 | **db-migrate** | You are a database migration expert specializing in zero-downtime dep… | `/db-migrate` |
 | **doc-generate** | You are a documentation expert specializing in creating comprehensive… | `/doc-generate` |
 | **docker-optimize** | You are a Docker optimization expert specializing in creating efficie… | `/docker-optimize` |
+| **find-name** | Generate short brand-name candidates, score each (length, memorabilit… | `/find-name` |
 | **git-commit** | Safe, attributed git commit for the configured git user. | `/git-commit` |
 | **git-npm-release** | Create a versioned release — bump CHANGELOG, regenerate manifest, com… | `/git-npm-release` |
 | **git-push** | Safe git push with pre-push checks, commit integration, and changelog… | `/git-push` |

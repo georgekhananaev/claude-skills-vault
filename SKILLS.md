@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (54)
+## Core Skills (55)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -15,6 +15,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **vercel-composition-patterns** | React composition patterns that scale. Use when refactoring component… | `npx claude-skills-vault install composition-patterns` |
 | **data-wrangler** | Production-grade tabular data manipulation using pandas & openpyxl. T… | `npx claude-skills-vault install data-wrangler` |
 | **doc-navigator** | Efficiently navigate codebase documentation during Research phase. Us… | `npx claude-skills-vault install doc-navigator` |
+| **domain-checker** | Bulk domain availability checker. Use when the user wants to check wh… | `npx claude-skills-vault install domain-checker` |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for FastAPI. Use when scaffoldin… | `npx claude-skills-vault install fastapi-senior-dev` |
 | **file-converter** | Convert & transform files - images (resize, format, HEIC), markdown (… | `npx claude-skills-vault install file-converter` |
 | **firecrawl** | Web scraping, search, crawling, and browser automation via the Firecr… | `npx claude-skills-vault install firecrawl-cli` |

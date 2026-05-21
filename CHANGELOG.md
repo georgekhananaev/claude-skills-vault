@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **commands**: Add `/find-name` — brandable-name generator that scores candidates on length, memorability, brandability, cross-language safety, and spelling clarity, then filters by real domain availability. Asks a Q5 domain mode (ready-for-registration only · include registry-premium · include aftermarket/marketplace · include both) and threads it through the availability filter, scoring penalties (−8 premium, −10 aftermarket), console legend, top-3 rationale, hard rules, and the empty-accumulator fallback so premium/aftermarket reliance is always surfaced explicitly.
+- **skills**: Add `domain-checker` — bulk domain availability checker. Python stdlib only (no pip, no API keys), parallel multi-TLD checks, three input modes (CLI args / file / stdin), bare-name + TLD-list expansion, table/JSON/CSV output, premium-tier and aftermarket detection.
 
 ### Changed
 

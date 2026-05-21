@@ -1,6 +1,6 @@
 {
   "version": "1.5.1",
-  "generated": "2026-05-09T10:04:40.738Z",
+  "generated": "2026-05-21T07:47:28.717Z",
   "skills": [
     {
       "name": "better-auth",
@@ -60,6 +60,14 @@
       "path": ".claude/skills/doc-navigator",
       "files": 4,
       "category": "productivity"
+    },
+    {
+      "name": "domain-checker",
+      "description": "Bulk domain availability checker. Use when the user wants to check whether one or many domain names are available for registration (e.g., \"is acme.com free\", \"check these 50 domains\", \"find an available .io for my brand\"). Supports any TLD (.com/.net/.io/.ai/.dev/.app/...), parallel checking, three input modes (CLI args / file / stdin), bare-name + TLD-list expansion, and table/JSON/CSV output. Python stdlib only — no pip installs, no API keys.",
+      "path": ".claude/skills/domain-checker",
+      "files": 3,
+      "category": "backend",
+      "author": "George Khananaev"
     },
     {
       "name": "fastapi-senior-dev",
@@ -418,6 +426,11 @@
       "name": "docker-optimize",
       "description": "You are a Docker optimization expert specializing in creating efficient, secure, and minimal container images.",
       "path": ".claude/commands/docker-optimize.md"
+    },
+    {
+      "name": "find-name",
+      "description": "Generate short brand-name candidates, score each (length, memorability, brandability, cross-language safety, spelling clarity), check domain availability across multiple TLDs, and emit a ranked CSV containing ONLY names whose domains are actually available. Iterates generation until enough names pass the availability filter.",
+      "path": ".claude/commands/find-company-name.md"
     },
     {
       "name": "git-commit",
