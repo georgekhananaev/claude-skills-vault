@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - **skills**: Add `agy-cli` — Google Antigravity CLI (`agy`) wrapper. Verified slash commands (`/help /goal /grill-me /schedule /diff /resume /usage /quota /config /settings /statusline`) from the changelog plus live testing (default chat ~18s outline vs `/goal` ~73s autonomous file-writing build). Headless `-p` patterns, conversation resume (`-c` / `--conversation`), workspace scoping (`--add-dir`), sandboxing, and the on-disk layout under `~/.gemini/antigravity-cli/` (conversations, brain, scratch, logs). Efficient-execution rules: `--print-timeout` is a ceiling not a sleep, always use `run_in_background` so the harness wakes on actual exit, no polling. Quota & abuse-heuristic safeguards: serialize calls (never parallel), reuse conversations with `-c`, no retry-on-failure loops, stop on `429`/`RESOURCE_EXHAUSTED`, `AGY_CLI_DISABLE_AUTO_UPDATE` in CI, always pair `--dangerously-skip-permissions` with `--sandbox` + narrow `--add-dir`.
+- **skills**: Add `neon-postgres-agent-platforms` — Neon's official skill for multi-tenant AI agent platforms. 28 files including SKILL.md, 6 reference docs (checkpoint orchestration, compound checkpoints, management API samples, pricing, REST API), and 21 TypeScript control-plane scripts (auth-users, branch/snapshot/restore, consumption-query, transfer-project, versioning-flow, etc.). Wired into `scripts/check-skill-updates.js` for ongoing upstream tracking.
 
 ### Changed
 - **gitignore**: Ignore `.antigravitycli/` — symlink folder agy drops into the workspace root pointing at `~/.gemini/config/projects/<uuid>.json`.
+- **skills**: Sync `stripe-best-practices` from upstream — API version 2026-02-25.clover → 2026-04-22.dahlia, restricted API key (RAK) default recommendation, security reference, Stripe Tax routing row, Critical rules section (omit `payment_method_types` except for Terminal/card-present).
+- **skills**: Sync `firecrawl-cli` from upstream — interact-vs-browser rename across the command surface, install-check verification block, references to `firecrawl-build` and `firecrawl-workflows` companion skills.
+- **skills**: Sync `planning-with-files` from upstream v2.23.0 → v2.41.0 — SHA-256 plan attestation against prompt-injection, `.planning/`-scoped multi-project support, new PreCompact hook that preserves plan state across compaction, hardened skill-directory resolution.
+- **scripts**: `generate-manifest.js` parser now handles YAML block-scalar strip/keep indicators (`>-` `>+` `|-` `|+`), not just bare `>` and `|`. Previously the indicator leaked into the first line of multi-line descriptions (e.g. Neon, Stripe).
+- **scripts**: `generate-manifest.js` category detector uses word-boundary regex so `ui` no longer matches `build` and `auth` no longer matches `author`. Rules reordered most-specific → most-generic; added Postgres/MongoDB/Neon/Supabase/tenant/provisioning to backend, k8s/docker/terraform to devops. Neon now correctly categorized as backend.
 
 ### Fixed
 

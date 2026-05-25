@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (56)
+## Core Skills (57)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -19,7 +19,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **domain-checker** | Bulk domain availability checker. Use when the user wants to check wh… | `npx claude-skills-vault install domain-checker` |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for FastAPI. Use when scaffoldin… | `npx claude-skills-vault install fastapi-senior-dev` |
 | **file-converter** | Convert & transform files - images (resize, format, HEIC), markdown (… | `npx claude-skills-vault install file-converter` |
-| **firecrawl** | Web scraping, search, crawling, and browser automation via the Firecr… | `npx claude-skills-vault install firecrawl-cli` |
+| **firecrawl** | Search, scrape, and interact with the web via the Firecrawl CLI. Use … | `npx claude-skills-vault install firecrawl-cli` |
 | **frontend-design** | Create distinctive, production-grade frontend interfaces with high de… | `npx claude-skills-vault install frontend-design` |
 | **gemini-cli** | Run Gemini CLI for AI queries. Use when user asks to "run/ask/use gem… | `npx claude-skills-vault install gemini-cli` |
 | **github-cli** | Safety-first GitHub CLI skill wrapping `gh` (v2.86+). Use when perfor… | `npx claude-skills-vault install github-cli` |
@@ -30,6 +30,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **mongodb-atlas-cli** | Comprehensive MongoDB Atlas + mongosh skill for performance auditing,… | `npx claude-skills-vault install mongodb-atlas-cli` |
 | **multi-agent-patterns** | Master orchestrator, peer-to-peer, and hierarchical multi-agent archi… | `npx claude-skills-vault install multi-agent-patterns` |
 | **n8n-cli** | Safety-first n8n management skill — list/inspect workflows, execution… | `npx claude-skills-vault install n8n-cli` |
+| **neon-postgres-agent-platforms** | >- Build and operate multi-tenant AI agent platforms on Neon. Use thi… | `npx claude-skills-vault install neon-postgres-agent-platforms` |
 | **next-cache-components** | Next.js 16 Cache Components - PPR, use cache directive, cacheLife, ca… | `npx claude-skills-vault install next-cache-components` |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration gu… | `npx claude-skills-vault install next-upgrade` |
 | **nextjs-senior-dev** | Senior Next.js 15+/16 Engineer skill for App Router. Use when scaffol… | `npx claude-skills-vault install nextjs-senior-dev` |
@@ -46,7 +47,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **semantic-coding** | Scan files, replace hardcoded styles with semantic design tokens (col… | `npx claude-skills-vault install semantic-coding` |
 | **senior-backend** | This skill should be used when the user asks to "design REST APIs", "… | `npx claude-skills-vault install senior-backend` |
 | **skill-creator** | Guide for creating effective skills. This skill should be used when u… | `npx claude-skills-vault install skill-creator` |
-| **stripe-best-practices** | Guides Stripe integration decisions — API selection (Checkout Session… | `npx claude-skills-vault install stripe-best-practices` |
+| **stripe-best-practices** | >- Guides Stripe integration decisions — API selection (Checkout Sess… | `npx claude-skills-vault install stripe-best-practices` |
 | **supabase-cli** | CLI automation for Supabase development workflows. Provides scripts f… | `npx claude-skills-vault install supabase-cli` |
 | **swift-concurrency-6-2** | Swift 6.2 Approachable Concurrency — single-threaded by default, @con… | `npx claude-skills-vault install swift-concurrency6.2` |
 | **swiftui-patterns** | SwiftUI architecture patterns, state management with @Observable, vie… | `npx claude-skills-vault install swiftui-patterns` |

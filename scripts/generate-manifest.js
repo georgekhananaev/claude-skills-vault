@@ -14,11 +14,14 @@ function parseFrontmatter(content) {
   const lines = match[1].split('\n');
   let currentKey = null;
 
+  // YAML block-scalar indicators: > >- >+ | |- |+
+  const isBlockIndicator = (v) => /^[>|][+-]?$/.test(v);
+
   for (const line of lines) {
     // Continuation line (indented) for multi-line values (YAML folded/literal scalars)
     if (currentKey && /^\s+\S/.test(line)) {
       const continuation = line.trim();
-      if (fm[currentKey] && fm[currentKey] !== '>' && fm[currentKey] !== '|') {
+      if (fm[currentKey] && !isBlockIndicator(fm[currentKey])) {
         fm[currentKey] += ' ' + continuation;
       } else {
         fm[currentKey] = continuation;
@@ -31,17 +34,13 @@ function parseFrontmatter(content) {
     const val = line.slice(idx + 1).trim();
     if (!key) { currentKey = null; continue; }
     currentKey = key;
-    // If value is > or | (YAML block scalar indicator), wait for continuation lines
-    if (val === '>' || val === '|') {
-      fm[key] = val;
-    } else {
-      fm[key] = val;
-    }
+    // If value is a block-scalar indicator, wait for continuation lines
+    fm[key] = val;
   }
 
   // Clean up any remaining block scalar indicators
   for (const key of Object.keys(fm)) {
-    if (fm[key] === '>' || fm[key] === '|') fm[key] = '';
+    if (isBlockIndicator(fm[key])) fm[key] = '';
   }
 
   return fm;
@@ -58,18 +57,21 @@ function firstSentence(text) {
 function detectCategory(text) {
   if (!text) return 'productivity';
   const t = text.toLowerCase();
+  // Word-boundary match so 'ui' doesn't fire on 'build' and 'auth' doesn't fire on 'author'.
+  const hasWord = (kw) => new RegExp(`\\b${kw.replace(/[.+]/g, '\\$&')}\\b`).test(t);
+  // Ordered most-specific → most-generic. First match wins.
   const rules = [
-    { keywords: ['security', 'owasp', 'auth'], category: 'security' },
-    { keywords: ['react', 'next.js', 'nextjs', 'frontend', 'ui', 'css'], category: 'frontend' },
-    { keywords: ['backend', 'api', 'database', 'express', 'fastapi'], category: 'backend' },
-    { keywords: ['test', 'qa', 'coverage', 'tdd'], category: 'testing' },
-    { keywords: ['swift', 'swiftui', 'ios', 'mobile', 'react native'], category: 'mobile' },
-    { keywords: ['git', 'cli', 'deploy'], category: 'devops' },
-    { keywords: ['mcp', 'agent', 'orchestr'], category: 'ai' },
+    { keywords: ['swift', 'swiftui', 'ios', 'android', 'mobile', 'react native', 'expo'], category: 'mobile' },
+    { keywords: ['security', 'owasp', 'auth', 'vulnerabilit'], category: 'security' },
+    { keywords: ['postgres', 'mongodb', 'database', 'sql', 'neon', 'supabase', 'backend', 'api', 'express', 'fastapi', 'tenant', 'provisioning'], category: 'backend' },
+    { keywords: ['react', 'next.js', 'nextjs', 'frontend', 'css', 'tailwind', 'shadcn', 'ui', 'ux'], category: 'frontend' },
+    { keywords: ['test', 'qa', 'coverage', 'tdd', 'playwright', 'pytest', 'vitest'], category: 'testing' },
+    { keywords: ['terraform', 'kubernetes', 'docker', 'k8s', 'ci', 'cd', 'deploy', 'devops', 'git', 'cli'], category: 'devops' },
+    { keywords: ['mcp', 'agent', 'orchestr', 'llm'], category: 'ai' },
   ];
   for (const rule of rules) {
     for (const kw of rule.keywords) {
-      if (t.includes(kw)) return rule.category;
+      if (hasWord(kw)) return rule.category;
     }
   }
   return 'productivity';

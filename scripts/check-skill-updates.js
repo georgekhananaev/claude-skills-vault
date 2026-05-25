@@ -72,6 +72,10 @@ const EXTERNAL_SKILLS = [
     name: "notebooklm-skill",
     url: "https://raw.githubusercontent.com/PleasePrompto/notebooklm-skill/master/SKILL.md",
   },
+  {
+    name: "neon-postgres-agent-platforms",
+    url: "https://raw.githubusercontent.com/neondatabase/neon-for-agent-platforms/main/skills/neon-postgres-agent-platforms/SKILL.md",
+  },
 ];
 
 function hash(content) {

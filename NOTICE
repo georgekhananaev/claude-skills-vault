@@ -75,6 +75,7 @@ Better Auth (https://github.com/better-auth/skills):
 
 Community (https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/multi-agent-patterns):
   - multi-agent-patterns
+  - neon-postgres-agent-platforms
 
 Firecrawl (https://github.com/firecrawl/cli):
   - firecrawl-cli
