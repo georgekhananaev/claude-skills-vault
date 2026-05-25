@@ -10,9 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
-- **commands**: `/plan-feature` swaps the deprecated `gemini` CLI for `@agy-cli` (Antigravity / Gemini 3) in the dual-AI validation step — tools allowlist `Bash(gemini *)` → `Bash(agy *)`. Verified `agy -p` patterns from the `@agy-cli` skill: 2 sequential calls only (shared OAuth quota — never parallel), `run_in_background: true` so the harness wakes on process exit (no polling), output-budget prompts (`≤N bullets, no code, do not modify files`), `--add-dir "$(pwd)"` for workspace access, `--print-timeout 10m`, and stop-and-report on `429` / `quota` / `RESOURCE_EXHAUSTED`. Also fixes the "Brainstore" typo, repairs the Related Skills table (drops 4 non-existent refs `@using-git-worktrees` `@component-refactor` `@beautiful-code` `@elements-of-style`; adds existing `@system-architect` `@owasp-security` `@plan-to-tdd` `@code-quality`), and updates the anti-patterns table with 4 new `agy`-specific traps (parallel calls, foreground execution, vague prompts, retry-on-429), the workflow-summary diagram (`Gemini` → `agy(Gem3)`), and the footer integration list.
 
 ### Fixed
+
+## [1.7.1] - 2026-05-25
+
+### Changed
+- **commands**: `/plan-feature` swaps the deprecated `gemini` CLI for `@agy-cli` (Antigravity / Gemini 3) in the dual-AI validation step — tools allowlist `Bash(gemini *)` → `Bash(agy *)`. Verified `agy -p` patterns from the `@agy-cli` skill: 2 sequential calls only (shared OAuth quota — never parallel), `run_in_background: true` so the harness wakes on process exit (no polling), output-budget prompts (`≤N bullets, no code, do not modify files`), `--add-dir "$(pwd)"` for workspace access, `--print-timeout 10m`, and stop-and-report on `429` / `quota` / `RESOURCE_EXHAUSTED`. Also fixes the "Brainstore" typo, repairs the Related Skills table (drops 4 non-existent refs `@using-git-worktrees` `@component-refactor` `@beautiful-code` `@elements-of-style`; adds existing `@system-architect` `@owasp-security` `@plan-to-tdd` `@code-quality`), and updates the anti-patterns table with 4 new `agy`-specific traps (parallel calls, foreground execution, vague prompts, retry-on-429), the workflow-summary diagram (`Gemini` → `agy(Gem3)`), and the footer integration list.
 
 ## [1.7.0] - 2026-05-25
 
