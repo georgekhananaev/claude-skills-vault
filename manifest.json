@@ -1,6 +1,6 @@
 {
   "version": "1.7.0",
-  "generated": "2026-05-25T04:53:23.699Z",
+  "generated": "2026-05-25T12:08:12.773Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -469,7 +469,7 @@
     },
     {
       "name": "plan-feature",
-      "description": "Production-grade feature planning with dual-AI validation (Claude + Gemini)",
+      "description": "Production-grade feature planning with dual-AI validation (Claude + Antigravity/Gemini 3 via `agy`)",
       "path": ".claude/commands/plan-feature.md"
     },
     {

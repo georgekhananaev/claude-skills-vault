@@ -1,9 +1,9 @@
 ---
 name: plan-feature
-description: Production-grade feature planning with dual-AI validation (Claude + Gemini)
+description: Production-grade feature planning with dual-AI validation (Claude + Antigravity/Gemini 3 via `agy`)
 tools:
   - AskUserQuestion
-  - Bash(gemini *)
+  - Bash(agy *)
   - Read
   - Write
   - Glob
@@ -30,7 +30,7 @@ Before planning, assess if requirements are clear enough:
 | User isn't sure what they want | Use `@brainstorm` for collaborative discovery |
 | Requirements are clear and specific | Proceed to Discovery Phase below |
 
-**Brainstore produces**: Design document at `docs/plans/YYYY-MM-DD-<topic>-design.md`
+**Brainstorm produces**: Design document at `docs/plans/YYYY-MM-DD-<topic>-design.md`
 **Plan-feature produces**: Implementation plan with TDD tasks
 
 Typical flow for new features: `@brainstorm` → `/plan-feature` → Execute
@@ -220,40 +220,57 @@ Before external validation, verify:
 
 **Output**: Checklist with [PASS/FAIL]
 
-### Step 2: Gemini Validation (External - 2 Calls)
+### Step 2: Antigravity (`agy`) Validation — External, Gemini 3
 
-Only if Claude checks pass:
+Only run after Claude checks pass. Two sequential calls, never parallel.
 
-**Call 1 - Security + SRE:**
+**Hard rules (from `@agy-cli` skill):**
+- **Never run two `agy -p` processes at once** — Antigravity shares a single OAuth quota and rate-limits aggressively
+- **Default chat mode only** (no `/goal`, no `/grill-me`) — these are read-only review tasks
+- **Always `run_in_background: true`** — the harness wakes Claude on process exit, no polling needed
+- **Constrain output length** explicitly in the prompt — `/goal`-style vague reviews burn quota for nothing
+- **Add the workspace** with `--add-dir "$(pwd)"` so `agy` can read referenced files
+- **On `429` / `quota` / `RESOURCE_EXHAUSTED`**: stop, surface to user, do not retry
+
+**Call 1 — Security + SRE Audit:**
 ```bash
-gemini "Act as Security Engineer + SRE. Review for:
-1. OWASP vulnerabilities
-2. Failure modes at 10x scale
-3. What wakes you at 3 AM?
-Plan summary: [sections 1-3]"
+# Run in background; harness re-invokes Claude on exit.
+agy --add-dir "$(pwd)" --print-timeout 10m -p "Act as Security Engineer + SRE. \
+Review the plan below. Answer in ≤10 bullets total, no code, do not modify files.
+1. OWASP Top 10:2025 vulnerabilities in this design
+2. Failure modes at 10x current scale
+3. What wakes oncall at 3 AM
+
+Plan sections 1-3:
+<paste overview, architecture, implementation tasks>"
 ```
 
-**Call 2 - Pre-Mortem + Edge Cases:**
+**Call 2 — Pre-Mortem + Edge Cases (only after Call 1 returns):**
 ```bash
-gemini "This feature failed 6 months from now.
-1. Top 3 most likely causes
-2. Missed edge cases
-3. Rate readiness 1-10
-Implementation: [section 3 only]"
+agy --add-dir "$(pwd)" --print-timeout 10m -p "Pre-mortem: assume this feature has failed in production 6 months from now. \
+Answer in ≤8 bullets, no code, do not modify files.
+1. Top 3 most likely root causes
+2. Edge cases the plan misses (≤5)
+3. Readiness rating 1-10, one-line reason
+
+Implementation tasks:
+<paste section 3 only>"
 ```
+
+> If `--add-dir "$(pwd)"` would expose secrets/IP the audit doesn't need, omit it and inline the plan text in the prompt instead.
 
 ### Step 3: Gap Resolution
 
-For each gap found:
+For each gap `agy` surfaces:
 1. Research solution (WebSearch, Context7)
-2. Update plan
-3. Re-validate affected section only
+2. Update the plan in place
+3. Re-validate **only** the section that changed — don't re-run both calls
 
 ### Acceptance Criteria
 
-- [ ] Claude: All internal checks PASS
-- [ ] Gemini Call 1: No Critical security issues
-- [ ] Gemini Call 2: Rating >= 8/10, top failures addressed
+- [ ] Claude: all internal checks PASS
+- [ ] agy Call 1: no Critical security findings
+- [ ] agy Call 2: rating ≥ 8/10, top-3 failures addressed in plan
 
 ## 5. Execution Handoff
 
@@ -278,7 +295,7 @@ Hand off to fresh session with plan file:
 DISCOVER → RESEARCH → PLAN → VALIDATE → REFINE → EXECUTE
     │          │         │        │         │         │
  Adaptive   Grep+C7   7-section  Claude→   Iterate   Task-by-task
- questions            template   Gemini    until 8+  or batch
+ questions            template   agy(Gem3) until 8+  or batch
 ```
 
 ## 7. Anti-Patterns
@@ -286,14 +303,18 @@ DISCOVER → RESEARCH → PLAN → VALIDATE → REFINE → EXECUTE
 | Don't | Do Instead |
 |-------|------------|
 | Guess requirements | Use AskUserQuestion iteratively |
-| Ask all 10 questions | Adaptive - only relevant ones |
+| Ask all 10 questions | Adaptive — only relevant ones |
 | Skip Claude validation | Always self-check first (free) |
-| Run 4 Gemini calls | Consolidate to 2 targeted calls |
+| Run 4+ `agy` calls | 2 sequential calls only (shared OAuth quota) |
+| Run `agy -p` in foreground | Always `run_in_background: true`, let exit-notification wake Claude |
+| Run two `agy -p` in parallel | Strictly sequential — Antigravity rate-limits aggressively |
+| Vague `agy` prompts | Cap output (`≤N bullets`), say "do not modify files" |
+| Retry on `429`/quota error | Stop and report — never auto-retry |
 | Over-engineer | Minimal viable, iterate |
 | Destructive migrations | Additive-only, expand-contract |
 | Skip observability | Every feature needs monitoring |
 | Vague task descriptions | Exact file paths, code samples, commands |
-| Large tasks | Break into 2-5 minute TDD cycles |
+| Large tasks | Break into 2–5 minute TDD cycles |
 | Skip expected output | Every command shows success/failure |
 
 ## 8. Related Skills
@@ -302,17 +323,17 @@ Reference these skills during planning and execution:
 
 | Phase | Skill | Use When |
 |-------|-------|----------|
-| **Discovery** | `@brainstorm` | Vague requirements need refinement |
-| **Discovery** | `@gemini-cli` | Need second opinion on approach |
+| **Discovery** | `@brainstorm` | Vague requirements need refinement before planning |
+| **Discovery** | `@agy-cli` | Need autonomous Gemini-3 second opinion or build delegation |
+| **Architecture** | `@system-architect` | Microservices/monolith, DB choice, scalability planning |
 | **Design** | `@semantic-coding` | Designing component/system structure |
 | **Design** | `@uiux-toolkit` | UI/UX audit or accessibility review |
-| **Implementation** | `@using-git-worktrees` | Need isolated workspace for feature |
-| **Implementation** | `@component-refactor` | Breaking down large React components |
-| **Implementation** | `@beautiful-code` | Code quality standards (TS/Python/Go/Rust) |
-| **Testing** | `@testing-automation-expert` | Unit/integration/E2E test strategy |
-| **Documentation** | `@elements-of-style` | Writing clear docs, commit messages |
+| **Security** | `@owasp-security` | Auth, payments, PII — OWASP Top 10:2025 hardening |
+| **Implementation** | `@plan-to-tdd` | Convert this plan into Outside-In TDD tasks |
+| **Implementation** | `@code-quality` | TS/Python/Go/Rust standards and review |
+| **Testing** | `@testing-automation-expert` | Unit/integration/E2E strategy + CI gates |
 | **Database** | `@supabase-cli` | Migrations, Edge Functions, type gen |
 | **Dependencies** | `@upgrade-packages-js` | Safe package upgrades with migrations |
 
 ---
-Integrates: brainstorm, gemini-cli, context7, AskUserQuestion | ~1000 tokens
+Integrates: brainstorm, agy-cli, context7, AskUserQuestion | ~1000 tokens

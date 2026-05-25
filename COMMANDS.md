@@ -21,7 +21,7 @@ npx claude-skills-vault install --commands
 | **git-push** | Safe git push with pre-push checks, commit integration, and changelog… | `/git-push` |
 | **review-pr** | Review PR for skills/commands/MCP - validates docs, quality, formatti… | `/review-pr` |
 | **k8s-manifest** | You are a Kubernetes expert specializing in creating production-ready… | `/k8s-manifest` |
-| **plan-feature** | Production-grade feature planning with dual-AI validation (Claude + G… | `/plan-feature` |
+| **plan-feature** | Production-grade feature planning with dual-AI validation (Claude + A… | `/plan-feature` |
 
 ## Usage
 
