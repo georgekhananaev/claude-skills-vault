@@ -226,3 +226,6 @@ node_modules/
 cli/node_modules/
 package-lock.json
 cli/package-lock.json
+
+# Antigravity CLI (agy) — per-project link folder dropped into workspace root
+.antigravitycli/

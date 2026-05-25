@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: Add `agy-cli` — Google Antigravity CLI (`agy`) wrapper. Verified slash commands (`/help /goal /grill-me /schedule /diff /resume /usage /quota /config /settings /statusline`) from the changelog plus live testing (default chat ~18s outline vs `/goal` ~73s autonomous file-writing build). Headless `-p` patterns, conversation resume (`-c` / `--conversation`), workspace scoping (`--add-dir`), sandboxing, and the on-disk layout under `~/.gemini/antigravity-cli/` (conversations, brain, scratch, logs). Efficient-execution rules: `--print-timeout` is a ceiling not a sleep, always use `run_in_background` so the harness wakes on actual exit, no polling. Quota & abuse-heuristic safeguards: serialize calls (never parallel), reuse conversations with `-c`, no retry-on-failure loops, stop on `429`/`RESOURCE_EXHAUSTED`, `AGY_CLI_DISABLE_AUTO_UPDATE` in CI, always pair `--dangerously-skip-permissions` with `--sandbox` + narrow `--add-dir`.
 
 ### Changed
+- **gitignore**: Ignore `.antigravitycli/` — symlink folder agy drops into the workspace root pointing at `~/.gemini/config/projects/<uuid>.json`.
 
 ### Fixed
 

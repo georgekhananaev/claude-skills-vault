@@ -1,7 +1,14 @@
 {
   "version": "1.6.0",
-  "generated": "2026-05-21T07:51:07.390Z",
+  "generated": "2026-05-25T03:54:40.448Z",
   "skills": [
+    {
+      "name": "agy-cli",
+      "description": "Run Google's Antigravity CLI (`agy`) — an agentic coding assistant powered by Gemini 3 (with Claude/GPT model access). Use when the user says \"run/ask/use agy\", \"antigravity\", wants a second-opinion audit from Gemini's agentic stack, or wants Claude to delegate a build/refactor task with the three effort tiers: default chat (fast), `/grill-me` (interactive planning), or `/goal` (autonomous long-running execution). Knows the real REPL slash commands, the headless `-p` flag, conversation resume, sandboxing, plugins, and the on-disk state layout under `~/.gemini/antigravity-cli/`.",
+      "path": ".claude/skills/agy-cli",
+      "files": 1,
+      "category": "frontend"
+    },
     {
       "name": "better-auth",
       "description": "Better Auth integration guide for TypeScript/JavaScript authentication. Covers server/client configuration, database adapters, session management, plugins, OAuth, and scaffolding auth from scratch. Use when setting up authentication with Better Auth, configuring auth.ts, adding OAuth providers, or creating sign-in/sign-up flows.",
