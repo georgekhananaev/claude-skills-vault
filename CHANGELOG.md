@@ -8,11 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-- **skills**: Add `vercel-cli` — safety-first wrapper for the latest Vercel CLI (`vercel`/`vc`) giving full project control with risk-tiered confirmation (Safe → execute, Write → inform, Destructive → `AskUserQuestion`, Forbidden → typed multi-step confirm). Embeds per-command doc URIs so it self-heals by fetching official docs (`/docs/cli/<command>`) when a command fails or is renamed. SKILL.md kept lean (~1741 tok, hot path) with the 4-tier model, decision flow, Forbidden list, production-deploy protocol, and doc-URI map; full command surface + safety rules in `references/`. Command tiers and subcommand names verified against live Vercel docs (May 2026) — including the routes/redirects/firewall staging model and `firewall system-mitigations pause` gated as Forbidden (removes DDoS protection).
 
 ### Changed
 
 ### Fixed
+
+## [1.7.2] - 2026-05-29
+
+### Added
+- **skills**: Add `vercel-cli` — safety-first wrapper for the latest Vercel CLI (`vercel`/`vc`) giving full project control with risk-tiered confirmation (Safe → execute, Write → inform, Destructive → `AskUserQuestion`, Forbidden → typed multi-step confirm). Embeds per-command doc URIs so it self-heals by fetching official docs (`/docs/cli/<command>`) when a command fails or is renamed. SKILL.md kept lean (~1741 tok, hot path) with the 4-tier model, decision flow, Forbidden list, production-deploy protocol, and doc-URI map; full command surface + safety rules in `references/`. Command tiers and subcommand names verified against live Vercel docs (May 2026) — including the routes/redirects/firewall staging model and `firewall system-mitigations pause` gated as Forbidden (removes DDoS protection).
 
 ## [1.7.1] - 2026-05-25
 
