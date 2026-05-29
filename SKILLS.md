@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (57)
+## Core Skills (58)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -60,6 +60,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **ui-ux-pro-max** | UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings, … | `npx claude-skills-vault install ui-ux-pro-max` |
 | **uiux-toolkit** | Comprehensive UX/UI evaluation meta-skill combining design theory and… | `npx claude-skills-vault install uiux-toolkit` |
 | **upgrade-packages-js** | Safely upgrade JavaScript packages with breaking change detection, mi… | `npx claude-skills-vault install upgrade-packages-js` |
+| **vercel-cli** | Safety-first Vercel CLI (`vercel`/`vc`) skill to fully manage project… | `npx claude-skills-vault install vercel-cli` |
 | **vercel-react-native-skills** | React Native and Expo best practices for building performant mobile a… | `npx claude-skills-vault install vercel-react-native-skills` |
 | **web-quality** | Web quality optimization skills based on Google Lighthouse guidelines… | `npx claude-skills-vault install web-quality` |
 | **webapp-testing** | Toolkit for interacting with and testing local web applications using… | `npx claude-skills-vault install webapp-testing` |

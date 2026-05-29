@@ -1,6 +1,6 @@
 {
   "version": "1.7.1",
-  "generated": "2026-05-25T12:11:18.145Z",
+  "generated": "2026-05-29T08:53:55.105Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -295,7 +295,7 @@
       "name": "skill-creator",
       "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
       "path": ".claude/skills/skill-creator",
-      "files": 5,
+      "files": 6,
       "category": "productivity"
     },
     {
@@ -391,6 +391,14 @@
       "files": 2,
       "category": "devops",
       "author": "Palakorn V. <palakorn@me.com>"
+    },
+    {
+      "name": "vercel-cli",
+      "description": "Safety-first Vercel CLI (`vercel`/`vc`) skill to fully manage projects from the terminal — deploys, env vars, domains, DNS, certs, projects, teams, logs, rollbacks, promotions, firewall, and `vercel api`. Classifies each command by risk tier and gates destructive/forbidden ops behind confirmation. Self-heals via embedded doc URIs.",
+      "path": ".claude/skills/vercel-cli",
+      "files": 3,
+      "category": "backend",
+      "author": "George Khananaev"
     },
     {
       "name": "vercel-composition-patterns",
