@@ -1,6 +1,6 @@
 ---
 name: agy-cli
-description: Run Google's Antigravity CLI (`agy`) — an agentic coding assistant powered by Gemini 3 (with Claude/GPT model access). Use when the user says "run/ask/use agy", "antigravity", wants a second-opinion audit from Gemini's agentic stack, or wants Claude to delegate a build/refactor task with the three effort tiers: default chat (fast), `/grill-me` (interactive planning), or `/goal` (autonomous long-running execution). Knows the real REPL slash commands, the headless `-p` flag, conversation resume, sandboxing, plugins, and the on-disk state layout under `~/.gemini/antigravity-cli/`.
+description: Run Google's Antigravity CLI (`agy`) — an agentic coding assistant powered by Gemini 3 (with Claude/GPT model access). Use when the user says "run/ask/use agy", "antigravity", wants a second-opinion audit from Gemini's agentic stack, or wants Claude to delegate a build/refactor task with the three effort tiers: default chat (fast), `/grill-me` (interactive planning), or `/goal` (autonomous long-running execution). Ships a heartbeat-guarded runner (`agy_run.sh`) so headless `/goal` runs never blind-hang — it watches the agy log and kills stalls in ≤3m instead of waiting out a 45m timeout — plus a session preflight (`agy_preflight.sh`) for updates, model report, and config repair. Knows the real REPL slash commands, the headless `-p` flag, conversation resume, sandboxing, plugins, and the on-disk state layout under `~/.gemini/antigravity-cli/`.
 ---
 
 # Antigravity CLI (`agy`)
@@ -18,12 +18,19 @@ Use it when the user:
 Already installed on this user's system at `/Users/george/.local/bin/agy`. For others:
 
 ```bash
-# Verify install + login
-agy changelog                  # prints version notes (no --version flag exists)
+agy changelog                  # version notes (no --version flag exists)
 agy install                    # configure PATH + shell aliases (idempotent)
 ```
 
 First-time login is interactive (OAuth via browser). State lives at `~/.gemini/antigravity-cli/`.
+
+**Run the preflight once at the start of an agy delegation session** — it checks for/applies CLI updates (keeps you on the newest build), reports the active model, and repairs the empty `mcp_config.json` that otherwise errors on every startup:
+
+```bash
+.claude/skills/agy-cli/scripts/agy_preflight.sh --fix
+```
+
+Leave auto-update **on** for interactive use (the user wants the latest). Only set `AGY_CLI_DISABLE_AUTO_UPDATE=T` in throwaway CI where update pings are unwanted.
 
 ## The Three Effort Tiers (the key mental model)
 
@@ -65,35 +72,48 @@ agy --sandbox --dangerously-skip-permissions -p "/goal Try three refactor approa
 agy -i "Start a fastify scaffold"
 ```
 
-## Efficient execution (do not idle-wait)
+## No more 10-minute hangs: the heartbeat runner
 
-`--print-timeout` is a **ceiling**, not a sleep. `agy -p` exits the instant the model finishes — a `30m` timeout on a job that completes in 45s exits in 45s. The only way Claude can waste those 29 idle minutes is by **polling** the output file in a sleep loop instead of letting the harness notify on process exit.
+**Why bare `agy -p` hangs.** `agy -p` buffers all output to the end (no streaming) and can stall silently: a tool that tries to escape the sandbox waits for a TTY approval that never comes headless, an SSE/network turn stalls, or quota throttles mid-run. With a bare call Claude then blind-waits up to `--print-timeout` — and the old advice was to set that to 20–45m. That is the 10-minute (or worse) dead wait. Verified on this machine: agy writes its `--log-file` every <4s while healthy, so *log silence is a reliable stall signal*.
 
-**Always run `agy -p` with `run_in_background: true` and let the task-completion notification wake Claude.** The harness streams the exit event the moment the process ends; no polling, no sleeps, no extra cost.
+**The fix — always run `/goal` and any multi-step task through the heartbeat runner**, `scripts/agy_run.sh`. It launches agy with a `--log-file`, watches that log for liveness, and exits the instant agy **finishes** OR the log goes **silent for `--stall` seconds** (default 180) — killing the whole process tree. A 10–45m blind wait becomes ≤3m stall detection. Launch it with `run_in_background: true` so the harness fires one completion notification.
 
 ```text
-# RIGHT — fires Claude exactly when agy exits, whether that's 30s or 30m
-Bash(command="agy --add-dir \"$(pwd)\" --print-timeout 30m -p \"/goal ...\"",
+# RIGHT — heartbeat-guarded; one notification on done / stalled / timeout
+Bash(command=".claude/skills/agy-cli/scripts/agy_run.sh \
+      --label healthz --timeout 30m --add-dir \"$(pwd)\" --sandbox --skip-perms \
+      \"/goal Add a /healthz route with a unit test\"",
      run_in_background=true)
-# → wait for the task-completion notification, then Read the output file
+# → on notification, read stdout: it prints an AGY_STATUS block. Then Read AGY_STDOUT.
 
-# WRONG — burns wall-clock time and prompt cache
-Bash(command="agy ... -p \"/goal ...\"")            # foreground blocks Claude
-sleep 600 && cat /tmp/agy.out                       # polling = idle waste
+# WRONG — bare call: buffers, can stall, blind-waits the full timeout
+Bash(command="agy --print-timeout 45m -p \"/goal ...\"")
 ```
 
-Sizing the timeout:
+The runner prints a parseable status block and sets an exit code:
 
-| Task shape | Suggested `--print-timeout` |
-|------------|------------------------------|
-| Q&A, short generation, code review of a file or two | omit (default 5m is plenty) |
+| exit | `AGY_STATUS` | meaning → action |
+|------|-------------|------------------|
+| 0 | `done` | agy exited cleanly. Read `AGY_STDOUT`; for `/goal`, read `AGY_BRAIN/walkthrough.md`. |
+| 1 | `stalled` | log silent ≥`--stall`s, killed. See `AGY_HINT` (often: a sandbox-escape prompt → add `--skip-perms`, or an SSE/quota stall). Inspect `AGY_LOG` tail before retrying. |
+| 2 | `timeout` | hit the `--timeout` ceiling while still active. Raise `--timeout` or narrow the task. |
+| 4 | (any) + `AGY_ERROR_SIGNAL` | auth/quota/rate-limit found in stdout. **STOP, do not retry**, back off ≥60s. |
+| 3 | `error` | bad args (e.g. missing prompt). |
+
+It also surfaces `AGY_MODEL` (parsed from the log) so you can see which model actually ran.
+
+Key flags: `--stall N` (silence threshold, default 180), `--timeout DUR` (hard ceiling, default 30m), `--add-dir`, `--sandbox`, `--skip-perms`, `--continue`, `--conversation U`, `--label NAME`. Run `agy_run.sh` with no prompt to see full usage.
+
+Sizing `--timeout` (the hard ceiling; the heartbeat catches stalls long before this):
+
+| Task shape | `--timeout` |
+|------------|-------------|
+| Q&A / short generation / 1–2 file review | omit the runner — a bare `agy -p` is fine (short, won't stall) |
 | Multi-file audit, small refactor | `10m` |
 | `/goal` for a feature in an existing codebase | `20m` |
-| `/goal` for a from-scratch project or large migration | `45m`–`1h` |
+| `/goal` from-scratch project or large migration | `45m`–`1h` |
 
-Pick generously — early exit is free, late exit kills the run mid-thought.
-
-For very long `/goal` runs also pass `--log-file /tmp/agy-<task>.log` so progress is inspectable while it works, without re-running the prompt.
+Quick Q&A can still use a bare `agy -p "…"` (it returns in seconds and can't meaningfully stall). Reserve the runner for `/goal` and anything multi-step.
 
 ### Resuming conversations
 
@@ -125,7 +145,15 @@ These only work **inside the interactive REPL** (or as the first token of a `-p`
 
 > Do **not** trust any other slash command list a model claims `agy` has — many are commonly hallucinated (e.g. `/model`, `/effort`, `/thinking`, `/agents`, `/keybindings`, `/export`, `/permissions`, `/switch`, `/rewind`, `/undo`). They are not in the changelog. If unsure, run `/help` interactively.
 
-There is **no CLI flag** for model selection or reasoning effort (`--model`, `--effort`, `--reasoning`, `--thinking` all error with `flags provided but not defined`). Model + effort are set inside `/settings` and `/config`.
+### Model selection ("always the newest model")
+
+There is **no CLI flag** for model or reasoning effort (`--model`, `--effort`, `--reasoning`, `--thinking` all error with `flags provided but not defined`). The model is chosen in the REPL `/settings` (or `/config`) and **persists** across runs — it is not stored in a file you can safely hand-edit.
+
+So the workflow for "always newest model":
+1. Once, in the interactive REPL: `/settings` → pick the top tier (the Pro/Max Gemini 3.x, not Flash/Lite). It sticks for all later headless runs.
+2. Every run, `agy_run.sh` prints `AGY_MODEL=` (and `agy_preflight.sh` reports it) by parsing the run log's `model_config_manager` line. If it shows a Flash/low tier on a hard task, tell the user to switch it in `/settings`.
+
+On this machine the selected model is currently **`Gemini 3.5 Flash (Medium)`** — fast, but switch to the Pro tier for serious `/goal` work.
 
 ## Subcommands
 
@@ -188,12 +216,13 @@ When a `/goal` run finishes, **read its `walkthrough.md` and `task.md`** from th
 ## Critical gotchas
 
 1. **No TTY = no REPL.** Anything other than `agy -p …` will fail with `bubbletea: could not open TTY` when invoked from Claude's Bash. Always use `-p`.
-2. **Print timeout kills `/goal`.** Default 5 minutes is short for autonomous builds — pass `--print-timeout 20m` or longer. (Long timeout ≠ long wait; see "Efficient execution" above.)
+2. **Bare `agy -p` for `/goal` is the hang.** It buffers output to the end and can stall with no TTY to approve a sandbox-escape, leaving Claude to blind-wait the full `--print-timeout`. Route `/goal` and multi-step tasks through `scripts/agy_run.sh` (heartbeat watchdog) — see "No more 10-minute hangs" above. Default print timeout (5m) is also too short for builds; the runner defaults `--timeout` to 30m.
 3. **`/help` in `-p` mode is just a prompt.** The model will hallucinate slash commands it doesn't have. The list above is the verified one.
 4. **`--dangerously-skip-permissions` lets agy run any shell command and edit any file in the workspace without asking.** Pair with `--sandbox` and a narrowly scoped `--add-dir` when delegating from Claude.
 5. **No `--model` / `--effort` flag exists.** Effort = which slash command you prefix. Model = `/settings` inside the REPL.
 6. **Workspace defaults to `~/.gemini/antigravity-cli/scratch`** if not invoked from a trusted directory. Use `--add-dir $(pwd)` when running headless so the agent operates on your actual project.
 7. **`agy` drops `.antigravitycli/` into the workspace root** the first time it's run there — a symlink folder pointing to `~/.gemini/config/projects/<uuid>.json`. Add `.antigravitycli/` to `.gitignore` (already done in this repo).
+8. **Empty `~/.gemini/config/mcp_config.json` throws on every startup** (`unexpected end of JSON input`). Harmless but noisy. `agy_preflight.sh --fix` resets it to `{}` (with a backup).
 
 ## Staying under quota and not tripping abuse heuristics
 
@@ -213,7 +242,7 @@ Antigravity rides on a single OAuth session against Google's Gemini/Antigravity 
 - On 429, back off at least 60s before any subsequent call, and prefer a smaller default-chat prompt to confirm the account is live before resuming `/goal` work.
 
 **Environment**
-- Set `AGY_CLI_DISABLE_AUTO_UPDATE=T` in CI/scripted contexts so each invocation doesn't ping the update endpoint.
+- Keep auto-update **on** for interactive use (the user wants the newest build); run `agy_preflight.sh` once per session to apply updates. Only set `AGY_CLI_DISABLE_AUTO_UPDATE=T` in throwaway CI where update pings are unwanted.
 - Set `AGY_CLI_HIDE_ACCOUNT_INFO=T` if streaming agy output anywhere shareable, to keep the user's email and plan tier out of logs.
 - Do **not** wrap `agy` in retry-on-failure loops (`while ! agy …; do …; done`). Failed auth or quota errors must surface, not auto-retry.
 
@@ -229,9 +258,11 @@ agy --add-dir "$(pwd)" -p "Audit src/auth/ for OWASP issues. Report only — do 
 # Quick Q&A / one-shot generation
 agy -p "Write a regex that matches RFC 5322 email addresses, with one-line explanation."
 
-# Delegated build (autonomous, expect minutes)
-agy --add-dir "$(pwd)" --print-timeout 30m \
-    -p "/goal Add a /healthz endpoint to the Fastify server in src/api with a unit test."
+# Delegated build (autonomous, expect minutes) — via the heartbeat runner
+.claude/skills/agy-cli/scripts/agy_run.sh --label healthz --timeout 30m \
+    --add-dir "$(pwd)" --sandbox --skip-perms \
+    "/goal Add a /healthz endpoint to the Fastify server in src/api with a unit test."
+# Launch with run_in_background: true; on the notification, read the AGY_STATUS block.
 
 # Interview-first design alignment (must be interactive — tell the user to run it themselves)
 # In REPL: /grill-me Build a Slack bot that summarizes our standup channel daily
@@ -245,9 +276,9 @@ agy -c --add-dir "$(pwd)" -p "Now add error handling to the route we built"
 
 ## Best practices (quick checklist)
 
-- Default to `-p` + a precise prompt. Don't escalate to `/goal` for things a short prompt can answer.
-- Use `/goal` only when you want files on disk; pair with `--print-timeout` ≥ `20m`, `--add-dir "$(pwd)"`, and `run_in_background: true`.
-- `--print-timeout` is a ceiling, not a sleep — make it generous, let exit-notification wake Claude (see "Efficient execution").
+- Run `agy_preflight.sh --fix` once at session start (updates + model report + config repair).
+- Bare `agy -p "…"` is fine for quick Q&A. For `/goal` and any multi-step task use `scripts/agy_run.sh` (heartbeat watchdog) with `run_in_background: true` — never bare `agy -p "/goal …"` (that's the hang).
+- `--stall` (default 180s) catches hangs in ≤3m; `--timeout` is just the hard ceiling. On `AGY_STATUS=stalled`, read `AGY_HINT` before retrying.
 - `/grill-me` is interactive-only — instruct the user to run it themselves; Claude cannot drive it through Bash.
 - For risky delegated work: `--sandbox` + `--dangerously-skip-permissions` + narrow `--add-dir`. Never the middle two without the first.
 - Serialize agy calls. Never run two in parallel. On `429` / quota errors: stop, report, do not retry.

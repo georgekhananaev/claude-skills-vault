@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **skills**: `agy-cli` gains a heartbeat-guarded runner (`scripts/agy_run.sh`) and a session preflight (`scripts/agy_preflight.sh`). The runner watches agy's `--log-file` and exits the moment agy finishes OR the log goes silent for `--stall` seconds (default 180), killing the whole process tree — turning the prior 10–45m blind wait on a stalled `/goal` into ≤3m detection. It prints a parseable `AGY_STATUS` block (done/stalled/timeout, exit 0/1/2/3, plus exit 4 + `AGY_ERROR_SIGNAL` on auth/quota) and surfaces the active model. Preflight does the session-start update check (keeps you on the newest build), reports the selected model, and repairs the 0-byte `~/.gemini/config/mcp_config.json` that throws on every startup. Behaviour verified empirically against agy 1.0.2→1.0.3 on macOS (healthy runs log every <4s; stall caught in ~13s in tests).
 
 ### Changed
+- **skills**: Rework `agy-cli` SKILL.md — the heartbeat runner replaces the old "set a generous `--print-timeout` and blind-wait" advice (the root cause of the hangs); clarify there is no headless model flag (selection persists from REPL `/settings`, currently Gemini 3.5 Flash); flip the auto-update guidance to keep updates on for interactive use; add stall-cause and `mcp_config.json` gotchas.
 
 ### Fixed
 

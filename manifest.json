@@ -1,12 +1,12 @@
 {
   "version": "1.7.2",
-  "generated": "2026-05-29T08:56:52.509Z",
+  "generated": "2026-05-30T06:00:49.934Z",
   "skills": [
     {
       "name": "agy-cli",
-      "description": "Run Google's Antigravity CLI (`agy`) — an agentic coding assistant powered by Gemini 3 (with Claude/GPT model access). Use when the user says \"run/ask/use agy\", \"antigravity\", wants a second-opinion audit from Gemini's agentic stack, or wants Claude to delegate a build/refactor task with the three effort tiers: default chat (fast), `/grill-me` (interactive planning), or `/goal` (autonomous long-running execution). Knows the real REPL slash commands, the headless `-p` flag, conversation resume, sandboxing, plugins, and the on-disk state layout under `~/.gemini/antigravity-cli/`.",
+      "description": "Run Google's Antigravity CLI (`agy`) — an agentic coding assistant powered by Gemini 3 (with Claude/GPT model access). Use when the user says \"run/ask/use agy\", \"antigravity\", wants a second-opinion audit from Gemini's agentic stack, or wants Claude to delegate a build/refactor task with the three effort tiers: default chat (fast), `/grill-me` (interactive planning), or `/goal` (autonomous long-running execution). Ships a heartbeat-guarded runner (`agy_run.sh`) so headless `/goal` runs never blind-hang — it watches the agy log and kills stalls in ≤3m instead of waiting out a 45m timeout — plus a session preflight (`agy_preflight.sh`) for updates, model report, and config repair. Knows the real REPL slash commands, the headless `-p` flag, conversation resume, sandboxing, plugins, and the on-disk state layout under `~/.gemini/antigravity-cli/`.",
       "path": ".claude/skills/agy-cli",
-      "files": 1,
+      "files": 3,
       "category": "devops"
     },
     {
