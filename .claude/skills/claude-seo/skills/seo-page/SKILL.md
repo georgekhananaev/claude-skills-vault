@@ -3,7 +3,15 @@ name: seo-page
 description: >
   Deep single-page SEO analysis covering on-page elements, content quality,
   technical meta tags, schema, images, and performance. Use when user says
-  "analyze this page", "check page SEO", or provides a single URL for review.
+  "analyze this page", "check page SEO", "single URL", "check this page",
+  "page analysis", or provides a single URL for review.
+user-invokable: true
+argument-hint: "[url]"
+license: MIT
+metadata:
+  author: AgriciDaniel
+  version: "2.0.0"
+  category: seo
 ---
 
 # Single Page Analysis
@@ -44,9 +52,9 @@ description: >
 - File size: flag >200KB (warning), >500KB (critical)
 - Format: recommend WebP/AVIF over JPEG/PNG
 - Dimensions: width/height set for CLS prevention
-- Lazy loading: loading="lazy" on below-fold images
+- Lazy loading: report `lazy_method` per image (native | perfmatters | ewww | js-generic | none). Do not flag "not lazy-loaded" when JS lazy-loaders (Perfmatters, EWWW, lazysizes) are detected — they intentionally strip the native `loading="lazy"` attribute and use `data-src` placeholders
 
-### Core Web Vitals (reference only — not measurable from HTML alone)
+### Core Web Vitals (reference only, not measurable from HTML alone)
 - Flag potential LCP issues (huge hero images, render-blocking resources)
 - Flag potential INP issues (heavy JS, no async/defer)
 - Flag potential CLS issues (missing image dimensions, injected content)
@@ -65,7 +73,7 @@ Images:          XX/100  ████████░░
 ```
 
 ### Issues Found
-Organized by priority: Critical → High → Medium → Low
+Organized by priority: Critical -> High -> Medium -> Low
 
 ### Recommendations
 Specific, actionable improvements with expected impact
@@ -76,3 +84,11 @@ Ready-to-use JSON-LD code for detected opportunities
 ## DataForSEO Integration (Optional)
 
 If DataForSEO MCP tools are available, use `serp_organic_live_advanced` for real SERP positions and `backlinks_summary` for backlink data and spam scores.
+
+## Error Handling
+
+| Scenario | Action |
+|----------|--------|
+| URL unreachable (DNS failure, connection refused) | Report the error clearly. Do not guess page content. Suggest the user verify the URL and try again. |
+| Page requires authentication (401/403) | Report that the page is behind authentication. Suggest the user provide the rendered HTML directly or a publicly accessible URL. |
+| JavaScript-rendered content (empty body in HTML) | Note that key content may be rendered client-side. Analyze the available HTML and flag that results may be incomplete. Suggest using a browser-rendered snapshot if available. |

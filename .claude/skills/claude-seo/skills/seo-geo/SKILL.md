@@ -8,9 +8,33 @@ description: >
   platform-specific optimization. Use when user says "AI Overviews", "SGE",
   "GEO", "AI search", "LLM optimization", "Perplexity", "AI citations",
   "ChatGPT search", or "AI visibility".
+user-invokable: true
+argument-hint: "[url]"
+license: MIT
+metadata:
+  author: AgriciDaniel
+  version: "2.0.0"
+  category: seo
 ---
 
-# AI Search / GEO Optimization (February 2026)
+# AI Search / GEO Optimization (May 2026)
+
+## Primary Source: Google's AI Optimization Guide
+
+Google's official position, published under Search Central docs:
+
+> "Optimizing for generative AI search is **still SEO** from Google's
+> perspective. AEO and GEO are rebranded labels for the same work."
+
+Read `references/google-ai-optimization-guide.md` for the full synthesis,
+myth-busting list (`llms.txt`, chunking, AI-rephrasing, mention-farming —
+all rejected by Google as ineffective), and the Who/How/Why test for
+content quality.
+
+Audits should frame GEO findings as **SEO fundamentals applied to AI-search
+surfaces**, not as a separate optimization discipline. When community
+recommendations contradict Google's primary source, defer to Google and note
+the contradiction in the report.
 
 ## Key Statistics
 
@@ -24,7 +48,7 @@ description: >
 
 ## Critical Insight: Brand Mentions > Backlinks
 
-**Brand mentions correlate 3× more strongly with AI visibility than backlinks.**
+**Brand mentions correlate 3x more strongly with AI visibility than backlinks.**
 (Ahrefs December 2025 study of 75,000 brands)
 
 | Signal | Correlation with AI Citations |
@@ -35,7 +59,7 @@ description: >
 | LinkedIn presence | Moderate |
 | Domain Rating (backlinks) | ~0.266 (weak) |
 
-**Only 11% of domains** are cited by both ChatGPT and Google AI Overviews for the same query — platform-specific optimization is essential.
+**Only 11% of domains** are cited by both ChatGPT and Google AI Overviews for the same query, so platform-specific optimization is essential.
 
 ---
 
@@ -61,10 +85,10 @@ description: >
 
 ### 2. Structural Readability (20%)
 
-**92% of AI Overview citations come from top-10 ranking pages**, but 47% come from pages ranking below position 5 — demonstrating different selection logic.
+**92% of AI Overview citations come from top-10 ranking pages**, but 47% come from pages ranking below position 5, demonstrating different selection logic.
 
 **Strong signals:**
-- Clean H1→H2→H3 heading hierarchy
+- Clean H1->H2->H3 heading hierarchy
 - Question-based headings (matches query patterns)
 - Short paragraphs (2-4 sentences)
 - Tables for comparative data
@@ -107,7 +131,7 @@ Content with multi-modal elements sees **156% higher selection rates**.
 
 ### 5. Technical Accessibility (20%)
 
-**AI crawlers do NOT execute JavaScript** — server-side rendering is critical.
+**AI crawlers do NOT execute JavaScript.** Server-side rendering is critical.
 
 **Check for:**
 - Server-side rendering (SSR) vs client-only content
@@ -138,6 +162,8 @@ Check `robots.txt` for these AI crawlers:
 ---
 
 ## llms.txt Standard
+
+Read `references/llmstxt-evidence.md` for the primary-source evidence (Mueller, Illyes, SE Ranking 300k-domain study, OtterlyAI server-log audit) on why `/llms.txt` is not currently a citation lever for major AI search systems. claude-seo reports presence but assigns no citation-ranking weight.
 
 The emerging **llms.txt** standard provides AI crawlers with structured content guidance.
 
@@ -233,3 +259,16 @@ Generate `GEO-ANALYSIS.md` with:
 ## DataForSEO Integration (Optional)
 
 If DataForSEO MCP tools are available, use `ai_optimization_chat_gpt_scraper` to check what ChatGPT web search returns for target queries (real GEO visibility check) and `ai_opt_llm_ment_search` with `ai_opt_llm_ment_top_domains` for LLM mention tracking across AI platforms.
+
+## Error Handling
+
+| Scenario | Action |
+|----------|--------|
+| URL unreachable (DNS failure, connection refused) | Report the error clearly. Do not guess site content. Suggest the user verify the URL and try again. |
+| AI crawlers blocked by robots.txt | Report exactly which crawlers are blocked and which are allowed. Provide specific robots.txt directives to add for enabling AI search visibility. |
+| No llms.txt found | Note the absence and provide a ready-to-use llms.txt template based on the site's content structure. |
+| No structured data detected | Report the gap and provide specific schema recommendations (Article, Organization, Person) for improving AI discoverability. |
+
+## FLOW Framework Integration
+
+For prompt-guided AI content optimization, use `/seo flow optimize <url>` — FLOW's 21 optimize-stage prompts complement GEO's citability and structure analysis with evidence-led AI prompts.

@@ -5,6 +5,13 @@ description: >
   URL structure, mobile, Core Web Vitals, structured data, JavaScript rendering,
   and IndexNow protocol. Use when user says "technical SEO", "crawl issues",
   "robots.txt", "Core Web Vitals", "site speed", or "security headers".
+user-invokable: true
+argument-hint: "[url]"
+license: MIT
+metadata:
+  author: AgriciDaniel
+  version: "2.0.0"
+  category: seo
 ---
 
 # Technical SEO Audit
@@ -40,7 +47,7 @@ As of 2025-2026, AI companies actively crawl the web to train models and power A
 - Blocking `GPTBot` prevents OpenAI training but does NOT prevent ChatGPT from citing your content via browsing (`ChatGPT-User`)
 - ~3-5% of websites now use AI-specific robots.txt rules
 
-**Example — selective AI crawler blocking:**
+**Example, selective AI crawler blocking:**
 ```
 # Allow search indexing, block AI training crawlers
 User-agent: GPTBot
@@ -110,7 +117,7 @@ Allow: /
 - Flag SPA frameworks (React, Vue, Angular) that may cause indexing issues
 - Verify dynamic rendering setup if applicable
 
-#### JavaScript SEO — Canonical & Indexing Guidance (December 2025)
+#### JavaScript SEO: Canonical & Indexing Guidance (December 2025)
 
 Google updated its JavaScript SEO documentation in December 2025 with critical clarifications:
 
@@ -126,6 +133,35 @@ Google updated its JavaScript SEO documentation in December 2025 with critical c
 - Supported by search engines other than Google
 - Recommend implementation for faster indexing on non-Google engines
 
+## Agent-Friendly Pages (forward-looking)
+
+AI agents (not just AI summarizers) increasingly read sites through three
+channels: vision models on screenshots, raw HTML/DOM, and the **accessibility
+tree** (the cleanest signal). Audit criteria — semantic HTML (real `<button>`
+and `<a>`, not `<div onclick>`), label associations, interactive target sizing,
+layout stability across templates, `cursor: pointer` correctness — live in
+`references/agent-friendly-pages.md`.
+
+### Audit command
+
+```bash
+# Render with Playwright + capture accessibility tree, then score
+python scripts/agent_ux_check.py https://example.com --json
+```
+
+The scanner outputs an Agent-UX score (0-100) plus itemized issues:
+- HTML findings: real buttons / anchors, `<div onclick>` widgets, semantic
+  landmarks, inputs without `<label for>`, inputs without ARIA labels
+- Accessibility tree findings: total nodes, interactive nodes, unnamed
+  interactive elements, `role="generic"` ratio
+
+The accessibility-tree snapshot uses Playwright's
+`page.accessibility.snapshot(interesting_only=False)`. To capture the tree
+without scoring, use `python scripts/render_page.py <url> --a11y-tree --json`.
+
+Surface findings as **opportunities**, not failures. The standards (WebMCP,
+agent UX heuristics) are early — don't gate audits on a sub-100 score.
+
 ## Output
 
 ### Technical Score: XX/100
@@ -133,15 +169,15 @@ Google updated its JavaScript SEO documentation in December 2025 with critical c
 ### Category Breakdown
 | Category | Status | Score |
 |----------|--------|-------|
-| Crawlability | ✅/⚠️/❌ | XX/100 |
-| Indexability | ✅/⚠️/❌ | XX/100 |
-| Security | ✅/⚠️/❌ | XX/100 |
-| URL Structure | ✅/⚠️/❌ | XX/100 |
-| Mobile | ✅/⚠️/❌ | XX/100 |
-| Core Web Vitals | ✅/⚠️/❌ | XX/100 |
-| Structured Data | ✅/⚠️/❌ | XX/100 |
-| JS Rendering | ✅/⚠️/❌ | XX/100 |
-| IndexNow | ✅/⚠️/❌ | XX/100 |
+| Crawlability | pass/warn/fail | XX/100 |
+| Indexability | pass/warn/fail | XX/100 |
+| Security | pass/warn/fail | XX/100 |
+| URL Structure | pass/warn/fail | XX/100 |
+| Mobile | pass/warn/fail | XX/100 |
+| Core Web Vitals | pass/warn/fail | XX/100 |
+| Structured Data | pass/warn/fail | XX/100 |
+| JS Rendering | pass/warn/fail | XX/100 |
+| IndexNow | pass/warn/fail | XX/100 |
 
 ### Critical Issues (fix immediately)
 ### High Priority (fix within 1 week)
@@ -151,3 +187,16 @@ Google updated its JavaScript SEO documentation in December 2025 with critical c
 ## DataForSEO Integration (Optional)
 
 If DataForSEO MCP tools are available, use `on_page_instant_pages` for real page analysis (status codes, page timing, broken links, on-page checks), `on_page_lighthouse` for Lighthouse audits (performance, accessibility, SEO scores), and `domain_analytics_technologies_domain_technologies` for technology stack detection.
+
+## Google API Integration (Optional)
+
+If Google API credentials are configured, use `python scripts/pagespeed_check.py <url> --json` for real PSI + CrUX field data (replaces lab-only CWV estimates), `python scripts/crux_history.py <url> --json` for 25-week CWV trends, and `python scripts/gsc_inspect.py <url> --json` for real indexation status per URL.
+
+## Error Handling
+
+| Scenario | Action |
+|----------|--------|
+| URL unreachable | Report connection error with status code. Suggest verifying URL, checking DNS resolution, and confirming the site is publicly accessible. |
+| robots.txt not found | Note that no robots.txt was detected at the root domain. Recommend creating one with appropriate directives. Continue audit on remaining categories. |
+| HTTPS not configured | Flag as a critical issue. Report whether HTTP is served without redirect, mixed content exists, or SSL certificate is missing/expired. |
+| Core Web Vitals data unavailable | Note that CrUX data is not available (common for low-traffic sites). Suggest using Lighthouse lab data as a proxy and recommend increasing traffic before re-testing. |

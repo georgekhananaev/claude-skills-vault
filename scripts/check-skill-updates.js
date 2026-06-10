@@ -66,6 +66,8 @@ const EXTERNAL_SKILLS = [
   },
   {
     name: "claude-seo",
+    // Root SKILL.md is vault-adapted; track a vanilla-synced sub-skill instead
+    localPath: "claude-seo/skills/seo-audit/SKILL.md",
     url: "https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/skills/seo-audit/SKILL.md",
   },
   {
@@ -82,8 +84,10 @@ function hash(content) {
   return crypto.createHash("sha256").update(content).digest("hex").slice(0, 12);
 }
 
-function readLocal(skillName) {
-  const skillFile = path.join(SKILLS_DIR, skillName, "SKILL.md");
+function readLocal(skill) {
+  const skillFile = skill.localPath
+    ? path.join(SKILLS_DIR, skill.localPath)
+    : path.join(SKILLS_DIR, skill.name, "SKILL.md");
   try {
     return fs.readFileSync(skillFile, "utf-8");
   } catch {
@@ -125,7 +129,7 @@ async function main() {
   let skipped = 0;
 
   for (const skill of EXTERNAL_SKILLS) {
-    const local = readLocal(skill.name);
+    const local = readLocal(skill);
     if (!local) {
       console.log(`  \u26A0  ${skill.name} — not installed locally`);
       errors++;
