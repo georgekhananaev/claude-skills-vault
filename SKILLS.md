@@ -2,11 +2,12 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (58)
+## Core Skills (59)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
 | **agy-cli** | Run Google's Antigravity CLI (`agy`) — an agentic coding assistant po… | `npx claude-skills-vault install agy-cli` |
+| **aws-cli** | Safety-first AWS CLI v2 skill for full control of AWS from the termin… | `npx claude-skills-vault install aws-cli` |
 | **better-auth** | Better Auth integration guide for TypeScript/JavaScript authenticatio… | `npx claude-skills-vault install better-auth` |
 | **brainstorm** | Transform ideas into fully-formed designs through collaborative dialo… | `npx claude-skills-vault install brainstorm` |
 | **claude-seo** | SEO toolkit with 12 specialist sub-skills — full site audits, technic… | `npx claude-skills-vault install claude-seo` |

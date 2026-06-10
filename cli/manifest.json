@@ -1,6 +1,6 @@
 {
   "version": "1.7.3",
-  "generated": "2026-05-30T06:02:41.885Z",
+  "generated": "2026-06-10T05:13:58.892Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -8,6 +8,14 @@
       "path": ".claude/skills/agy-cli",
       "files": 3,
       "category": "devops"
+    },
+    {
+      "name": "aws-cli",
+      "description": "Safety-first AWS CLI v2 skill for full control of AWS from the terminal — EC2, S3, IAM, Lambda, RDS, DynamoDB, CloudFormation, Route 53, EKS/ECS, logs, billing & 300+ services. Classifies every command by risk tier via a deterministic classifier script and gates destructive/breaking/cost-incurring ops behind AskUserQuestion confirmation. Account/region/profile preflight prevents wrong-account accidents. Use when running, planning, or debugging any `aws` command.",
+      "path": ".claude/skills/aws-cli",
+      "files": 7,
+      "category": "devops",
+      "author": "George Khananaev"
     },
     {
       "name": "better-auth",
