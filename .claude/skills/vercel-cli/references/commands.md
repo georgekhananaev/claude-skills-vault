@@ -7,6 +7,25 @@ Overview: https://vercel.com/docs/cli · Global options: https://vercel.com/docs
 Tiers: **S**=Safe · **W**=Write · **D**=Destructive · **F**=Forbidden
 (see [safety-rules.md](safety-rules.md)). Self-heal recipe lives in SKILL.md.
 
+## New & notable (2026 surface)
+
+| Command | Tier | Purpose | Doc URI |
+|---------|------|---------|---------|
+| `vercel upgrade [--enable-auto]` | W | Self-update the CLI (replaces npm reinstall) | /docs/cli/upgrade |
+| `vercel agent` | W | Vercel Agent investigations/code review | /docs/cli/agent |
+| `vercel ai-gateway api-keys ls/create` | S/W | AI Gateway keys (create can set budget — spend-adjacent, confirm budget) | /docs/cli/ai-gateway |
+| `vercel crons ls/run` | S/W | List cron jobs / trigger one manually (beta) | /docs/cli/crons |
+| `vercel deploy-hooks ls/create/rm` | S/W/D | Deploy hooks (rm breaks external triggers) | /docs/cli/deploy-hooks |
+| `vercel edge-config ls/get/add/rm` | S/W/D | Edge Config stores | /docs/cli/edge-config |
+| `vercel oauth-apps ls/install/remove` | S/D/D | OAuth app installs (remove revokes integration access) | /docs/cli/oauth-apps |
+| `vercel sandbox` | W | Manage Vercel Sandbox VMs | /docs/cli/sandbox |
+| `vercel skills` | W | Manage agent skills | /docs/cli/skills |
+| `vercel tokens ls/create/rm` | S/W/D | API tokens (`tokens rm` revokes auth — confirm) | /docs/cli/tokens |
+| `vercel teams members/sso/request` | S/W | Team membership & SSO inspection | /docs/cli/teams |
+
+> `vercel integration-resource …` is now a backward-compat alias for
+> `vercel integration resource <subcommand>` (alias `vc ir`).
+
 ## Core deploy & dev
 
 | Command | Tier | Purpose | Doc URI |

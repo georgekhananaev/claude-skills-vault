@@ -1,3 +1,8 @@
+---
+name: project-change-log
+description: Maintain a CHANGELOG.md following the Keep a Changelog standard. Use after commits, on /commit, when the user asks to update the changelog, or when releasing a version — maps conventional-commit types to Added/Changed/Fixed/Security categories.
+---
+
 # Project Change Log
 
 Automatically maintain a CHANGELOG.md file following the Keep a Changelog standard.

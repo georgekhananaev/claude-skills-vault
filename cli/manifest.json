@@ -1,6 +1,6 @@
 {
   "version": "1.7.3",
-  "generated": "2026-06-10T05:13:58.892Z",
+  "generated": "2026-06-10T06:35:58.499Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -33,9 +33,9 @@
     },
     {
       "name": "claude-seo",
-      "description": "SEO toolkit with 12 specialist sub-skills — full site audits, technical SEO, content optimization, schema markup, sitemap generation, image SEO, hreflang, geo-targeting, competitor analysis, and programmatic SEO. Use when auditing websites, optimizing pages, or planning SEO strategy.",
+      "description": "SEO toolkit with 24 specialist sub-skills (upstream v2.0) — full site audits, technical SEO, content optimization & briefs, schema markup, sitemaps, image SEO, hreflang, local/maps SEO, backlinks, topic clustering, SERP experience (SXO), drift monitoring, Google APIs (GSC/PageSpeed/CrUX), e-commerce, programmatic SEO, and GEO for AI Overviews/ChatGPT/Perplexity. Use when auditing websites, optimizing pages or content, tracking SEO regressions, or planning SEO strategy.",
       "path": ".claude/skills/claude-seo",
-      "files": 19,
+      "files": 131,
       "category": "productivity",
       "source": "https://github.com/AgriciDaniel/claude-seo"
     },
@@ -43,7 +43,7 @@
       "name": "code-quality",
       "description": "Multi-language code quality standards and review for TypeScript, Python, Go, and Rust. Enforces type safety, security, performance, and maintainability. Use when writing, reviewing, or refactoring code. Includes review process, checklist, and Python PEP 8 deep-dive.",
       "path": ".claude/skills/code-quality",
-      "files": 24,
+      "files": 25,
       "category": "security",
       "author": "George Khananaev"
     },
@@ -58,14 +58,14 @@
       "name": "color-accessibility-audit",
       "description": "Analyze color combinations for readability and accessibility compliance per WCAG 2.1/2.2 standards (Contrast Minimums 1.4.3 and Enhanced Contrast 1.4.6). Use this skill whenever the user shares a design, color palette, CSS, HTML, Tailwind config, theme file, screenshot of a UI, or mentions anything about text being hard to read, colors clashing, poor contrast, accessibility compliance (WCAG), or asks \"can you check if these colors work together?\" Also trigger when reviewing any frontend code, design tokens, or style sheets — even if the user doesn't explicitly ask about contrast. If colors are involved, check them. Covers: hex codes, RGB, HSL, named CSS colors, Tailwind classes, design tool exports, and UI screenshots. Includes color blindness simulation for Protanopia, Deuteranopia, and Tritanopia.",
       "path": ".claude/skills/color-accessibility-audit",
-      "files": 10,
+      "files": 15,
       "category": "frontend"
     },
     {
       "name": "data-wrangler",
       "description": "Production-grade tabular data manipulation using pandas & openpyxl. This skill should be used when editing, creating, filtering, sorting, merging, pivoting, deduplicating, validating, or transforming CSV, Excel (xlsx/xls), JSON, Parquet, or TSV files. Supports 18 operations via CLI scripts, advanced Excel formatting (multi-sheet, freeze, auto-filter, validation, styling), and file-converter integration for format pipelines.",
       "path": ".claude/skills/data-wrangler",
-      "files": 4,
+      "files": 6,
       "category": "devops",
       "author": "George Khananaev"
     },
@@ -73,14 +73,14 @@
       "name": "doc-navigator",
       "description": "Efficiently navigate codebase documentation during Research phase. Use instead of Grep/Glob for finding architectural decisions, feature specs, and technical docs. Maps topics to doc locations for fast context retrieval. If codebase lacks documentation structure, provides patterns to establish one.",
       "path": ".claude/skills/doc-navigator",
-      "files": 4,
+      "files": 6,
       "category": "productivity"
     },
     {
       "name": "domain-checker",
       "description": "Bulk domain availability checker. Use when the user wants to check whether one or many domain names are available for registration (e.g., \"is acme.com free\", \"check these 50 domains\", \"find an available .io for my brand\"). Supports any TLD (.com/.net/.io/.ai/.dev/.app/...), parallel checking, three input modes (CLI args / file / stdin), bare-name + TLD-list expansion, and table/JSON/CSV output. Python stdlib only — no pip installs, no API keys.",
       "path": ".claude/skills/domain-checker",
-      "files": 3,
+      "files": 4,
       "category": "backend",
       "author": "George Khananaev"
     },
@@ -88,7 +88,7 @@
       "name": "fastapi-senior-dev",
       "description": "Senior Python Backend Engineer skill for FastAPI. Use when scaffolding production-ready APIs, enforcing clean architecture, optimizing async patterns, or auditing FastAPI codebases.",
       "path": ".claude/skills/fastapi-senior-dev",
-      "files": 14,
+      "files": 16,
       "category": "backend",
       "author": "George Khananaev"
     },
@@ -96,7 +96,7 @@
       "name": "file-converter",
       "description": "Convert & transform files - images (resize, format, HEIC), markdown (PDF/HTML), data (CSV/JSON/YAML/TOML/XML), SVG, base64, text encoding. Cross-platform, single & batch mode. This skill should be used when converting file formats, resizing images, generating PDFs from markdown, or transforming data between formats.",
       "path": ".claude/skills/file-converter",
-      "files": 10,
+      "files": 19,
       "category": "productivity",
       "author": "George Khananaev"
     },
@@ -109,7 +109,7 @@
     },
     {
       "name": "frontend-design",
-      "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
+      "description": "Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.",
       "path": ".claude/skills/frontend-design",
       "files": 1,
       "category": "frontend"
@@ -141,7 +141,7 @@
       "name": "mcp-builder",
       "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
       "path": ".claude/skills/mcp-builder",
-      "files": 10,
+      "files": 12,
       "category": "ai"
     },
     {
@@ -163,7 +163,7 @@
       "name": "mongodb-atlas-cli",
       "description": "Comprehensive MongoDB Atlas + mongosh skill for performance auditing, all index types (b-tree/text/2dsphere/hashed/TTL/partial/wildcard/Atlas-Search/Vector-Search), Performance Advisor analysis, query explain, schema advice, backup status, alerts, week-over-week diffs, and additive index creation. Read-only by default; create-index ops gated behind explicit `--confirm`. Hard-blocks any destructive op (delete, drop, restore, pause, terminate, kill, dbuser write, network change). Works against Atlas Cloud (full feature set) and self-hosted/local mongo (mongosh-based subset).",
       "path": ".claude/skills/mongodb-atlas-cli",
-      "files": 32,
+      "files": 53,
       "category": "backend"
     },
     {
@@ -179,7 +179,7 @@
       "name": "n8n-cli",
       "description": "Safety-first n8n management skill — list/inspect workflows, executions, credentials, tags, projects, variables, source-control status; trigger runs (CLI/webhook); activate/deactivate; backup/restore; audit; diff. Two backends auto-detect: REST API (cloud + remote self-hosted, urllib stdlib) & `n8n` CLI (self-hosted only, full surface incl. encrypted/decrypted credential export). Read-only by default; mutations require `--confirm` + dry-run preview. Hard-blocks 14 destructive CLI prefixes (delete, reset, encryption-key, executionData, user-management role changes, mfa, ldap, db ops, license) and 22 DELETE/PUT/PATCH/POST API endpoints (workflows/credentials/executions/users/tags/variables/projects/source-control/license). CLI refusal guard uses flag-stripping + chain matching to block bypasses. URL paths validated against `/api/v1/` allowlist + traversal-resistant. Resource IDs regex-validated before URL interpolation. API key redacted from error output; HTTPS warning on http://. Decrypted credential export double-gated (--decrypted + --confirm-secrets). Output paths sanitized. n8n REST API uses `/activate`+`/deactivate` for both 1.x & 2.x — public API has no `run` endpoint, so trigger_workflow is CLI-only w/ webhook URL helper. Faster than n8n MCP for bulk reads, backups, exports, diffs, CI/cron; complements MCP which is better for workflow authoring.",
       "path": ".claude/skills/n8n-cli",
-      "files": 29,
+      "files": 50,
       "category": "backend"
     },
     {
@@ -208,7 +208,7 @@
       "name": "nextjs-senior-dev",
       "description": "Senior Next.js 15+/16 Engineer skill for App Router. Use when scaffolding production apps, enforcing RSC patterns, auditing codebases, or optimizing performance.",
       "path": ".claude/skills/nextjs-senior-dev",
-      "files": 34,
+      "files": 35,
       "category": "frontend",
       "author": "George Khananaev"
     },
@@ -252,16 +252,16 @@
       "name": "planning-with-files",
       "description": "Implements Manus-style file-based planning to organize and track progress on complex tasks. Creates task_plan.md, findings.md, and progress.md. Use when asked to plan out, break down, or organize a multi-step project, research task, or any work requiring 5+ tool calls. Supports automatic session recovery after /clear.",
       "path": ".claude/skills/planning-with-files",
-      "files": 1,
+      "files": 18,
       "category": "productivity",
       "invocable": true
     },
     {
       "name": "project-change-log",
-      "description": "Automatically maintain a CHANGELOG.md file following the Keep a Changelog standard.",
+      "description": "Maintain a CHANGELOG.md following the Keep a Changelog standard. Use after commits, on /commit, when the user asks to update the changelog, or when releasing a version — maps conventional-commit types to Added/Changed/Fixed/Security categories.",
       "path": ".claude/skills/project-change-log",
       "files": 1,
-      "category": "productivity"
+      "category": "security"
     },
     {
       "name": "pydantic-model",
@@ -272,9 +272,9 @@
     },
     {
       "name": "react-best-practices",
-      "description": "React and Next.js performance optimization guidelines from Vercel Engineering. Use when writing, reviewing, or refactoring React/Next.js code. 45 rules across 8 categories prioritized by impact.",
+      "description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.",
       "path": ".claude/skills/react-best-practices",
-      "files": 51,
+      "files": 74,
       "category": "frontend"
     },
     {
@@ -287,37 +287,37 @@
     },
     {
       "name": "semantic-coding",
-      "description": "Scan files, replace hardcoded styles with semantic design tokens (colors, typography, spacing, sizing), edit files directly.",
+      "description": "Replace hardcoded styles with semantic design tokens (colors, typography, spacing, sizing) across a codebase. Use when refactoring inline hex colors/px values to a design system, migrating to CSS variables or Tailwind theme tokens, or enforcing token consistency.",
       "path": ".claude/skills/semantic-coding",
       "files": 2,
-      "category": "productivity"
+      "category": "frontend"
     },
     {
       "name": "senior-backend",
       "description": "This skill should be used when the user asks to \"design REST APIs\", \"optimize database queries\", \"implement authentication\", \"build microservices\", \"review backend code\", \"set up GraphQL\", \"handle database migrations\", or \"load test APIs\". Use for Node.js/Express/Fastify development, PostgreSQL optimization, API security, and backend architecture patterns.",
       "path": ".claude/skills/senior-backend",
-      "files": 7,
+      "files": 10,
       "category": "security"
     },
     {
       "name": "skill-creator",
       "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
       "path": ".claude/skills/skill-creator",
-      "files": 6,
+      "files": 8,
       "category": "productivity"
     },
     {
       "name": "stripe-best-practices",
       "description": "Guides Stripe integration decisions — API selection (Checkout Sessions vs PaymentIntents), Connect platform setup (Accounts v2, controller properties), billing/subscriptions, Treasury financial accounts, integration surfaces (Checkout, Payment Element), migrating from deprecated Stripe APIs, and security best practices (API key management, restricted keys, webhooks, OAuth). Use when building, modifying, or reviewing any Stripe integration — including accepting payments, building marketplaces, integrating Stripe, processing payments, setting up subscriptions, creating connected accounts, or implementing secure key handling.",
       "path": ".claude/skills/stripe-best-practices",
-      "files": 5,
+      "files": 7,
       "category": "security"
     },
     {
       "name": "supabase-cli",
       "description": "CLI automation for Supabase development workflows. Provides scripts for migrations, Edge Functions, secrets management, type generation, and SQL execution with safety checks.",
       "path": ".claude/skills/supabase-cli",
-      "files": 17,
+      "files": 20,
       "category": "backend"
     },
     {
@@ -367,7 +367,7 @@
       "name": "token-optimizer",
       "description": "Reduce token count in prompts, docs, and prose. Covers prompt compression (40-60% savings), doc formatting, TOON data serialization, and Strunk's prose clarity rules. Use when compressing prompts, optimizing docs for LLM context, or writing clear technical prose.",
       "path": ".claude/skills/token-optimizer",
-      "files": 5,
+      "files": 8,
       "category": "ai",
       "author": "George Khananaev"
     },
@@ -382,14 +382,14 @@
       "name": "ui-ux-pro-max",
       "description": "\"UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings, 20 charts, 9 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app, .html, .tsx, .vue, .svelte. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design. Topics: color palette, accessibility, animation, layout, typography, font pairing, spacing, hover, shadow, gradient. Integrations: shadcn/ui MCP for component search and examples.\"",
       "path": ".claude/skills/ui-ux-pro-max",
-      "files": 27,
+      "files": 30,
       "category": "mobile"
     },
     {
       "name": "uiux-toolkit",
       "description": "Comprehensive UX/UI evaluation meta-skill combining design theory and UX methodology. Use when conducting UI/UX audits, visual design reviews, accessibility compliance (WCAG 2.2), user flow analysis, responsive testing, interaction design evaluation, or design system audits. Evaluates using Nielsen's heuristics, Gestalt principles, typography theory, color theory, and modern methodologies (OOUX, JTBD, Cognitive Walkthrough).",
       "path": ".claude/skills/uiux-toolkit",
-      "files": 15,
+      "files": 17,
       "category": "frontend"
     },
     {

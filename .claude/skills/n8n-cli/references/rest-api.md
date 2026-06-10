@@ -20,7 +20,7 @@ Base URL:
 
 ```bash
 export N8N_API_URL="https://n8n.example.com"
-export N8N_API_KEY="<key starts w/ n8n_api_>"
+export N8N_API_KEY="<JWT, starts w/ eyJ — older installs: n8n_api_...>"
 export N8N_TIMEOUT="30"   # optional, seconds, default 30
 ```
 

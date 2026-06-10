@@ -160,6 +160,7 @@ git diff <SHA>~1..<SHA> | codex exec -s read-only -
 | `codex review {--uncommitted\|--base BRANCH\|--commit SHA}` | Review a diff in the repo |
 | `codex resume [ID\|--last]` | Resume an interactive session (picker if no ID) |
 | `codex fork [ID]` | Fork a prior session into a new branch |
+| `codex archive <id>` / `unarchive` | Archive sessions (archived = protected from `resume`/`fork`) |
 | `codex apply <TASK_ID>` | `git apply` the latest diff Codex produced for `<TASK_ID>` |
 | `codex doctor` | Diagnose install, auth, config, connectivity, sandbox — first stop when anything's broken |
 | `codex mcp {list,get,add,remove,login,logout}` | Manage MCP servers Codex calls into |

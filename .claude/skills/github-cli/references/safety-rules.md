@@ -578,3 +578,13 @@ GitHub API has rate limits (5,000 req/hr authenticated). For bulk operations:
 - Use `--limit` to cap result sets
 - Avoid tight loops of API calls
 - Check `gh api rate_limit` if hitting limits
+
+## Refusal Pattern
+
+When asked to bypass confirmation on a Forbidden op:
+
+```text
+REFUSED: `gh <command>` is a permanent/destructive op.
+  I won't skip confirmation. Either (1) walk the confirmation steps,
+  or (2) run it yourself in the GitHub web UI.
+```

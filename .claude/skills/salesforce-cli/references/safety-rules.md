@@ -53,7 +53,7 @@ sf apex tail log [--target-org <alias>]
 sf api request rest <GET endpoint>
 
 sf limits api display [--target-org <alias>]
-sf schema generate sobject --sobject <name> [--target-org <alias>]
+sf sobject describe --sobject <name> [--target-org <alias>]
 
 sf config list
 sf config get <key>
@@ -72,7 +72,7 @@ sf doctor
 Even though queries are Safe, enforce these rules:
 
 1. **Mandatory LIMIT**: If user omits LIMIT, add `LIMIT 200` automatically
-2. **No `SELECT *`**: Block and ask user to specify fields, or use `sf schema generate sobject` to show available fields
+2. **No `SELECT *`**: Block and ask user to specify fields, or use `sf sobject describe` to show available fields
 3. **Production WHERE**: For production orgs, require a WHERE clause unless the object is known to have <1000 records
 4. **PII Warning**: If query includes fields like Email, Phone, SSN, BirthDate — warn the user that PII will be displayed
 
@@ -704,3 +704,13 @@ sf limits api display --target-org <alias>
 ```
 
 Warn if API calls remaining is below 20% of the daily limit.
+
+## Refusal Pattern
+
+When asked to bypass confirmation on a Forbidden op:
+
+```text
+REFUSED: `sf <command>` is a permanent/destructive op.
+  I won't skip confirmation. Either (1) walk the confirmation steps,
+  or (2) run it yourself in Salesforce Setup UI.
+```

@@ -109,12 +109,12 @@ Command received
 | `sf apex tail log` | Tail logs in real-time |
 | `sf api request rest` (GET) | Read-only REST API calls |
 | `sf limits api display` | Display API limits |
-| `sf schema generate sobject` | Describe object schema |
+| `sf sobject describe --sobject <name>` | Describe object schema (fields, types) |
 | `sf package list` | List packages |
 | `sf package version list` | List package versions |
 | `sf plugins list` | List installed plugins |
 | `sf doctor` | Run diagnostics |
-| `sf auth list` | List auth connections |
+| `sf org list auth` | List auth connections (`sf auth list` = legacy alias) |
 
 ### Write (AskUserQuestion required)
 
@@ -171,7 +171,7 @@ Command received
 **Mandatory rules for ALL queries:**
 
 1. **Always add LIMIT** — Default to `LIMIT 200` if user omits
-2. **Never use `SELECT *`** — Expand fields via `sf schema generate sobject` or ask user
+2. **Never use `SELECT *`** — Expand fields via `sf sobject describe --sobject <name>` or ask user
 3. **Production queries** — Require WHERE clause unless object is known to be small
 4. **Tooling API queries** — Use `--use-tooling-api` flag for metadata queries
 
@@ -411,14 +411,14 @@ See [references/mcp-integration.md](references/mcp-integration.md) for setup and
 
 ```bash
 # REST API (Safe for GET, Write/Destructive for others)
-sf api request rest /services/data/v60.0/sobjects/Account/describe
-sf api request rest /services/data/v60.0/query?q=SELECT+Id+FROM+Account+LIMIT+10
+sf api request rest /services/data/v67.0/sobjects/Account/describe
+sf api request rest /services/data/v67.0/query?q=SELECT+Id+FROM+Account+LIMIT+10
 
 # GraphQL
 sf api request graphql --body query.graphql --target-org my-org
 
 # Composite (multiple operations in one call)
-sf api request rest /services/data/v60.0/composite --body composite.json -X POST
+sf api request rest /services/data/v67.0/composite --body composite.json -X POST
 ```
 
 ## Platform Events & CDC
@@ -487,7 +487,7 @@ See [references/safety-rules.md](references/safety-rules.md) for all confirmatio
 | `No default org set` | No target org | `sf config set target-org <alias>` |
 | `INVALID_SESSION_ID` | Auth expired | `sf org login web --alias <org>` |
 | `MALFORMED_QUERY` | Bad SOQL syntax | Check query, verify field names |
-| `INVALID_FIELD` | Wrong field name | Use `sf schema generate sobject` to check fields |
+| `INVALID_FIELD` | Wrong field name | Use `sf sobject describe --sobject <name>` to check fields |
 | `REQUEST_LIMIT_EXCEEDED` | API limit hit | Check `sf limits api display`, wait or optimize |
 | `DUPLICATE_VALUE` | Unique constraint | Check external IDs, use upsert instead |
 | `REQUIRED_FIELD_MISSING` | Missing field | Check object requirements w/ describe |
@@ -501,6 +501,13 @@ See [references/safety-rules.md](references/safety-rules.md) for all confirmatio
 - **Quote arguments:** Always quote query strings and multi-word values
 - **JSON output:** Use `--json` for programmatic parsing
 - **Never print tokens:** Auth tokens, keys, and secrets must never appear in output
+
+## Self-Healing
+
+`sf` v2 renames commands across releases. On any error: `sf <topic> --help`
+(authoritative for the installed version) → if unclear, WebFetch
+`https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_unified.htm`
+→ adjust → re-run. Never guess flags twice; surface renamed commands w/ the doc link.
 
 ## Integration
 

@@ -25,7 +25,7 @@ Invoke when:
 ```bash
 # Supabase CLI
 brew install supabase/tap/supabase
-# or: npm install -g supabase
+# or: npx supabase / npm i supabase --save-dev (global npm install is NOT supported)
 
 # Verify installation
 supabase --version
@@ -215,6 +215,22 @@ Before deploying Edge Functions:
 - TypeScript compilation check
 - Function file existence validation
 - Size limits verification
+
+## Self-Healing
+
+The CLI surface changes (e.g. `db execute` was removed in favor of `db query`;
+`db push` targets the linked REMOTE by default). On any error:
+`supabase <command> --help` → if unclear, WebFetch
+`https://supabase.com/docs/reference/cli/supabase-<command>` (dashes join
+subcommands) → adjust → re-run.
+
+## Refusal Pattern
+
+```text
+REFUSED: `supabase <command>` is destructive against the linked remote project.
+  I won't skip confirmation. Either (1) confirm the target explicitly
+  (--local vs --linked), or (2) run it in the Supabase Dashboard.
+```
 
 ## References
 

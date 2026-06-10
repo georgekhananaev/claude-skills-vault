@@ -175,9 +175,9 @@ async function runSQL(sql: string, target: "local" | "remote"): Promise<string> 
   try {
     let result;
     if (target === "remote") {
-      result = await $`supabase db execute --linked < ${tempFile}`.quiet();
+      result = await $`supabase db query --linked -f ${tempFile}`.quiet();
     } else {
-      result = await $`supabase db execute < ${tempFile}`.quiet();
+      result = await $`supabase db query --local -f ${tempFile}`.quiet();
     }
     return result.stdout.toString();
   } finally {

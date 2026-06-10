@@ -114,7 +114,7 @@ supabase migration list
 
 ```bash
 # 1. Check current state
-supabase db execute < "SELECT * FROM supabase_migrations.schema_migrations;"
+supabase db query "SELECT * FROM supabase_migrations.schema_migrations;" --linked
 
 # 2. Fix manually or reset
 supabase db reset
@@ -308,7 +308,7 @@ supabase gen types typescript --linked > types/supabase.ts
 # 2. Check for pending migrations
 supabase migration list
 
-# 3. Apply pending migrations first
+# 3. Apply pending migrations first (remote — db push targets the linked project)
 supabase db push
 ```
 

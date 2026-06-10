@@ -17,9 +17,9 @@ These TLDs respond well to RDAP — `auto` will use RDAP and never fall back.
 | `.biz` | `rdap.nic.biz` |
 | `.app`, `.dev`, `.page` | `pubapi.registry.google/rdap` |
 | `.ai` | `rdap.identitydigital.services/rdap` |
-| `.cloud` | `rdap.nic.cloud` |
+| `.cloud` | `rdap.registry.cloud/rdap` |
 | `.xyz` | `rdap.centralnic.com/xyz` |
-| `.tech` | `rdap.centralnic.com/tech` |
+| `.tech` | `rdap.radix.host/rdap` |
 | `.online`, `.site`, `.store` | `rdap.centralnic.com/<tld>` |
 
 ## RDAP-missing — WHOIS fallback used
@@ -74,3 +74,5 @@ To force a refresh:
 ```bash
 rm ~/.cache/domain-checker/rdap-bootstrap.json
 ```
+
+> Note: ICANN sunset the gTLD WHOIS (port-43) requirement on 2025-01-28 — RDAP is authoritative for gTLDs; WHOIS fallback remains needed only for ccTLDs (.io/.co/.me/.de) absent from the IANA RDAP bootstrap. Server examples above drift — the script always resolves live from https://data.iana.org/rdap/dns.json.

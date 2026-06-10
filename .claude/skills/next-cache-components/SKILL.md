@@ -211,9 +211,30 @@ import { revalidateTag } from 'next/cache'
 
 export async function createPost(data: FormData) {
   await db.posts.create({ data })
-  revalidateTag('posts')  // Background - next request sees fresh data
+  revalidateTag('posts', 'max')  // Background SWR — single-arg form is deprecated in Next 16
+  // immediate webhook-style expiry: revalidateTag('posts', { expire: 0 })
 }
 ```
+
+### `refresh()` - Refresh Uncached Data
+
+Third member of the triad: refreshes DYNAMIC (uncached) data from a Server
+Action w/o touching caches — e.g. after a mutation that only affects
+per-request data:
+
+```tsx
+'use server'
+import { refresh } from 'next/cache'
+
+export async function markRead(id: string) {
+  await db.notifications.update({ where: { id }, data: { read: true } })
+  refresh()  // re-renders dynamic holes; cached content untouched
+}
+```
+
+> Nested-cache gotcha: an outer `use cache` w/o explicit `cacheLife` inherits
+> the SHORTEST inner lifetime; short-lived caches (`expire` < 5m) become
+> dynamic holes & error during prerender unless given an explicit profile.
 
 ---
 

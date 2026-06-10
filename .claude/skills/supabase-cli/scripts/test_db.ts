@@ -68,9 +68,9 @@ async function runSQLTest(filepath: string, target: "local" | "remote"): Promise
 
     let result;
     if (target === "remote") {
-      result = await $`supabase db execute --linked < ${tempFile}`.quiet();
+      result = await $`supabase db query --linked -f ${tempFile}`.quiet();
     } else {
-      result = await $`supabase db execute < ${tempFile}`.quiet();
+      result = await $`supabase db query --local -f ${tempFile}`.quiet();
     }
 
     await $`rm -f ${tempFile}`.quiet();

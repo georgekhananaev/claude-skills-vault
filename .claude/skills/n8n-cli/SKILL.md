@@ -57,7 +57,7 @@ Pass `--backend api` or `--backend cli` to force a specific one. Otherwise: API 
 ```bash
 # Get API key from n8n UI: Settings → n8n API → Create
 export N8N_API_URL="https://n8n.example.com"     # no trailing slash, no /api/v1
-export N8N_API_KEY="n8n_api_..."                 # starts w/ n8n_api_
+export N8N_API_KEY="eyJ..."                      # JWT format (older installs: n8n_api_...)
 
 # Verify
 python3 .claude/skills/n8n-cli/scripts/validate_env.py
@@ -164,6 +164,13 @@ N8nError: REFUSED: `n8n delete:workflow --id=42` is a destructive op blocked by 
   Matched forbidden prefix: delete:workflow
   Run it manually if you intend to.
 ```
+
+## AskUserQuestion Integration
+
+Script gates (`--confirm`, `--confirm-secrets`) are the hard layer; on top,
+`AskUserQuestion` BEFORE any mutation w/ blast radius: activating/deactivating
+production workflows, restores that overwrite, decrypted credential export.
+Always include a "Cancel" option and name the target instance URL.
 
 ## Error Handling
 

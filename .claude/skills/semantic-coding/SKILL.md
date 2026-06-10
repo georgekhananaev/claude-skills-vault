@@ -1,3 +1,8 @@
+---
+name: semantic-coding
+description: Replace hardcoded styles with semantic design tokens (colors, typography, spacing, sizing) across a codebase. Use when refactoring inline hex colors/px values to a design system, migrating to CSS variables or Tailwind theme tokens, or enforcing token consistency.
+---
+
 # Semantic Coding
 
 Scan files, replace hardcoded styles with semantic design tokens (colors, typography, spacing, sizing), edit files directly.

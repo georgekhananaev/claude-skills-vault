@@ -8,6 +8,12 @@ author: George Khananaev
 
 Build production-grade data tables w/ MRT V3 (TanStack Table V8 + MUI).
 
+> **Maintenance status (June 2026):** MRT V3 is still the latest major, but the
+> last npm release (3.2.1) shipped March 2025 — the project is effectively
+> dormant. MUI is now at v9 (latest-v7 = 7.3.x) while MRT officially pairs w/
+> MUI v6; v7+ support is tracked in open issue #1401 (no resolution). For NEW
+> projects, weigh this lock-in; for existing ones, pin `@mui/material@6.x`.
+
 ## When to Use
 
 - Building data tables with MUI styling

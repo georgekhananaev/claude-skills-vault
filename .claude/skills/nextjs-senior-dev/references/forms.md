@@ -139,7 +139,7 @@ export async function submitContact(data: z.infer<typeof contactSchema>) {
 }
 ```
 
-## Native Server Actions with useFormState
+## Native Server Actions with useActionState
 
 ### Form Component
 
@@ -147,7 +147,8 @@ export async function submitContact(data: z.infer<typeof contactSchema>) {
 // features/posts/components/CreatePostForm.interactive.tsx
 "use client"
 
-import { useFormState, useFormStatus } from "react-dom"
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
 import { createPost } from "../actions/create-post"
 
 const initialState = {
@@ -157,7 +158,7 @@ const initialState = {
 }
 
 export function CreatePostForm() {
-  const [state, formAction] = useFormState(createPost, initialState)
+  const [state, formAction] = useActionState(createPost, initialState)
 
   return (
     <form action={formAction} className="space-y-4">

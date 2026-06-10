@@ -67,7 +67,7 @@ fi
 # Safety: Block SELECT *
 if echo "$QUERY" | grep -qi 'SELECT \*'; then
     echo "Error: SELECT * is not allowed. Specify fields explicitly."
-    echo "Tip: Use 'sf schema generate sobject --sobject <name> --target-org $ORG' to see available fields."
+    echo "Tip: Use 'sf sobject describe --sobject <name> --target-org $ORG' to see available fields."
     exit 1
 fi
 

@@ -6,6 +6,12 @@ license: Complete terms in LICENSE.txt
 
 # MCP Server Development Guide
 
+> **Spec status (June 2026):** current MCP spec revision is **2025-11-25**
+> (https://modelcontextprotocol.io/specification/2025-11-25). The **2026-07-28**
+> release is at RC w/ stateless protocol core, Extensions framework, Tasks, and
+> MCP Apps — check the changelog before designing session-dependent features.
+> SDKs: `mcp` (Python) and `@modelcontextprotocol/sdk` (TS) both remain 1.x.
+
 ## When to Use
 
 - Building MCP servers for Claude/LLM integration

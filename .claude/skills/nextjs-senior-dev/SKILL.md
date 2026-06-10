@@ -168,7 +168,7 @@ src/
 |------------|------|---------|
 | URL State | searchParams | Filters, pagination |
 | Server State | Server Components | User data, posts |
-| Form State | useFormState | Form submissions |
+| Form State | useActionState (React 19) | Form submissions |
 | UI State | useState | Modals, dropdowns |
 | Shared Client | Context/Zustand | Theme, cart |
 

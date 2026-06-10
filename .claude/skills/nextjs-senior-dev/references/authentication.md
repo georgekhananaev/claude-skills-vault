@@ -322,13 +322,14 @@ export function UserMenu() {
 // features/auth/components/LoginForm.interactive.tsx
 "use client"
 
-import { useFormState, useFormStatus } from "react-dom"
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
 import { login } from "../actions/login"
 
 const initialState = { error: null }
 
 export function LoginForm() {
-  const [state, formAction] = useFormState(login, initialState)
+  const [state, formAction] = useActionState(login, initialState)
 
   return (
     <form action={formAction} className="space-y-4">

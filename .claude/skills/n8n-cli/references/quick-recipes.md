@@ -9,7 +9,7 @@ Copy-paste snippets for common n8n ops via this skill.
 ```bash
 # Get an API key from the n8n UI: Settings → n8n API → Create
 export N8N_API_URL="https://n8n.example.com"
-export N8N_API_KEY="n8n_api_..."
+export N8N_API_KEY="eyJ..."   # JWT format (older installs: n8n_api_...)
 
 # Verify
 python3 .claude/skills/n8n-cli/scripts/validate_env.py

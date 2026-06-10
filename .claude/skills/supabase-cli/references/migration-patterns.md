@@ -319,8 +319,10 @@ supabase branches create pre-migration-backup
 # Apply migration
 supabase db push --linked
 
-# If failed, switch back
-supabase branches switch pre-migration-backup
+# If failed, restore from the branch (no `branches switch` — branches are
+# separate environments; promote/restore via dashboard or repoint your app,
+# then delete the broken branch)
+supabase branches get pre-migration-backup
 ```
 
 ## Pre-Migration Checklist

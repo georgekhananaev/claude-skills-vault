@@ -36,21 +36,24 @@ gemini -p "prompt" -m gemini-3-pro
 # JSON output
 gemini -p "prompt" -o json
 
-# YOLO mode (auto-approve tool use)
-gemini -y -p "prompt"
+# Auto-approve tool use (-y is deprecated)
+gemini --approval-mode=yolo -p "prompt"
 
 # File analysis
 cat file.txt | gemini -p "Analyze this"
 ```
 
-## Models (Gemini 3+ only)
+## Models
 
-| Model | Use case |
+| Alias | Use case |
 |-------|----------|
-| `gemini-3-pro` | Default, best all-round |
-| `gemini-3-flash` | Fast, lightweight tasks |
+| `auto` | DEFAULT — routes per prompt (simple → Flash, complex → 3 Pro) |
+| `pro` | Force Gemini 3 Pro (best all-round) |
+| `flash` / `flash-lite` | Fast, lightweight tasks (3.5 Flash GA rolling out as auto default) |
 
-Omit `-m` to use the CLI default (latest stable).
+Omit `-m` to use `auto` routing. Aliases beat pinned model ids — they track
+upstream model swaps. Pin a full id (e.g. `gemini-3-pro`) only when the user
+names one.
 
 ## CLI Options
 
@@ -59,7 +62,7 @@ Omit `-m` to use the CLI default (latest stable).
 | `-p` | **Required for headless.** Non-interactive prompt |
 | `-m` | Model selection |
 | `-o` | Output: text/json/stream-json |
-| `-y` | Auto-approve all actions (YOLO) |
+| `--approval-mode=yolo` | Auto-approve all actions (`-y` is deprecated) |
 | `-d` | Debug mode |
 | `-s` | Sandbox mode |
 | `-r` | Resume session |

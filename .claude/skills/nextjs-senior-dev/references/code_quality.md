@@ -143,7 +143,7 @@ Choose the right tool for the job:
 |------------|------|---------|
 | URL State | `searchParams`, `useSearchParams` | Filters, pagination, tabs |
 | Server State | Server Components, fetch | User data, posts |
-| Form State | `useFormState`, `useFormStatus` | Form submissions |
+| Form State | `useActionState` (React 19; replaces deprecated `useFormState`), `useFormStatus` | Form submissions |
 | UI State | `useState` | Modals, dropdowns |
 | Shared Client State | Context or Zustand | Theme, cart |
 
@@ -204,19 +204,20 @@ export function FilterBar({ category, sort }: Props) {
 }
 ```
 
-### Form State with useFormState
+### Form State with useActionState (React 19; replaces useFormState)
 
 ```tsx
 // features/contact/components/ContactForm.interactive.tsx
 "use client"
 
-import { useFormState, useFormStatus } from "react-dom"
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
 import { submitContact } from "../actions/submit-contact"
 
 const initialState = { success: false, error: null }
 
 export function ContactForm() {
-  const [state, formAction] = useFormState(submitContact, initialState)
+  const [state, formAction] = useActionState(submitContact, initialState)
 
   return (
     <form action={formAction}>

@@ -209,7 +209,7 @@ To use `@concurrent`:
 
 ## When to Use
 
-- All new Swift 6.2+ projects (Approachable Concurrency is the recommended default)
+- All new Swift 6.2+ projects incl. 6.3 (latest, Mar 2026 — Approachable Concurrency semantics unchanged; 6.3 adds `@c` C-interop, `::` module selectors, `@inline(always)`, Android SDK)
 - Migrating existing apps from Swift 5.x or 6.0/6.1 concurrency
 - Resolving data-race safety compiler errors during Xcode 26 adoption
 - Building MainActor-centric app architectures (most UI apps)

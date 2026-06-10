@@ -219,7 +219,8 @@ async function applyMigrations() {
     if (flags.remote) {
       await $`supabase db push --linked`;
     } else {
-      await $`supabase db push`;
+      // db push targets the linked REMOTE by default - be explicit for local
+      await $`supabase db push --local`;
     }
 
     console.log("\n✓ Migrations applied successfully!");

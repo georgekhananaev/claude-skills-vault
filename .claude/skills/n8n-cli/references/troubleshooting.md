@@ -16,7 +16,7 @@ Set both env vars:
 
 ```bash
 export N8N_API_URL="https://n8n.example.com"     # no trailing slash
-export N8N_API_KEY="n8n_api_..."                 # from Settings → n8n API
+export N8N_API_KEY="eyJ..."                      # from Settings → n8n API (JWT format; older installs: n8n_api_...)
 ```
 
 Don't include `/api/v1` in the URL — the skill appends it.

@@ -65,6 +65,7 @@ Command received
 | `gh release list` | List releases |
 | `gh release view` | View release details |
 | `gh run list` | List workflow runs |
+| `gh agent-task list` / `view` | List/inspect Copilot coding-agent tasks (v2.80+) |
 | `gh run view` | View run details |
 | `gh run view --log` | View run logs |
 | `gh workflow list` | List workflows |
@@ -87,6 +88,8 @@ Command received
 | Command | Description |
 |---------|-------------|
 | `gh pr create` | Create PR |
+| `gh agent-task create` | Kick off a Copilot coding-agent session (opens PRs on your repo — inform user; v2.80+) |
+| `gh skill install` | Install an agent skill (`gh skill` is public preview, Apr 2026) |
 | `gh pr edit` | Edit PR metadata |
 | `gh pr comment` | Comment on PR |
 | `gh pr review` | Submit review |
@@ -257,6 +260,13 @@ gh api repos/owner/repo/issues -f title="Bug" -f body="Description"
 # DELETE (Destructive — confirm first)
 gh api repos/owner/repo/issues/123/labels/bug -X DELETE
 ```
+
+## Self-Healing
+
+`gh` evolves monthly. On any error: read it → `gh help <command>` → if still
+unclear, WebFetch `https://cli.github.com/manual/gh_<command>` (underscores
+join subcommands, e.g. `gh_pr_merge`) → adjust → re-run. Release notes:
+https://github.com/cli/cli/releases.
 
 ## AskUserQuestion Integration
 

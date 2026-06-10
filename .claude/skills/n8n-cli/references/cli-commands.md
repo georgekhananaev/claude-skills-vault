@@ -36,6 +36,8 @@ Source: `https://docs.n8n.io/hosting/cli-commands/`, `n8n --help`.
 | `n8n import:credentials --input=<file>` | Import credentials (encrypted or decrypted, depending on file) | not in skill — do manually |
 | `n8n execute --id=<wfid>` | Run a workflow once (synchronous) | `trigger_workflow.py --backend cli --confirm` |
 | `n8n execute-batch --ids=<id1,id2>` | Run multiple workflows sequentially | not in skill |
+| `n8n publish:workflow --id=<wfid>` | Publish a workflow (n8n 2.0+; replaces deprecated `update:workflow --active=true`; intentionally NO `--all`) | not in skill — API backend covers it |
+| `n8n unpublish:workflow --id=<wfid>` | Unpublish a workflow (n8n 2.0+) | not in skill — API backend covers it |
 
 ## REFUSED — never run by skill
 

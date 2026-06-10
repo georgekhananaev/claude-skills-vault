@@ -75,6 +75,10 @@ Pick one (priority order):
 
 ```bash
 # 1. Env vars (recommended for automation)
+# Preferred (Atlas CLI 1.51+): Service Accounts (OAuth2)
+export MONGODB_ATLAS_CLIENT_ID=<client_id>
+export MONGODB_ATLAS_CLIENT_SECRET=<client_secret>
+# Legacy: programmatic API keys
 export MONGODB_ATLAS_PUBLIC_API_KEY=<public_key>
 export MONGODB_ATLAS_PRIVATE_API_KEY=<private_key>
 export MONGODB_ATLAS_PROJECT_ID=<24-hex-project-id>
@@ -337,6 +341,12 @@ This skill focuses on **admin/audit/index-management**. For complementary capabi
 | **Quick recipes (copy-paste)** | [`references/quick-recipes.md`](references/quick-recipes.md) |
 | Safety boundaries detail | [`references/safety-boundaries.md`](references/safety-boundaries.md) |
 | Troubleshooting | [`references/troubleshooting.md`](references/troubleshooting.md) |
+
+## Self-Healing
+
+On any `atlas` error: `atlas <command> --help` → if unclear, WebFetch
+`https://www.mongodb.com/docs/atlas/cli/current/command/atlas-<command>/`
+(dashes join subcommands) → adjust → re-run.
 
 ## Integration
 

@@ -43,11 +43,15 @@ supabase db reset
 supabase migration new <name>
 # Creates: supabase/migrations/<timestamp>_<name>.sql
 
-# Apply migrations to local database
+# Apply pending migrations to the LOCAL database
+supabase migration up
+
+# Push migrations to the LINKED REMOTE database (DEFAULT TARGET of db push!)
 supabase db push
 
-# Apply to remote (requires link)
-supabase db push --linked
+# Be explicit about the target — db push hits the remote unless --local is given
+supabase db push --local    # local db
+supabase db push --linked   # remote db (same as bare db push)
 
 # List migrations
 supabase migration list
@@ -78,11 +82,12 @@ supabase db diff > changes.sql
 ### Direct SQL
 
 ```bash
-# Execute SQL on local
-supabase db execute < query.sql
+# Execute SQL on local (db execute does NOT exist — use db query)
+supabase db query -f query.sql --local
+supabase db query "SELECT 1" --local
 
 # Execute on remote (use with caution)
-supabase db execute --linked < query.sql
+supabase db query -f query.sql --linked
 
 # Dump schema
 supabase db dump -f schema.sql
@@ -167,11 +172,12 @@ supabase secrets unset KEY1 KEY2
 ## Authentication
 
 ```bash
-# List auth users
-supabase auth list
+# (there is no `supabase auth list` — inspect users via db query)
+supabase db query "SELECT id, email FROM auth.users LIMIT 20" --linked
 
-# Generate JWT
-supabase gen keys
+# Generate JWT signing material (gen keys does NOT exist)
+supabase gen signing-key
+supabase gen bearer-jwt
 
 # Set up SSO provider
 supabase sso add --type saml --metadata-file metadata.xml
@@ -180,17 +186,12 @@ supabase sso add --type saml --metadata-file metadata.xml
 ## Storage
 
 ```bash
-# List buckets
-supabase storage list-buckets
-
-# Create bucket
-supabase storage create-bucket <name>
-
-# List objects
-supabase storage list-objects <bucket>
-
-# Upload file
-supabase storage upload <bucket> <local-path> <remote-path>
+# Storage uses filesystem-style verbs (ls/cp/mv/rm)
+supabase storage ls ss:///                      # list buckets
+supabase storage ls ss:///<bucket> -r           # list objects
+supabase storage cp <local-path> ss:///<bucket>/<remote-path>   # upload
+supabase storage cp ss:///<bucket>/<remote-path> <local-path>   # download
+supabase storage rm ss:///<bucket>/<remote-path>                # delete
 ```
 
 ## Branching (Pro+)
@@ -202,8 +203,10 @@ supabase branches create <name>
 # List branches
 supabase branches list
 
-# Switch branch
-supabase branches switch <name>
+# Inspect / pause / resume a branch (there is no `branches switch`)
+supabase branches get <name>
+supabase branches pause <name>
+supabase branches unpause <name>
 
 # Delete branch
 supabase branches delete <name>
@@ -214,7 +217,7 @@ supabase branches delete <name>
 ### Full Local Reset
 
 ```bash
-supabase db reset && supabase db push
+supabase db reset && supabase migration up
 ```
 
 ### Sync Schema to Remote
@@ -243,7 +246,7 @@ cat supabase/migrations/*_my_change.sql
 
 # 4. Test locally
 supabase db reset
-supabase db push
+supabase migration up
 
 # 5. Push to remote
 supabase db push --linked
