@@ -1,6 +1,6 @@
 ---
 name: project-change-log
-description: Maintain a CHANGELOG.md following the Keep a Changelog standard. Use after commits, on /commit, when the user asks to update the changelog, or when releasing a version — maps conventional-commit types to Added/Changed/Fixed/Security categories.
+description: Maintain a CHANGELOG.md following the Keep a Changelog standard. Use after commits, on /commit, when the user asks to update the changelog, or when releasing a version — maps conventional-commit types to Added/Changed/Fixed/Security categories. Archives old releases into per-major files (changelog/CHANGELOG-1.x.md) so the main file stays small no matter how many versions accumulate.
 ---
 
 # Project Change Log
@@ -13,6 +13,7 @@ Automatically maintain a CHANGELOG.md file following the Keep a Changelog standa
 - When `/commit` command is executed
 - When user asks to update changelog
 - When releasing a new version
+- When `CHANGELOG.md` has grown large (rotate old releases into archives — see [Keeping the changelog small](#keeping-the-changelog-small-archiving))
 
 ## Changelog Format
 
@@ -106,6 +107,56 @@ When releasing a version:
 1. Move `[Unreleased]` content to new version section
 2. Add version number and date
 3. Create new empty `[Unreleased]` section
+4. **Rotate old releases** so the file stays small — run the archive script (it's a no-op until there are more than 20 versions):
+
+```bash
+python3 .claude/skills/project-change-log/scripts/rotate_changelog.py --apply
+```
+
+## Keeping the changelog small (archiving)
+
+A single `CHANGELOG.md` grows without bound — one real project reached 197
+releases / 2,508 lines / 420 KB. To keep it readable, rotate old releases into
+per-major archive files.
+
+**Policy:** keep `[Unreleased]` + the newest **20** versions in `CHANGELOG.md`;
+move older versions into `changelog/CHANGELOG-<major>.x.md` (e.g.
+`changelog/CHANGELOG-1.x.md`), linked from an `## Older releases` index at the
+bottom of the main file.
+
+```
+CHANGELOG.md                 # title + intro + [Unreleased] + newest 20 + index
+changelog/
+  CHANGELOG-1.x.md           # archived 1.x releases, newest-first
+  CHANGELOG-2.x.md           # created when a 2.x release is first rotated out
+```
+
+Use the helper script — **safe by default (dry run unless `--apply`)**, Python 3
+stdlib only, idempotent, and guaranteed not to drop or duplicate any release:
+
+```bash
+# Preview what would move (no writes):
+python3 .claude/skills/project-change-log/scripts/rotate_changelog.py
+
+# Rotate for real:
+python3 .claude/skills/project-change-log/scripts/rotate_changelog.py --apply
+```
+
+Run it as the last step of a version release (no-op below 20 versions) or any
+time the file feels large.
+
+**First-time adoption on an existing project** (e.g. after this skill is added
+or updated): run the **dry run first** and confirm the reported version count
+looks right, then `--apply` once and commit the new `changelog/` directory with
+the trimmed `CHANGELOG.md` in a single commit. It's idempotent, so re-running
+after later skill updates is safe. If the dry run reports `0`/too few versions,
+the file uses a non-standard heading format — normalize headings to
+`## [x.y.z] - YYYY-MM-DD` first. Full steps + troubleshooting:
+[references/archiving.md](references/archiving.md).
+
+Flags: `--keep N` (default 20), `--dir changelog`, `--file CHANGELOG.md`. Full
+details, behavior guarantees, and edge cases: see
+[references/archiving.md](references/archiving.md).
 
 ## Entry Format
 

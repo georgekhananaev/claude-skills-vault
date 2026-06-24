@@ -1,6 +1,6 @@
 {
   "version": "1.8.0",
-  "generated": "2026-06-10T06:40:00.874Z",
+  "generated": "2026-06-24T17:24:37.965Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -13,7 +13,7 @@
       "name": "aws-cli",
       "description": "Safety-first AWS CLI v2 skill for full control of AWS from the terminal — EC2, S3, IAM, Lambda, RDS, DynamoDB, CloudFormation, Route 53, EKS/ECS, logs, billing & 300+ services. Classifies every command by risk tier via a deterministic classifier script and gates destructive/breaking/cost-incurring ops behind AskUserQuestion confirmation. Account/region/profile preflight prevents wrong-account accidents. Use when running, planning, or debugging any `aws` command.",
       "path": ".claude/skills/aws-cli",
-      "files": 7,
+      "files": 6,
       "category": "devops",
       "author": "George Khananaev"
     },
@@ -35,7 +35,7 @@
       "name": "claude-seo",
       "description": "SEO toolkit with 24 specialist sub-skills (upstream v2.0) — full site audits, technical SEO, content optimization & briefs, schema markup, sitemaps, image SEO, hreflang, local/maps SEO, backlinks, topic clustering, SERP experience (SXO), drift monitoring, Google APIs (GSC/PageSpeed/CrUX), e-commerce, programmatic SEO, and GEO for AI Overviews/ChatGPT/Perplexity. Use when auditing websites, optimizing pages or content, tracking SEO regressions, or planning SEO strategy.",
       "path": ".claude/skills/claude-seo",
-      "files": 131,
+      "files": 81,
       "category": "productivity",
       "source": "https://github.com/AgriciDaniel/claude-seo"
     },
@@ -43,7 +43,7 @@
       "name": "code-quality",
       "description": "Multi-language code quality standards and review for TypeScript, Python, Go, and Rust. Enforces type safety, security, performance, and maintainability. Use when writing, reviewing, or refactoring code. Includes review process, checklist, and Python PEP 8 deep-dive.",
       "path": ".claude/skills/code-quality",
-      "files": 25,
+      "files": 24,
       "category": "security",
       "author": "George Khananaev"
     },
@@ -58,14 +58,14 @@
       "name": "color-accessibility-audit",
       "description": "Analyze color combinations for readability and accessibility compliance per WCAG 2.1/2.2 standards (Contrast Minimums 1.4.3 and Enhanced Contrast 1.4.6). Use this skill whenever the user shares a design, color palette, CSS, HTML, Tailwind config, theme file, screenshot of a UI, or mentions anything about text being hard to read, colors clashing, poor contrast, accessibility compliance (WCAG), or asks \"can you check if these colors work together?\" Also trigger when reviewing any frontend code, design tokens, or style sheets — even if the user doesn't explicitly ask about contrast. If colors are involved, check them. Covers: hex codes, RGB, HSL, named CSS colors, Tailwind classes, design tool exports, and UI screenshots. Includes color blindness simulation for Protanopia, Deuteranopia, and Tritanopia.",
       "path": ".claude/skills/color-accessibility-audit",
-      "files": 15,
+      "files": 10,
       "category": "frontend"
     },
     {
       "name": "data-wrangler",
       "description": "Production-grade tabular data manipulation using pandas & openpyxl. This skill should be used when editing, creating, filtering, sorting, merging, pivoting, deduplicating, validating, or transforming CSV, Excel (xlsx/xls), JSON, Parquet, or TSV files. Supports 18 operations via CLI scripts, advanced Excel formatting (multi-sheet, freeze, auto-filter, validation, styling), and file-converter integration for format pipelines.",
       "path": ".claude/skills/data-wrangler",
-      "files": 6,
+      "files": 4,
       "category": "devops",
       "author": "George Khananaev"
     },
@@ -80,7 +80,7 @@
       "name": "domain-checker",
       "description": "Bulk domain availability checker. Use when the user wants to check whether one or many domain names are available for registration (e.g., \"is acme.com free\", \"check these 50 domains\", \"find an available .io for my brand\"). Supports any TLD (.com/.net/.io/.ai/.dev/.app/...), parallel checking, three input modes (CLI args / file / stdin), bare-name + TLD-list expansion, and table/JSON/CSV output. Python stdlib only — no pip installs, no API keys.",
       "path": ".claude/skills/domain-checker",
-      "files": 4,
+      "files": 3,
       "category": "backend",
       "author": "George Khananaev"
     },
@@ -163,7 +163,7 @@
       "name": "mongodb-atlas-cli",
       "description": "Comprehensive MongoDB Atlas + mongosh skill for performance auditing, all index types (b-tree/text/2dsphere/hashed/TTL/partial/wildcard/Atlas-Search/Vector-Search), Performance Advisor analysis, query explain, schema advice, backup status, alerts, week-over-week diffs, and additive index creation. Read-only by default; create-index ops gated behind explicit `--confirm`. Hard-blocks any destructive op (delete, drop, restore, pause, terminate, kill, dbuser write, network change). Works against Atlas Cloud (full feature set) and self-hosted/local mongo (mongosh-based subset).",
       "path": ".claude/skills/mongodb-atlas-cli",
-      "files": 53,
+      "files": 32,
       "category": "backend"
     },
     {
@@ -179,14 +179,14 @@
       "name": "n8n-cli",
       "description": "Safety-first n8n management skill — list/inspect workflows, executions, credentials, tags, projects, variables, source-control status; trigger runs (CLI/webhook); activate/deactivate; backup/restore; audit; diff. Two backends auto-detect: REST API (cloud + remote self-hosted, urllib stdlib) & `n8n` CLI (self-hosted only, full surface incl. encrypted/decrypted credential export). Read-only by default; mutations require `--confirm` + dry-run preview. Hard-blocks 14 destructive CLI prefixes (delete, reset, encryption-key, executionData, user-management role changes, mfa, ldap, db ops, license) and 22 DELETE/PUT/PATCH/POST API endpoints (workflows/credentials/executions/users/tags/variables/projects/source-control/license). CLI refusal guard uses flag-stripping + chain matching to block bypasses. URL paths validated against `/api/v1/` allowlist + traversal-resistant. Resource IDs regex-validated before URL interpolation. API key redacted from error output; HTTPS warning on http://. Decrypted credential export double-gated (--decrypted + --confirm-secrets). Output paths sanitized. n8n REST API uses `/activate`+`/deactivate` for both 1.x & 2.x — public API has no `run` endpoint, so trigger_workflow is CLI-only w/ webhook URL helper. Faster than n8n MCP for bulk reads, backups, exports, diffs, CI/cron; complements MCP which is better for workflow authoring.",
       "path": ".claude/skills/n8n-cli",
-      "files": 50,
+      "files": 29,
       "category": "backend"
     },
     {
       "name": "neon-postgres-agent-platforms",
       "description": "Build and operate multi-tenant AI agent platforms on Neon. Use this skill whenever the user is designing an agent/app builder, provisioning a Neon project or database per user/app/agent run, managing thousands of tenant projects, separating sponsored free users from paid customers, moving projects between orgs, choosing personal vs organization vs project-scoped API keys, tracking fleet consumption or Agent Plan costs, creating compound checkpoints that combine DB snapshots with source revisions/secrets/deploy metadata, or orchestrating snapshot/restore flows for generated apps. Also use it for Neon Agent Program, Agent Plan, org/project limits, HIPAA, co-marketing, support, or neondatabase/neon-for-agent-platforms examples.",
       "path": ".claude/skills/neon-postgres-agent-platforms",
-      "files": 28,
+      "files": 27,
       "category": "backend",
       "source": "https://github.com/neondatabase/neon-for-agent-platforms"
     },
@@ -252,15 +252,15 @@
       "name": "planning-with-files",
       "description": "Implements Manus-style file-based planning to organize and track progress on complex tasks. Creates task_plan.md, findings.md, and progress.md. Use when asked to plan out, break down, or organize a multi-step project, research task, or any work requiring 5+ tool calls. Supports automatic session recovery after /clear.",
       "path": ".claude/skills/planning-with-files",
-      "files": 18,
+      "files": 17,
       "category": "productivity",
       "invocable": true
     },
     {
       "name": "project-change-log",
-      "description": "Maintain a CHANGELOG.md following the Keep a Changelog standard. Use after commits, on /commit, when the user asks to update the changelog, or when releasing a version — maps conventional-commit types to Added/Changed/Fixed/Security categories.",
+      "description": "Maintain a CHANGELOG.md following the Keep a Changelog standard. Use after commits, on /commit, when the user asks to update the changelog, or when releasing a version — maps conventional-commit types to Added/Changed/Fixed/Security categories. Archives old releases into per-major files (changelog/CHANGELOG-1.x.md) so the main file stays small no matter how many versions accumulate.",
       "path": ".claude/skills/project-change-log",
-      "files": 1,
+      "files": 3,
       "category": "security"
     },
     {
@@ -296,7 +296,7 @@
       "name": "senior-backend",
       "description": "This skill should be used when the user asks to \"design REST APIs\", \"optimize database queries\", \"implement authentication\", \"build microservices\", \"review backend code\", \"set up GraphQL\", \"handle database migrations\", or \"load test APIs\". Use for Node.js/Express/Fastify development, PostgreSQL optimization, API security, and backend architecture patterns.",
       "path": ".claude/skills/senior-backend",
-      "files": 10,
+      "files": 7,
       "category": "security"
     },
     {
@@ -317,7 +317,7 @@
       "name": "supabase-cli",
       "description": "CLI automation for Supabase development workflows. Provides scripts for migrations, Edge Functions, secrets management, type generation, and SQL execution with safety checks.",
       "path": ".claude/skills/supabase-cli",
-      "files": 20,
+      "files": 17,
       "category": "backend"
     },
     {
@@ -367,7 +367,7 @@
       "name": "token-optimizer",
       "description": "Reduce token count in prompts, docs, and prose. Covers prompt compression (40-60% savings), doc formatting, TOON data serialization, and Strunk's prose clarity rules. Use when compressing prompts, optimizing docs for LLM context, or writing clear technical prose.",
       "path": ".claude/skills/token-optimizer",
-      "files": 8,
+      "files": 5,
       "category": "ai",
       "author": "George Khananaev"
     },
@@ -382,7 +382,7 @@
       "name": "ui-ux-pro-max",
       "description": "\"UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings, 20 charts, 9 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app, .html, .tsx, .vue, .svelte. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design. Topics: color palette, accessibility, animation, layout, typography, font pairing, spacing, hover, shadow, gradient. Integrations: shadcn/ui MCP for component search and examples.\"",
       "path": ".claude/skills/ui-ux-pro-max",
-      "files": 30,
+      "files": 27,
       "category": "mobile"
     },
     {
