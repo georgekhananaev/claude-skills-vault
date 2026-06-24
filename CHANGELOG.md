@@ -8,11 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-- **project-change-log**: Archiving support so `CHANGELOG.md` stays small no matter how many releases accumulate (one real project had hit 197 versions / 2,508 lines / 420 KB). New safe-by-default rotation script `scripts/rotate_changelog.py` (Python stdlib only, dry-run unless `--apply`) keeps `[Unreleased]` + the newest 20 releases in the main file and moves older releases into per-major archive files (`changelog/CHANGELOG-1.x.md`), linked from an `## Older releases` index. Idempotent and content-loss-safe (verified by header-set equality on the 197-version file: 2,508 → 531 lines, all releases preserved), with newest-first ordering across main + archives; handles letter/pre-release suffixes (`1.23.0a`), hash-instead-of-date headers (`1.19.4 - e850122c`), multi-major bucketing, and a `CHANGELOG-misc.md` fallback. SKILL.md gains a "Keeping the changelog small" section plus a first-time-adoption flow (run after the skill is added/updated: dry-run to verify detected version count, then `--apply` once and commit the `changelog/` dir with the trimmed file). Adds `references/archiving.md` (policy, behavior guarantees, adoption steps, troubleshooting).
 
 ### Changed
 
 ### Fixed
+
+## [1.8.1] - 2026-06-25
+
+### Added
+- **project-change-log**: Archiving support so `CHANGELOG.md` stays small no matter how many releases accumulate (one real project had hit 197 versions / 2,508 lines / 420 KB). New safe-by-default rotation script `scripts/rotate_changelog.py` (Python stdlib only, dry-run unless `--apply`) keeps `[Unreleased]` + the newest 20 releases in the main file and moves older releases into per-major archive files (`changelog/CHANGELOG-1.x.md`), linked from an `## Older releases` index. Idempotent and content-loss-safe (verified by header-set equality on the 197-version file: 2,508 → 531 lines, all releases preserved), with newest-first ordering across main + archives; handles letter/pre-release suffixes (`1.23.0a`), hash-instead-of-date headers (`1.19.4 - e850122c`), multi-major bucketing, and a `CHANGELOG-misc.md` fallback. SKILL.md gains a "Keeping the changelog small" section plus a first-time-adoption flow (run after the skill is added/updated: dry-run to verify detected version count, then `--apply` once and commit the `changelog/` dir with the trimmed file). Adds `references/archiving.md` (policy, behavior guarantees, adoption steps, troubleshooting).
 
 ## [1.8.0] - 2026-06-10
 
