@@ -1,6 +1,6 @@
 {
   "version": "1.8.1",
-  "generated": "2026-06-24T17:28:35.509Z",
+  "generated": "2026-06-25T14:22:53.433Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -576,11 +576,6 @@
       "path": "mcp-servers/github"
     },
     {
-      "name": "jira-bridge",
-      "description": "A Model Context Protocol (MCP) server that provides Claude with access to Jira for issue management, project tracking, and workflow automation.",
-      "path": "mcp-servers/jira-bridge"
-    },
-    {
       "name": "kubernetes",
       "description": "Manage Kubernetes clusters, pods, and deployments.",
       "path": "mcp-servers/kubernetes"
@@ -599,11 +594,6 @@
       "name": "monday",
       "description": "AI agent integration with the monday.com work operating system.",
       "path": "mcp-servers/monday"
-    },
-    {
-      "name": "mongodb",
-      "description": "Custom MCP server for MongoDB with advanced query, aggregation, and schema analysis tools.",
-      "path": "mcp-servers/mongodb"
     },
     {
       "name": "mui",
@@ -629,11 +619,6 @@
       "name": "playwright",
       "description": "Browser automation using Playwright's accessibility tree for fast, deterministic interactions.",
       "path": "mcp-servers/playwright"
-    },
-    {
-      "name": "postgres-mcp",
-      "description": "A Model Context Protocol (MCP) server that provides Claude with direct access to PostgreSQL databases for querying, schema exploration, and data analysis.",
-      "path": "mcp-servers/postgres-mcp"
     },
     {
       "name": "posthog",
@@ -674,11 +659,6 @@
       "name": "stripe",
       "description": "Payments integration for handling payments, managing customers, and accessing payment data.",
       "path": "mcp-servers/stripe"
-    },
-    {
-      "name": "supabase",
-      "description": "Custom MCP server for Supabase with database, auth, storage, and edge functions integration.",
-      "path": "mcp-servers/supabase"
     },
     {
       "name": "time",

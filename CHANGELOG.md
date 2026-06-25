@@ -8,9 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **mcp-servers**: Added a comprehensive §5 "More verified servers (by category)" catalog to `MCP-SERVERS.md` — ~75 additional MCP servers across 12 categories (databases, vector/search, cloud, DevOps/CI/IaC, observability, payments, CRM/support, e-commerce/CMS, productivity, comms/automation, web search, AI/browser/dev tools). Each row has maintainer, an official or maintained-GitHub source link, and the exact `claude mcp add` / `/plugin install` command. Sources verified June 2026 via parallel research; deprecated servers (E2B, standalone Elasticsearch/Weaviate, generic Cassandra, etc.) excluded with successor notes.
 
 ### Changed
 - **commands**: Added an **Install** column to `COMMANDS.md` showing the per-command `npx claude-skills-vault install <name>` invocation (mirrors the Install column in `SKILLS.md`). Implemented in `scripts/generate-docs.js` so it survives doc regeneration; every command name resolves via the CLI's `findItem`.
+- **mcp-servers**: Rewrote `MCP-SERVERS.md` for June 2026. Leads with the official `claude-plugins-official` plugin marketplace (`/plugin install <name>@claude-plugins-official`), documents current `claude mcp add` transports (HTTP/SSE/stdio/ws) + `--scope` and the `.mcp.json` format, and references the Anthropic connector Directory, the official MCP Registry, and the plugin catalog. Reorganized official-first / all-sourced; corrected the `git` reference server (active, not archived); noted the `modelcontextprotocol/servers` April-2026 third-party-list retirement in favor of the Registry.
+
+### Removed
+- **mcp-servers**: Removed 4 bespoke custom MCP server implementations (`jira-bridge`, `mongodb`, `postgres-mcp`, `supabase`) that shipped their own source but had no maintained upstream, in favor of maintained official servers (Atlassian remote MCP, [mongodb-js/mongodb-mcp-server](https://github.com/mongodb-js/mongodb-mcp-server), [crystaldba/postgres-mcp](https://github.com/crystaldba/postgres-mcp), [supabase-community/supabase-mcp](https://github.com/supabase-community/supabase-mcp)). MCP server count 38 → 34 in `manifest.json`.
 
 ### Fixed
 
