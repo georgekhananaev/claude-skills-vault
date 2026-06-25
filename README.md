@@ -36,11 +36,49 @@ Skills are downloaded directly from this repository into your project's `.claude
 
 ## What's Inside
 
-| Category | Count | Details |
-|----------|-------|---------|
-| **Skills** | 55 | Development, security, testing, frontend, backend, mobile, AI, databases, automation, SEO | See [SKILLS.md](SKILLS.md) |
-| **Commands** | 11 | Git workflow, PR management, feature planning, DevOps, releases | See [COMMANDS.md](COMMANDS.md) |
-| **MCP Servers** | 38 | Database, cloud, design, analytics, CI/CD configs | See [MCP-SERVERS.md](MCP-SERVERS.md) |
+| Category | Count | Browse the full list |
+|----------|-------|----------------------|
+| 🛠 **Skills** | 59 | [**SKILLS.md**](SKILLS.md) — dev, security, testing, frontend, backend, mobile, AI, databases, automation, SEO |
+| ⌨️ **Commands** | 12 | [**COMMANDS.md**](COMMANDS.md) — git workflow, PR & release, feature planning, DevOps |
+| 🔌 **MCP Servers** | 34 configs + 100+ catalog | [**MCP-SERVERS.md**](MCP-SERVERS.md) — databases, cloud, observability, payments, AI & more |
+
+## 📚 Documentation
+
+Jump straight to what you need — no searching required.
+
+### 🛠 Skills → [SKILLS.md](SKILLS.md)
+
+59 installable skills, each with a description and a copy-paste install command.
+
+```bash
+npx claude-skills-vault list                 # browse all
+npx claude-skills-vault search <keyword>     # find by topic
+npx claude-skills-vault install <name>       # install one
+```
+
+### ⌨️ Commands → [COMMANDS.md](COMMANDS.md)
+
+12 slash commands — each row lists its `/invocation` and a per-command install command.
+
+### 🔌 MCP Servers → [MCP-SERVERS.md](MCP-SERVERS.md)
+
+How to connect Claude to external tools, plus a source-linked catalog of 100+ servers (official vendors + maintained GitHub projects), each with an exact install command.
+
+**Setup:** [Three ways to add a server](MCP-SERVERS.md#three-ways-to-add-a-server) · [Official plugin marketplace](MCP-SERVERS.md#1-official-plugin-marketplace-recommended) · [Reference servers](MCP-SERVERS.md#4-reference-servers--modelcontextprotocolservers) · [Build your own (SDKs)](MCP-SERVERS.md#6-official-sdks-build-your-own-server) · [Command cheatsheet](MCP-SERVERS.md#command-cheatsheet)
+
+**Browse servers by category:**
+[Databases & data](MCP-SERVERS.md#databases--data) ·
+[Search & vector](MCP-SERVERS.md#search--vector) ·
+[Cloud & deployment](MCP-SERVERS.md#cloud--deployment) ·
+[DevOps, CI/CD & IaC](MCP-SERVERS.md#devops-cicd--iac) ·
+[Observability & monitoring](MCP-SERVERS.md#observability--monitoring) ·
+[Payments & fintech](MCP-SERVERS.md#payments--fintech) ·
+[CRM, support & sales](MCP-SERVERS.md#crm-support--sales) ·
+[E-commerce & CMS](MCP-SERVERS.md#e-commerce--cms) ·
+[Productivity, docs & storage](MCP-SERVERS.md#productivity-docs--storage) ·
+[Communication & automation](MCP-SERVERS.md#communication--automation) ·
+[Web search & scraping](MCP-SERVERS.md#web-search--scraping) ·
+[AI, browser & dev tools](MCP-SERVERS.md#ai-browser--developer-tools)
 
 ## Manual Installation
 
