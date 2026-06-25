@@ -181,12 +181,12 @@ npx claude-skills-vault install --commands
 
 ## Available Commands (${commands.length})
 
-| Command | Description | Invocation |
-|---------|-------------|------------|
+| Command | Description | Invocation | Install |
+|---------|-------------|------------|---------|
 `;
 
   for (const c of commands) {
-    md += `| **${c.name}** | ${c.desc} | \`/${c.name}\` |\n`;
+    md += `| **${c.name}** | ${c.desc} | \`/${c.name}\` | \`npx claude-skills-vault install ${c.name}\` |\n`;
   }
 
   md += `

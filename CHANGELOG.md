@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- **commands**: Added an **Install** column to `COMMANDS.md` showing the per-command `npx claude-skills-vault install <name>` invocation (mirrors the Install column in `SKILLS.md`). Implemented in `scripts/generate-docs.js` so it survives doc regeneration; every command name resolves via the CLI's `findItem`.
 
 ### Fixed
 
