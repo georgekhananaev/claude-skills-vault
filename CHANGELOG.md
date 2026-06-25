@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [1.8.2] - 2026-06-25
+
+### Added
 - **mcp-servers**: Added a comprehensive §5 "More verified servers (by category)" catalog to `MCP-SERVERS.md` — ~75 additional MCP servers across 12 categories (databases, vector/search, cloud, DevOps/CI/IaC, observability, payments, CRM/support, e-commerce/CMS, productivity, comms/automation, web search, AI/browser/dev tools). Each row has maintainer, an official or maintained-GitHub source link, and the exact `claude mcp add` / `/plugin install` command. Sources verified June 2026 via parallel research; deprecated servers (E2B, standalone Elasticsearch/Weaviate, generic Cassandra, etc.) excluded with successor notes.
 
 ### Changed
@@ -17,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 - **mcp-servers**: Removed 4 bespoke custom MCP server implementations (`jira-bridge`, `mongodb`, `postgres-mcp`, `supabase`) that shipped their own source but had no maintained upstream, in favor of maintained official servers (Atlassian remote MCP, [mongodb-js/mongodb-mcp-server](https://github.com/mongodb-js/mongodb-mcp-server), [crystaldba/postgres-mcp](https://github.com/crystaldba/postgres-mcp), [supabase-community/supabase-mcp](https://github.com/supabase-community/supabase-mcp)). MCP server count 38 → 34 in `manifest.json`.
-
-### Fixed
 
 ## [1.8.1] - 2026-06-25
 
