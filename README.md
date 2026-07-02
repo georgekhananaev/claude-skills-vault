@@ -8,11 +8,13 @@ A curated collection of skills, commands, and MCP servers for Claude Code.
 
 ```bash
 # Install the CLI globally or use npx
-npx claude-skills-vault list                # Browse all available skills
+npx claude-skills-vault@latest list         # Browse all available skills (always up to date)
 npx claude-skills-vault install brainstorm  # Install a specific skill
 npx claude-skills-vault search react        # Search by keyword
 npx claude-skills-vault info owasp-security # View skill details
 ```
+
+> Tip: append `@latest` to any command (e.g. `npx claude-skills-vault@latest list`) to bypass the npx cache and always run the newest version of the CLI and skill catalog.
 
 ```bash
 # Install multiple skills at once
@@ -34,6 +36,30 @@ npx claude-skills-vault install brainstorm --force
 
 Skills are downloaded directly from this repository into your project's `.claude/skills/` directory. No git clone required.
 
+## Updating Installed Skills
+
+Skills are downloaded snapshots — they don't auto-update. To pull the newest version, re-install with `--force`, using `@latest` so npx also fetches the newest CLI and catalog.
+
+```bash
+# Update a single skill to the latest version
+npx claude-skills-vault@latest install brainstorm --force
+
+# Update several skills at once
+npx claude-skills-vault@latest install brainstorm owasp-security github-cli --force
+
+# Update every installed skill and command
+npx claude-skills-vault@latest install --all --force
+
+# Update only skills, or only commands
+npx claude-skills-vault@latest install --skills --force
+npx claude-skills-vault@latest install --commands --force
+
+# Preview what would change first
+npx claude-skills-vault@latest install --all --force --dry-run
+```
+
+`--force` overwrites the existing files in `.claude/skills/`, so any local edits to a skill are replaced. Use `--dry-run` first if you want to review changes before applying them.
+
 ## What's Inside
 
 | Category | Count | Browse the full list |
@@ -51,7 +77,7 @@ Jump straight to what you need — no searching required.
 59 installable skills, each with a description and a copy-paste install command.
 
 ```bash
-npx claude-skills-vault list                 # browse all
+npx claude-skills-vault@latest list          # browse all (always latest)
 npx claude-skills-vault search <keyword>     # find by topic
 npx claude-skills-vault install <name>       # install one
 ```

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- **readme**: Added an "Updating Installed Skills" section to `README.md` documenting how to refresh installed skills/commands via `npx claude-skills-vault@latest install ... --force` (single, multiple, `--all`, `--skills`/`--commands`, and `--dry-run` preview). Switched the browse examples to `npx claude-skills-vault@latest list` and added a tip that appending `@latest` bypasses the npx cache to always run the newest CLI and catalog.
 
 ### Fixed
 
