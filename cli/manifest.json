@@ -1,6 +1,6 @@
 {
   "version": "1.8.2",
-  "generated": "2026-06-25T14:36:33.793Z",
+  "generated": "2026-07-12T19:16:09.145Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -49,7 +49,7 @@
     },
     {
       "name": "codex-cli",
-      "description": "Run OpenAI Codex CLI for coding tasks and second-opinion audits. Use when a user asks to run/ask/use Codex, says \"codex prompt\", or wants Claude to delegate a logic/code review to OpenAI models. Covers direct `codex` CLI invocation (exec, review, resume, apply, doctor, mcp), the six reasoning-effort levels (none/minimal/low/medium/high/xhigh), sandbox + dangerous flags, background execution, rate-limit safety, and when to defer to the official OpenAI Codex Claude Code plugin (`codex:rescue`) instead. Preflights with `codex doctor` to read the current default model + surface available updates; never hardcodes model/effort, letting Codex pick its own current best default unless the user explicitly names one.",
+      "description": "Run OpenAI Codex CLI for coding tasks, implementation, reviews, and second-opinion audits with mandatory task-based routing across GPT-5.6-or-newer models. Use when a user asks to run, ask, or use Codex; says \"codex prompt\"; wants a Codex code/logic/plan audit; or wants Claude to delegate work to OpenAI models. Inspect the live Codex model catalog, explicitly pin an eligible model and reasoning effort on every invocation, route clear high-volume work to Luna, everyday work to Terra, and difficult or high-value work to Sol. Use Sol with max reasoning for plan audits. Never invoke or fall back to GPT-5.5, GPT-5.4, GPT-5.3-Codex-Spark, OSS, or any model older than GPT-5.6.",
       "path": ".claude/skills/codex-cli",
       "files": 1,
       "category": "devops"

@@ -12,7 +12,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **brainstorm** | Transform ideas into fully-formed designs through collaborative dialo… | `npx claude-skills-vault install brainstorm` |
 | **claude-seo** | SEO toolkit with 24 specialist sub-skills (upstream v2.0) — full site… | `npx claude-skills-vault install claude-seo` |
 | **code-quality** | Multi-language code quality standards and review for TypeScript, Pyth… | `npx claude-skills-vault install code-quality` |
-| **codex-cli** | Run OpenAI Codex CLI for coding tasks and second-opinion audits. Use … | `npx claude-skills-vault install codex-cli` |
+| **codex-cli** | Run OpenAI Codex CLI for coding tasks, implementation, reviews, and s… | `npx claude-skills-vault install codex-cli` |
 | **color-accessibility-audit** | Analyze color combinations for readability and accessibility complian… | `npx claude-skills-vault install color-accessibility-audit` |
 | **vercel-composition-patterns** | React composition patterns that scale. Use when refactoring component… | `npx claude-skills-vault install composition-patterns` |
 | **data-wrangler** | Production-grade tabular data manipulation using pandas & openpyxl. T… | `npx claude-skills-vault install data-wrangler` |

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **codex-cli**: Mandatory task-based model routing across GPT-5.6-or-newer models — inspects the live Codex model catalog and explicitly pins an eligible model + reasoning effort on every invocation, routing high-volume work to Luna, everyday work to Terra, and difficult/high-value work (and plan audits, with max reasoning) to Sol. Never invokes or falls back to GPT-5.5, GPT-5.4, GPT-5.3-Codex-Spark, OSS, or any model older than GPT-5.6.
 
 ### Changed
 - **readme**: Added an "Updating Installed Skills" section to `README.md` documenting how to refresh installed skills/commands via `npx claude-skills-vault@latest install ... --force` (single, multiple, `--all`, `--skills`/`--commands`, and `--dry-run` preview). Switched the browse examples to `npx claude-skills-vault@latest list` and added a tip that appending `@latest` bypasses the npx cache to always run the newest CLI and catalog.
