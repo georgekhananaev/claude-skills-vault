@@ -1,6 +1,6 @@
 {
   "version": "1.8.3",
-  "generated": "2026-07-18T09:10:02.226Z",
+  "generated": "2026-07-18T09:38:20.219Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -104,7 +104,7 @@
       "name": "firebase-cli",
       "description": "Safety-first Firebase CLI (firebase-tools v15) skill for full project control — deploy, Hosting (sites/channels/rollback), Cloud Functions (+secrets), Firestore (databases/indexes/backups/delete), Realtime Database, Auth import/export, Remote Config, App Distribution, App Hosting, Extensions, Data Connect, Emulator Suite & MCP server. Classifies every command by risk tier via a deterministic classifier script and gates destructive/irreversible/cost-incurring ops behind AskUserQuestion confirmation; enforces the --non-interactive/--force contract so nothing hangs and nothing is auto-confirmed. Wrong-project preflight prevents deploying to prod by accident. Ships a 3-level self-test (static classifier battery, live read-only, guarded live-write w/ cleanup). Use when running, planning, or debugging any `firebase` command.",
       "path": ".claude/skills/firebase-cli",
-      "files": 7,
+      "files": 8,
       "category": "security",
       "author": "George Khananaev"
     },

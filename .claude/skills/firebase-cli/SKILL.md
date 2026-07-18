@@ -14,7 +14,7 @@ Safety-first wrapper for `firebase` (firebase-tools). Every command is classifie
 - Inspect or mutate Firestore, Realtime DB, Auth users, Remote Config, secrets
 - Manage projects, apps, sites, backends, extensions, testers
 - Local dev: Emulator Suite, `serve`, functions shell
-- NOT for single-doc conversational data edits — Firebase MCP server fits better; see [references/patterns.md](references/patterns.md) (CLI vs MCP)
+- NOT for single-doc conversational data edits — Firebase MCP server fits better; see [references/mcp.md](references/mcp.md) (CLI vs MCP)
 
 ## Prerequisites (run once per session)
 
@@ -34,6 +34,8 @@ Reports CLI/Node version, **account**, **active project**, & verifies the target
 | **Forbidden** | Triple typed confirmation, NEVER auto-confirm | `firestore:delete --all-collections`, `firestore:databases:delete`, `firestore:backups:delete`, `hosting:sites:delete`, `functions:secrets:destroy`, `database:set /`, `database:remove /`, unfiltered `functions:delete`, bulk destructive loops |
 
 Full classification + protocols: [references/safety-rules.md](references/safety-rules.md). Complete command inventory w/ tiers & flags: [references/commands.md](references/commands.md).
+
+**Firebase MCP server connected?** (`mcp__firebase__*` tools): those calls BYPASS the classifier & can mutate what the CLI can't (Firestore docs, RTDB writes, Auth users, live Remote Config). Tier every MCP call from the map in [references/mcp.md](references/mcp.md) & apply the same confirmation protocols — e.g. `firestore_delete_database` = Forbidden, `realtimedatabase_set_data`/`auth_update_user`/`remoteconfig_update_template` = Destructive.
 
 ## Decision Flow
 

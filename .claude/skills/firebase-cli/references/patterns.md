@@ -116,16 +116,7 @@ Surface evolves; on any unknown command/flag error:
 
 ## CLI vs Firebase MCP Server
 
-The CLI ships an MCP server (`firebase mcp`, tools for Firestore doc CRUD, auth user lookup, storage, messaging). Division:
-
-| Use CLI (this skill) | Use MCP |
-|----------------------|---------|
-| Deploys, rules, channels, CI | Single Firestore doc reads/writes |
-| Bulk ops, backups, exports, scripting | "Query my data" conversational tasks |
-| Emulators, project/app admin | Auth user lookup/update one-offs |
-| Anything needing the risk gate & audit trail | |
-
-MCP has NO read-only mode (full user permissions) — for mutations, the CLI + classifier path is the safer route.
+The CLI ships an MCP server (`firebase mcp` → `mcp__firebase__*` tools: Firestore doc CRUD, RTDB get/set, auth users, messaging, Remote Config, Crashlytics). MCP has NO read-only mode & its calls bypass the risk classifier — setup facts, the full 57-tool risk-tier map, & the CLI/MCP division of labor live in [mcp.md](mcp.md).
 
 ## Self-Test (this skill testing itself)
 

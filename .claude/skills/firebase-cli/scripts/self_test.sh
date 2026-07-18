@@ -71,7 +71,7 @@ if [ -f "$SKILL_DIR/SKILL.md" ] \
 else
   fail "SKILL.md frontmatter (name + description)"
 fi
-for ref in safety-rules.md commands.md patterns.md; do
+for ref in safety-rules.md commands.md patterns.md mcp.md; do
   if [ -s "$SKILL_DIR/references/$ref" ]; then pass "reference present: $ref"
   else fail "reference present: $ref"; fi
 done
