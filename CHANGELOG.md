@@ -9,11 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- **firebase-cli**: Safety-first Firebase CLI skill — deterministic risk classifier (safe/write/destructive/forbidden) over the full firebase-tools v15 surface, wrong-project preflight, `--non-interactive`/`--force` contract, a 3-level self-test (static battery, live read-only, guarded live-write with cleanup), and a Firebase MCP server reference with a risk-tier map for all 57 MCP tools (which bypass the CLI classifier)
-
 ### Changed
 
 ### Fixed
+
+## [1.8.4] - 2026-07-18
+
+### Added
+
+- **firebase-cli**: Safety-first Firebase CLI skill — deterministic risk classifier (safe/write/destructive/forbidden) over the full firebase-tools v15 surface, wrong-project preflight, `--non-interactive`/`--force` contract, a 3-level self-test (static battery, live read-only, guarded live-write with cleanup), and a Firebase MCP server reference with a risk-tier map for all 57 MCP tools (which bypass the CLI classifier)
 
 ## [1.8.3] - 2026-07-13
 
