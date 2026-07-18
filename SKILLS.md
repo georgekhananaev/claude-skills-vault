@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (59)
+## Core Skills (60)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -20,6 +20,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **domain-checker** | Bulk domain availability checker. Use when the user wants to check wh… | `npx claude-skills-vault install domain-checker` |
 | **fastapi-senior-dev** | Senior Python Backend Engineer skill for FastAPI. Use when scaffoldin… | `npx claude-skills-vault install fastapi-senior-dev` |
 | **file-converter** | Convert & transform files - images (resize, format, HEIC), markdown (… | `npx claude-skills-vault install file-converter` |
+| **firebase-cli** | Safety-first Firebase CLI (firebase-tools v15) skill for full project… | `npx claude-skills-vault install firebase-cli` |
 | **firecrawl** | Search, scrape, and interact with the web via the Firecrawl CLI. Use … | `npx claude-skills-vault install firecrawl-cli` |
 | **frontend-design** | Guidance for distinctive, intentional visual design when building new… | `npx claude-skills-vault install frontend-design` |
 | **gemini-cli** | Run Gemini CLI for AI queries. Use when user asks to "run/ask/use gem… | `npx claude-skills-vault install gemini-cli` |
