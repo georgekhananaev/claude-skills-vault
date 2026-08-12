@@ -60,6 +60,24 @@ npx claude-skills-vault@latest install --all --force --dry-run
 
 `--force` overwrites the existing files in `.claude/skills/`, so any local edits to a skill are replaced. Use `--dry-run` first if you want to review changes before applying them.
 
+## Troubleshooting
+
+### "Skill/command not found" or `list`/`search` shows fewer items than expected
+
+The CLI fetches the catalog from the manifest matching **the version of the CLI you're currently running**, not automatically the newest one. If npx (or a global install) is serving a cached, older copy of the CLI, it resolves an older manifest — one that can predate skills, commands, or MCP servers added since.
+
+Fix, in order:
+
+1. **Always append `@latest`** — this is the #1 fix: `npx claude-skills-vault@latest list`. It bypasses npx's local cache and forces resolution of the newest published CLI + catalog.
+2. **Confirm what version you're actually running**: `npx claude-skills-vault@latest --version` — compare it against the [latest release](CHANGELOG.md). If your everyday `npx claude-skills-vault ...` (no `@latest`) reports an older version, that's the stale copy npx keeps reusing.
+3. **If you installed globally**, update the global copy: `npm install -g claude-skills-vault@latest` (or `npm update -g claude-skills-vault`).
+4. **If npx still resolves stale after step 1**, clear its cache: `npx clear-npx-cache` (npm ≥ 7) or manually `rm -rf ~/.npm/_npx`.
+5. **No internet / GitHub unreachable**: the CLI falls back to the manifest bundled in the installed npm package, which is only as current as that install — same fix as above, update the package.
+
+### `install <name>` fails with "not found in vault"
+
+Same root cause as above — re-run with `npx claude-skills-vault@latest install <name>` before assuming the item doesn't exist. Then double check the exact name in [SKILLS.md](SKILLS.md), [COMMANDS.md](COMMANDS.md), or [MCP-SERVERS.md](MCP-SERVERS.md) (names are case-insensitive but must match exactly, e.g. `owasp-security`, not `owasp`).
+
 ## What's Inside
 
 | Category | Count | Browse the full list |

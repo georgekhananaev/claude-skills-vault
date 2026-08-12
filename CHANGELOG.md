@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- **readme**: Added a "Troubleshooting" section to `README.md` and `cli/README.md` covering the stale npx/global-install manifest issue — the CLI resolves its catalog to the git tag matching its own installed version, so an outdated cached/global copy can report fewer skills/commands/MCP servers or a false "not found". Documents the fix order (`@latest`, version check, global update, npx cache clear) and updated `scripts/generate-docs.js` so the `cli/README.md` section survives regeneration.
+
 ### Fixed
 
 ## [1.8.5] - 2026-08-12
