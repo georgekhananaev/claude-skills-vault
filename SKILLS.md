@@ -2,7 +2,7 @@
 
 All skills are installable via `npx claude-skills-vault install <name>`.
 
-## Core Skills (60)
+## Core Skills (61)
 
 | Skill | Description | Install |
 |-------|-------------|---------|
@@ -32,6 +32,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **mongodb-atlas-cli** | Comprehensive MongoDB Atlas + mongosh skill for performance auditing,… | `npx claude-skills-vault install mongodb-atlas-cli` |
 | **multi-agent-patterns** | Master orchestrator, peer-to-peer, and hierarchical multi-agent archi… | `npx claude-skills-vault install multi-agent-patterns` |
 | **n8n-cli** | Safety-first n8n management skill — list/inspect workflows, execution… | `npx claude-skills-vault install n8n-cli` |
+| **natural-language** | Shapes how every reply to the user gets written - plain everyday word… | `npx claude-skills-vault install natural-language` |
 | **neon-postgres-agent-platforms** | >- Build and operate multi-tenant AI agent platforms on Neon. Use thi… | `npx claude-skills-vault install neon-postgres-agent-platforms` |
 | **next-cache-components** | Next.js 16 Cache Components - PPR, use cache directive, cacheLife, ca… | `npx claude-skills-vault install next-cache-components` |
 | **next-upgrade** | Upgrade Next.js to the latest version following official migration gu… | `npx claude-skills-vault install next-upgrade` |

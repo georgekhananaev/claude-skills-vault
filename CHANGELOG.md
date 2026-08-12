@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- **natural-language**: Always-on skill shaping chat replies toward plain, everyday wording instead of corporate/AI-sounding phrasing, prose over bullet-heavy formatting, and rare dry humor only when it fits — grounded in Ogden's Basic English and VOA Special English word lists, with a swap table for common AI-tell buzzwords
+
 ### Changed
 
 ### Fixed

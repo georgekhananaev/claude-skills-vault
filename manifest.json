@@ -1,6 +1,6 @@
 {
   "version": "1.8.4",
-  "generated": "2026-07-18T10:04:04.107Z",
+  "generated": "2026-08-12T04:07:40.162Z",
   "skills": [
     {
       "name": "agy-cli",
@@ -189,6 +189,13 @@
       "path": ".claude/skills/n8n-cli",
       "files": 29,
       "category": "backend"
+    },
+    {
+      "name": "natural-language",
+      "description": "Shapes how every reply to the user gets written - plain everyday words instead of corporate or AI-sounding phrasing, real sentences instead of bullet-heavy formatting, no forced dash punctuation, and at most a rare bit of dry humor when it genuinely fits. Use this for every conversational response written to the user in this project, not only on special request - check it before replying, the same way a person reads over their own message before hitting send.",
+      "path": ".claude/skills/natural-language",
+      "files": 1,
+      "category": "productivity"
     },
     {
       "name": "neon-postgres-agent-platforms",
