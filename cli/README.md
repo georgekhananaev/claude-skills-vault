@@ -2,7 +2,7 @@
 
 Install [Claude Code](https://claude.ai/code) skills, commands, and MCP servers from the community vault.
 
-**62 skills** | **12 commands** | **34 MCP servers**
+**63 skills** | **12 commands** | **34 MCP servers**
 
 ## Quick Start
 
