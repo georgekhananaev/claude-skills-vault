@@ -70,6 +70,14 @@
       "author": "George Khananaev"
     },
     {
+      "name": "deed-page",
+      "description": "Publish files to a permanent deed.page URL. No account.",
+      "path": ".claude/skills/deed-page",
+      "files": 2,
+      "category": "productivity",
+      "source": "https://github.com/f-o-x11/deed-page-skill"
+    },
+    {
       "name": "doc-navigator",
       "description": "Efficiently navigate codebase documentation during Research phase. Use instead of Grep/Glob for finding architectural decisions, feature specs, and technical docs. Maps topics to doc locations for fast context retrieval. If codebase lacks documentation structure, provides patterns to establish one.",
       "path": ".claude/skills/doc-navigator",

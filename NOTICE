@@ -81,6 +81,9 @@ Community (https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineerin
   - multi-agent-patterns
   - neon-postgres-agent-platforms
 
+deed.page (https://github.com/f-o-x11/deed-page-skill):
+  - deed-page
+
 Firecrawl (https://github.com/firecrawl/cli):
   - firecrawl-cli
 
