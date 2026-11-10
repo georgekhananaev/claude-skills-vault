@@ -29,7 +29,7 @@ _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _SCRIPTS_DIR)
 try:
     from backlinks_auth import get_bing_api_key, get_bing_verified_sites, load_config
-    from google_auth import validate_url
+    from google_auth import redact_key, validate_url
 except ImportError:
     print("Error: backlinks_auth.py and google_auth.py required in scripts/", file=sys.stderr)
     sys.exit(1)
@@ -129,7 +129,7 @@ def _bing_request(endpoint: str, api_key: str, params: Optional[dict] = None,
         return {
             "status": "error",
             "data": None,
-            "error": str(e),
+            "error": redact_key(e, api_key),
             "metadata": {"source": "bing_webmaster"},
         }
 

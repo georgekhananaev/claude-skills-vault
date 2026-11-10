@@ -133,7 +133,7 @@ def run_pagespeed(
         if resp.status_code == 429:
             result["error"] = "PSI rate limit exceeded (240 QPM / 25,000 QPD). Wait and retry."
         elif resp.status_code == 400:
-            result["error"] = f"Invalid URL or parameters: {resp.text}"
+            result["error"] = f"Invalid URL or parameters: {redact_key(resp.text, api_key)}"
         else:
             result["error"] = f"PSI API error {resp.status_code}: {redact_key(e, api_key)}"
         return result
