@@ -491,6 +491,12 @@ def get_api_key() -> Optional[str]:
     return config.get("api_key")
 
 
+def redact_key(text, api_key: Optional[str]) -> str:
+    """Remove the API key from text such as a request error, which includes the full URL."""
+    text = str(text)
+    return text.replace(api_key, "***") if api_key else text
+
+
 def build_service(api_name: str, version: str, scopes: list):
     """
     Build a Google API discovery service client.

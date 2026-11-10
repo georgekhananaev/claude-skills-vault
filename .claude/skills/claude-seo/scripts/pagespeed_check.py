@@ -26,12 +26,12 @@ except ImportError:
 
 # Import credential helper (same directory)
 try:
-    from google_auth import get_api_key, load_config, validate_url
+    from google_auth import get_api_key, load_config, redact_key, validate_url
 except ImportError:
     # Fallback: try relative import from scripts/
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from google_auth import get_api_key, load_config, validate_url
+    from google_auth import get_api_key, load_config, redact_key, validate_url
 
 PSI_ENDPOINT = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
 CRUX_ENDPOINT = "https://chromeuxreport.googleapis.com/v1/records:queryRecord"
@@ -135,10 +135,10 @@ def run_pagespeed(
         elif resp.status_code == 400:
             result["error"] = f"Invalid URL or parameters: {resp.text}"
         else:
-            result["error"] = f"PSI API error {resp.status_code}: {e}"
+            result["error"] = f"PSI API error {resp.status_code}: {redact_key(e, api_key)}"
         return result
     except requests.exceptions.RequestException as e:
-        result["error"] = f"Request failed: {e}"
+        result["error"] = f"Request failed: {redact_key(e, api_key)}"
         return result
 
     result["analysis_timestamp"] = data.get("analysisUTCTimestamp")
@@ -361,7 +361,7 @@ def query_crux(
         resp.raise_for_status()
         data = resp.json()
     except requests.exceptions.RequestException as e:
-        result["error"] = f"CrUX API request failed: {e}"
+        result["error"] = f"CrUX API request failed: {redact_key(e, api_key)}"
         return result
 
     record = data.get("record", {})

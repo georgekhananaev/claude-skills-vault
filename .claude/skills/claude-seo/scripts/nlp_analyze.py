@@ -23,11 +23,11 @@ except ImportError:
     sys.exit(1)
 
 try:
-    from google_auth import get_api_key, validate_url
+    from google_auth import get_api_key, redact_key, validate_url
 except ImportError:
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from google_auth import get_api_key, validate_url
+    from google_auth import get_api_key, redact_key, validate_url
 
 NLP_ENDPOINT = "https://language.googleapis.com/v2/documents:annotateText"
 
@@ -117,7 +117,7 @@ def analyze_text(
         resp.raise_for_status()
         data = resp.json()
     except requests.exceptions.RequestException as e:
-        result["error"] = f"NLP API request failed: {e}"
+        result["error"] = f"NLP API request failed: {redact_key(e, key)}"
         return result
 
     # Entities
@@ -226,8 +226,8 @@ def analyze_url(
     except ImportError:
         # Fallback: regex-based text extraction
         import re
-        text = re.sub(r"<script[^>]*>.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE)
-        text = re.sub(r"<style[^>]*>.*?</style>", "", text, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r"<script\b[^>]*>.*?</script\b[^>]*>", "", html, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r"<style\b[^>]*>.*?</style\b[^>]*>", "", text, flags=re.DOTALL | re.IGNORECASE)
         text = re.sub(r"<[^>]+>", " ", text)
         text = re.sub(r"\s+", " ", text).strip()
 
