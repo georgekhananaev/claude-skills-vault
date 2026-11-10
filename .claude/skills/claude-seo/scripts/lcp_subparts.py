@@ -36,7 +36,7 @@ _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
 from url_safety import URLSafetyError, validate_url_strict  # noqa: E402
-from google_auth import get_api_key  # noqa: E402
+from google_auth import get_api_key, redact_key  # noqa: E402
 
 
 CRUX_ENDPOINT = "https://chromeuxreport.googleapis.com/v1/records:queryRecord"
@@ -67,10 +67,10 @@ def _query_crux(url: str, form_factor: str, api_key: str) -> dict:
             return json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
         return {
-            "error": f"CrUX HTTP {exc.code}: {exc.read().decode('utf-8', 'replace')}"
+            "error": f"CrUX HTTP {exc.code}: {redact_key(exc.read().decode('utf-8', 'replace'), api_key)}"
         }
     except urllib.error.URLError as exc:
-        return {"error": f"CrUX request failed: {exc.reason}"}
+        return {"error": f"CrUX request failed: {redact_key(exc.reason, api_key)}"}
 
 
 def _percentile(metric: dict) -> float | None:
