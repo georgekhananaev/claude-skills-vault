@@ -217,12 +217,8 @@ def main():
 
     max_key_len = max(len(k) for k in secrets.keys())
     for key, value in sorted(secrets.items()):
-        # Mask value
-        if len(value) > 10:
-            masked = value[:4] + "***" + value[-3:]
-        else:
-            masked = "***"
-        print(f"  {key.ljust(max_key_len)}  {masked}")
+        # Never print any part of the value
+        print(f"  {key.ljust(max_key_len)}  {'(empty)' if not value else '***'}")
 
     # Check for existing secrets (to show new vs update)
     existing = get_remote_secrets()

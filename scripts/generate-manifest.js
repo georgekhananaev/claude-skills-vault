@@ -58,7 +58,7 @@ function detectCategory(text) {
   if (!text) return 'productivity';
   const t = text.toLowerCase();
   // Word-boundary match so 'ui' doesn't fire on 'build' and 'auth' doesn't fire on 'author'.
-  const hasWord = (kw) => new RegExp(`\\b${kw.replace(/[.+]/g, '\\$&')}\\b`).test(t);
+  const hasWord = (kw) => new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(t);
   // Ordered most-specific → most-generic. First match wins.
   const rules = [
     { keywords: ['swift', 'swiftui', 'ios', 'android', 'mobile', 'react native', 'expo'], category: 'mobile' },
