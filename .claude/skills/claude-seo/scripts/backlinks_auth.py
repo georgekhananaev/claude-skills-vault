@@ -17,6 +17,7 @@ Usage:
 import argparse
 import json
 import os
+import subprocess
 import sys
 from typing import Optional
 
@@ -26,7 +27,7 @@ _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
 try:
-    from url_safety import validate_url
+    import url_safety  # noqa: F401
 except ImportError as _import_exc:
     # Hard fail: a private-IP/loopback fallback that omits SSRF checks is
     # worse than no validation at all. The previous fallback shipped in
@@ -37,6 +38,17 @@ except ImportError as _import_exc:
         "Install with: pip install -r requirements.txt"
     ) from _import_exc
 
+try:
+    # Reuse google_auth.py's legacy-permission remediation helper instead of
+    # duplicating it. It is path/mode-generic (no dependency on google_auth's
+    # own TOKEN_PATH), so it is safe to share as-is.
+    from google_auth import _chmod_quiet
+except ImportError as _import_exc:
+    raise RuntimeError(
+        "scripts/google_auth.py is required alongside backlinks_auth.py. "
+        "Install with: pip install -r requirements.txt"
+    ) from _import_exc
+
 CONFIG_PATH = os.path.expanduser("~/.config/claude-seo/backlinks-api.json")
 CACHE_DIR = os.path.expanduser("~/.cache/claude-seo/commoncrawl")
 
@@ -44,6 +56,7 @@ CACHE_DIR = os.path.expanduser("~/.cache/claude-seo/commoncrawl")
 SERVICE_AUTH = {
     "moz": "api_key",
     "bing": "api_key",
+    "keywordseverywhere": "api_key",
     "commoncrawl": "none",
     "verify": "none",
 }
@@ -52,9 +65,89 @@ SERVICE_AUTH = {
 SERVICE_NAMES = {
     "moz": "Moz Link Explorer API",
     "bing": "Bing Webmaster Tools API",
+    "keywordseverywhere": "Keywords Everywhere (Open PageRank)",
     "commoncrawl": "Common Crawl Web Graph",
     "verify": "Backlink Verification Crawler",
 }
+
+
+def _restrict_to_current_user_windows(path: str) -> None:
+    """Best-effort Windows ACL restriction to the current user (issue #290).
+
+    POSIX mode bits (``chmod``/``fchmod``) are meaningless on Windows: NTFS
+    access control is ACL-based, so forcing ``0o600`` there does not actually
+    stop other local accounts from reading the file. ``icacls`` is the
+    closest equivalent. Failures (missing binary, non-NTFS volume, a
+    restricted shell) are swallowed with a logged warning rather than
+    aborting the credential write or load; POSIX users never reach this
+    function at all, since it is a no-op there.
+    """
+    if os.name != "nt":
+        return
+    user = os.environ.get("USERNAME", "").strip()
+    if not user:
+        print(
+            f"Warning: USERNAME is not set; could not restrict {path} to the current user",
+            file=sys.stderr,
+        )
+        return
+    try:
+        result = subprocess.run(
+            ["icacls", path, "/inheritance:r", "/grant:r", f"{user}:F"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        if result.returncode != 0:
+            detail = (result.stderr or result.stdout or "").strip()
+            print(
+                f"Warning: icacls could not restrict {path} to {user} "
+                f"(exit {result.returncode}): {detail}",
+                file=sys.stderr,
+            )
+    except Exception as exc:  # best-effort hardening only; never fatal
+        print(
+            f"Warning: could not restrict {path} to the current user via icacls: {exc}",
+            file=sys.stderr,
+        )
+
+
+def _write_secure_json(path: str, data: dict) -> None:
+    """Write ``data`` to ``path`` as JSON with hardened, non-world-readable permissions.
+
+    Mirrors ``google_auth.py``'s ``_save_oauth_token`` write pattern:
+        1. Pre-chmod any existing file (closes a legacy umask=022 window).
+        2. ``os.open`` with explicit mode 0o600 (applies only to newly
+           created files; ignored by the OS when the file already exists).
+        3. ``os.fchmod`` on the open fd to *force* 0o600 even if the file
+           pre-existed at step 2; defeats the os.path.exists()/os.open()
+           TOCTOU race where an external writer could install a 0o644 file
+           between the two calls.
+        4. On Windows, a best-effort ``icacls`` restriction, since steps 2-3
+           are a no-op there (issue #290).
+
+    The file is never world-readable, even briefly.
+    """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    if os.path.exists(path):
+        _chmod_quiet(path, 0o600)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC
+    fd = os.open(path, flags, 0o600)
+    try:
+        fchmod = getattr(os, "fchmod", None)
+        if fchmod is not None:
+            fchmod(fd, 0o600)
+    except OSError:
+        pass  # FS may not support fchmod (e.g. some Windows filesystems)
+    with os.fdopen(fd, "w") as f:
+        json.dump(data, f, indent=2)
+    _restrict_to_current_user_windows(path)
+
+
+def save_config(config: dict) -> None:
+    """Persist backlink API credentials to CONFIG_PATH with hardened permissions."""
+    _write_secure_json(CONFIG_PATH, config)
 
 
 def load_config() -> dict:
@@ -72,11 +165,16 @@ def load_config() -> dict:
         "moz_api_key": None,
         "bing_api_key": None,
         "bing_verified_sites": [],
+        "keywordseverywhere_api_key": None,
         "commoncrawl_cache_dir": CACHE_DIR,
     }
 
     # Load from config file
     if os.path.exists(CONFIG_PATH):
+        # Remediate a world-readable legacy file in place (matches
+        # google_auth._load_oauth_token), including on Windows (#290).
+        _chmod_quiet(CONFIG_PATH, 0o600)
+        _restrict_to_current_user_windows(CONFIG_PATH)
         try:
             with open(CONFIG_PATH, "r") as f:
                 file_config = json.load(f)
@@ -92,6 +190,9 @@ def load_config() -> dict:
 
     if not config["bing_api_key"]:
         config["bing_api_key"] = os.environ.get("BING_WEBMASTER_API_KEY")
+
+    if not config["keywordseverywhere_api_key"]:
+        config["keywordseverywhere_api_key"] = os.environ.get("KEYWORDSEVERYWHERE_API_KEY")
 
     # Expand cache dir path
     config["commoncrawl_cache_dir"] = os.path.expanduser(
@@ -128,7 +229,13 @@ def check_credentials(service: str) -> dict:
         api_key = config.get("moz_api_key")
         if api_key:
             result["available"] = True
-            result["method"] = "api_key"
+            result["method"] = "api_key_configured"
+            result["verified"] = False
+            result["note"] = (
+                "Moz credentials are configured but not live-verified by --check. "
+                "Run a Moz command such as `python scripts/moz_api.py metrics "
+                "example.com --json` to test quota and permissions."
+            )
         else:
             result["error"] = (
                 "No Moz API key found. Set MOZ_API_KEY environment variable "
@@ -140,20 +247,43 @@ def check_credentials(service: str) -> dict:
         api_key = config.get("bing_api_key")
         if api_key:
             result["available"] = True
-            result["method"] = "api_key"
+            result["method"] = "api_key_configured"
+            result["verified"] = False
             sites = config.get("bing_verified_sites", [])
             if sites:
                 result["verified_sites"] = sites
+                result["note"] = (
+                    "Bing credentials and site list are configured but not live-verified "
+                    "by --check. Run a Bing Webmaster query to test access."
+                )
             else:
                 result["note"] = (
-                    "No verified sites listed. Add 'bing_verified_sites' to config "
-                    "for site-specific backlink queries."
+                    "Bing API key is configured but not live-verified. No verified "
+                    "sites are listed; add 'bing_verified_sites' to config for "
+                    "site-specific backlink queries."
                 )
         else:
             result["error"] = (
                 "No Bing Webmaster API key found. Set BING_WEBMASTER_API_KEY "
                 f"environment variable or add 'bing_api_key' to {CONFIG_PATH}\n"
                 "         Get free key at https://www.bing.com/webmasters"
+            )
+
+    elif service == "keywordseverywhere":
+        api_key = config.get("keywordseverywhere_api_key")
+        if api_key:
+            result["available"] = True
+            result["method"] = "api_key_configured"
+            result["verified"] = False
+            result["note"] = (
+                "Keywords Everywhere credentials are configured but not live-verified by --check. "
+                "Run `python scripts/keywordseverywhere_api.py rank example.com --json` to test."
+            )
+        else:
+            result["error"] = (
+                "No Keywords Everywhere API key found. Set KEYWORDSEVERYWHERE_API_KEY "
+                f"environment variable or add 'keywordseverywhere_api_key' to {CONFIG_PATH}\n"
+                "         Get a key from your Keywords Everywhere dashboard"
             )
 
     elif service == "commoncrawl":
@@ -204,6 +334,7 @@ def detect_tier() -> dict:
 
     has_moz = bool(config.get("moz_api_key"))
     has_bing = bool(config.get("bing_api_key"))
+    has_kwe = bool(config.get("keywordseverywhere_api_key"))
 
     if has_moz and has_bing:
         return {
@@ -213,10 +344,10 @@ def detect_tier() -> dict:
                 "Moz DA/PA/Spam Score (any domain)",
                 "Moz referring domains and anchors",
                 "Bing inbound links (verified sites)",
-                "Bing competitor comparison",
+                "Bing comparison between registered properties",
                 "Common Crawl domain-level graph",
                 "Backlink verification crawler",
-            ],
+            ] + (["Keywords Everywhere Open PageRank (0-10 domain rank)"] if has_kwe else []),
             "missing": "Add DataForSEO extension for premium backlink data (paid)",
         }
     elif has_moz:
@@ -228,9 +359,9 @@ def detect_tier() -> dict:
                 "Moz referring domains and anchors",
                 "Common Crawl domain-level graph",
                 "Backlink verification crawler",
-            ],
+            ] + (["Keywords Everywhere Open PageRank (0-10 domain rank)"] if has_kwe else []),
             "missing": (
-                "Add Bing Webmaster API key for competitor comparison. "
+                "Add Bing Webmaster API key for registered-property link data. "
                 "Free at https://www.bing.com/webmasters"
             ),
         }
@@ -241,10 +372,11 @@ def detect_tier() -> dict:
             "capabilities": [
                 "Common Crawl domain-level graph (PageRank, in-degree)",
                 "Backlink verification crawler",
-            ],
+            ] + (["Keywords Everywhere Open PageRank (0-10 domain rank)"] if has_kwe else []),
             "missing": (
                 "Add Moz API key for DA/PA and spam scoring. "
-                "Free at https://moz.com/products/api (2,500 rows/month)"
+                "Free at https://moz.com/products/api (2,500 rows/month). "
+                "Or add a Keywords Everywhere key for a lightweight 0-10 domain rank fallback."
             ),
         }
 
@@ -259,6 +391,12 @@ def get_bing_api_key() -> Optional[str]:
     """Get the Bing Webmaster API key from config or environment."""
     config = load_config()
     return config.get("bing_api_key")
+
+
+def get_keywordseverywhere_api_key() -> Optional[str]:
+    """Get the Keywords Everywhere API key from config or environment."""
+    config = load_config()
+    return config.get("keywordseverywhere_api_key")
 
 
 def get_bing_verified_sites() -> list:
@@ -297,10 +435,13 @@ TIER 1: MOZ API (free signup, 2,500 rows/month)
      (Free tier continues after trial with 2,500 rows/month)
   3. A valid credit card is required at signup but will NOT be charged
   4. After signup, go to https://moz.com/products/api/keys
-  5. Copy your API key (looks like: mozscape-xxxxxxxx)
+  5. Copy your API credentials. Claude SEO accepts either:
+     - a token-style key (looks like: mozscape-xxxxxxxx)
+     - free-tier accessId:secret credentials, raw or base64 encoded
 
   Configure:
     export MOZ_API_KEY="mozscape-xxxxxxxx"
+    # or: export MOZ_API_KEY="accessId:secret"
 
   Or save to """ + CONFIG_PATH + """:
     {
@@ -310,6 +451,9 @@ TIER 1: MOZ API (free signup, 2,500 rows/month)
   Provides: Domain Authority, Page Authority, Spam Score, link counts,
             referring domains, anchor text distribution (any domain).
   Rate limit: 1 request per 10 seconds.
+  Note: `--check moz` reports whether credentials are configured; run
+        `python scripts/moz_api.py metrics example.com --json` for a live
+        permission/quota test.
 
 TIER 2: + BING WEBMASTER TOOLS API (free, verified sites)
 -----------------------------------------------------------
@@ -333,6 +477,25 @@ TIER 2: + BING WEBMASTER TOOLS API (free, verified sites)
             competitor backlink comparison (unique feature!).
   Limitation: Only works for verified sites + their competitors.
 
+OPTIONAL: KEYWORDS EVERYWHERE / OPEN PAGERANK (free signup, single-metric fallback)
+--------------------------------------------------------------------------------------
+  1. Sign in to the Keywords Everywhere dashboard (formerly OpenPageRank)
+  2. Copy your API key (format: opr_live_xxxxxxxxxxxxxxxx)
+  3. Verify current pricing/credit terms in the dashboard before relying on it --
+     not independently confirmed here.
+
+  Configure:
+    export KEYWORDSEVERYWHERE_API_KEY="opr_live_xxxxxxxxxxxxxxxx"
+
+  Or add to """ + CONFIG_PATH + """:
+    {
+      "keywordseverywhere_api_key": "opr_live_xxxxxxxxxxxxxxxx"
+    }
+
+  Provides: A single 0-10 domain rank score, up to 100 domains per request.
+  No referring domains, anchors, or top pages -- use Moz for those. A
+  lightweight Profile Overview fallback when Moz isn't configured.
+
 PREMIUM: DATAFORSEO EXTENSION (paid, most comprehensive)
 ----------------------------------------------------------
   For full commercial-grade backlink data, install the DataForSEO extension:
@@ -344,6 +507,8 @@ PREMIUM: DATAFORSEO EXTENSION (paid, most comprehensive)
 VERIFY CONFIGURATION:
   python scripts/backlinks_auth.py --check
   python scripts/backlinks_auth.py --tier
+  `--check` is configuration-only for Moz/Bing and does not claim live
+  verification unless a specific API query has been run.
 """)
 
 
@@ -356,7 +521,7 @@ def main():
         nargs="?",
         const="all",
         metavar="SERVICE",
-        help="Check credentials. Optionally specify: moz, bing, commoncrawl, verify",
+        help="Check credentials. Optionally specify: moz, bing, keywordseverywhere, commoncrawl, verify",
     )
     parser.add_argument(
         "--setup",

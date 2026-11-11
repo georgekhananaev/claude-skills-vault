@@ -15,7 +15,6 @@ import argparse
 import json
 import sys
 from datetime import datetime, timedelta
-from typing import Optional
 
 try:
     from google.analytics.data_v1beta import BetaAnalyticsDataClient
@@ -38,12 +37,28 @@ except ImportError:
 
 try:
     from google_auth import get_oauth_credentials, load_config
+    from google_properties import resolve_site_property
 except ImportError:
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from google_auth import get_oauth_credentials, load_config
+    from google_properties import resolve_site_property
 
 GA4_SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
+
+
+def _api_status(error: Exception) -> int | None:
+    """HTTP status carried by a Google API exception, or None.
+
+    The status comes from the exception itself, never from its text: with the
+    REST transport the message includes the request URL, so a property ID
+    such as 314040392 would read as a 403 or a 404 to a substring test.
+    """
+    code = getattr(error, "code", None)
+    try:
+        return int(code)
+    except (TypeError, ValueError):
+        return None
 
 
 def _build_ga4_client():
@@ -52,7 +67,9 @@ def _build_ga4_client():
     if not credentials:
         return None
     try:
-        return BetaAnalyticsDataClient(credentials=credentials)
+        # gRPC reaches an HTTP proxy through a dual-stack IPv6 socket, which the
+        # macOS sandbox refuses; REST connects over plain IPv4.
+        return BetaAnalyticsDataClient(credentials=credentials, transport="rest")
     except Exception as e:
         print(f"Error building GA4 client: {e}", file=sys.stderr)
         return None
@@ -163,13 +180,14 @@ def organic_traffic_report(
 
     except Exception as e:
         error_str = str(e)
-        if "403" in error_str or "PERMISSION_DENIED" in error_str:
+        status = _api_status(e)
+        if status == 403 or "PERMISSION_DENIED" in error_str:
             result["error"] = (
                 f"Permission denied for property '{property_id}'. "
                 "Add the service account email as Viewer in "
                 "GA4 Admin > Property Access Management."
             )
-        elif "404" in error_str or "NOT_FOUND" in error_str:
+        elif status == 404 or "NOT_FOUND" in error_str:
             result["error"] = (
                 f"Property '{property_id}' not found. "
                 "Verify the numeric property ID in GA4 Admin > Property Details."
@@ -265,7 +283,7 @@ def top_pages_report(
         "pages": report.get("top_pages", []),
         "total_organic_sessions": report.get("totals", {}).get("sessions", 0),
         "quota_tokens_used": report.get("quota_tokens_used"),
-        "error": report.get("error"),
+        "error": report.get("error") or report.get("pages_error"),
     }
 
 
@@ -398,9 +416,14 @@ def main():
     parser = argparse.ArgumentParser(
         description="GA4 Data API - organic traffic reporting"
     )
-    parser.add_argument(
+    property_group = parser.add_mutually_exclusive_group()
+    property_group.add_argument(
         "--property", "-p",
-        help="GA4 property ID (numeric, e.g., 123456789). Uses config default if not specified.",
+        help="GA4 property ID (numeric, e.g., 123456789). Without --property or --domain the config default is used, unless a sites mapping is configured.",
+    )
+    property_group.add_argument(
+        "--domain",
+        help="Audited site domain/URL; resolves its sites entry and refuses another site's default.",
     )
     parser.add_argument("--days", "-d", type=int, default=28, help="Number of days (default: 28)")
     parser.add_argument(
@@ -414,14 +437,40 @@ def main():
 
     args = parser.parse_args()
 
-    # Resolve property
+    # Resolve property. An empty flag value (an unset shell variable, say) must
+    # not fall through to the global default and report another site's data.
+    for flag, value in (("--property", args.property), ("--domain", args.domain)):
+        if value is not None and not value.strip():
+            print(f"Error: {flag} was given an empty value.", file=sys.stderr)
+            sys.exit(1)
     prop = args.property
-    if not prop:
+    if prop is None:
         config = load_config()
-        prop = config.get("ga4_property_id") or ""
+        if args.domain is not None:
+            try:
+                prop = resolve_site_property(config, "ga4", args.domain)
+            except ValueError as error:
+                print(f"Error: {error}", file=sys.stderr)
+                sys.exit(1)
+        elif config.get("sites"):
+            print(
+                "Error: A sites mapping is configured, so the default GA4 property is "
+                "not assumed. Pass --domain <audited-domain> or --property <id>.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        else:
+            prop = config.get("ga4_property_id") or ""
         # Strip 'properties/' prefix if present for consistency
         if prop and prop.startswith("properties/"):
             prop = prop[len("properties/"):]
+        if prop and args.domain is None:
+            print(
+                f"Note: no --domain or --property given; using the default GA4 "
+                f"property {prop} from config. Pass --domain <audited-domain> to "
+                "bind the report to the audited site.",
+                file=sys.stderr,
+            )
     if not prop:
         print(
             "Error: No GA4 property specified. Use --property or set ga4_property_id in config.",
@@ -447,7 +496,7 @@ def main():
         print(json.dumps(result, indent=2, default=str))
     else:
         if args.report == "top-pages":
-            print(f"=== Top Organic Landing Pages ===")
+            print("=== Top Organic Landing Pages ===")
             print(f"Property: {prop} | Period: {result.get('date_range', {}).get('start')} to {result.get('date_range', {}).get('end')}")
             print(f"Total organic sessions: {result.get('total_organic_sessions', 0):,}")
             print()
@@ -456,7 +505,7 @@ def main():
                 print(f"      Sessions: {page['sessions']:,} | Users: {page['users']:,} | Bounce: {page['bounce_rate']}%")
         else:
             totals = result.get("totals", {})
-            print(f"=== GA4 Organic Traffic Report ===")
+            print("=== GA4 Organic Traffic Report ===")
             print(f"Property: {prop}")
             dr = result.get("date_range", {})
             print(f"Period: {dr.get('start')} to {dr.get('end')}")

@@ -2,17 +2,20 @@
 """
 Google Cloud Natural Language API - Entity, sentiment, and content analysis.
 
-Enhances E-E-A-T scoring with NLP entity coverage, sentiment analysis,
-and Google's own content classification taxonomy.
+Adds NLP entity coverage, sentiment analysis, and content classification
+as internal content-analysis enrichment only. It is unrelated to Google
+Search ranking or official E-E-A-T scoring.
 
 Usage:
     python nlp_analyze.py --text "Your content here" --json
     python nlp_analyze.py --url https://example.com --json
     python nlp_analyze.py --text "Your content" --features entities,sentiment,classify
+    python nlp_analyze.py --url https://example.com.br --language pt-BR --json
 """
 
 import argparse
 import json
+import re
 import sys
 from typing import Optional
 
@@ -23,13 +26,26 @@ except ImportError:
     sys.exit(1)
 
 try:
-    from google_auth import get_api_key, redact_key, validate_url
+    from google_auth import (
+        get_api_key,
+        google_api_key_headers,
+        redact_google_api_key,
+        validate_url,
+    )
+    from url_safety import URLSafetyError, decode_response_text, safe_requests_get
 except ImportError:
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from google_auth import get_api_key, redact_key, validate_url
+    from google_auth import (
+        get_api_key,
+        google_api_key_headers,
+        redact_google_api_key,
+        validate_url,
+    )
+    from url_safety import URLSafetyError, decode_response_text, safe_requests_get
 
 NLP_ENDPOINT = "https://language.googleapis.com/v2/documents:annotateText"
+NLP_V1_ENTITIES_ENDPOINT = "https://language.googleapis.com/v1/documents:analyzeEntities"
 
 # Free tier: 5,000 units/month per feature
 # Paid: $0.001 per 1,000-character unit for entity/sentiment
@@ -41,12 +57,25 @@ FEATURES = {
     "moderate": "moderateText",
 }
 
+# Loose BCP-47 shape (en, pt-BR, zh-Hant); the API decides what it supports.
+LANGUAGE_CODE = re.compile(r"[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*")
+
+
+def language_code(value: str) -> str:
+    """argparse type for --language: reject anything that is not a language tag."""
+    code = value.strip()
+    if not LANGUAGE_CODE.fullmatch(code):
+        raise argparse.ArgumentTypeError(
+            f"{value!r} is not a language code; use a BCP-47 tag such as en or pt-BR"
+        )
+    return code
+
 
 def analyze_text(
     text: str,
     features: Optional[list] = None,
     api_key: Optional[str] = None,
-    language: str = "en",
+    language: Optional[str] = None,
 ) -> dict:
     """
     Analyze text using Google Cloud Natural Language API.
@@ -55,7 +84,8 @@ def analyze_text(
         text: Text content to analyze (max 1M characters).
         features: List of features: entities, sentiment, classify, moderate.
         api_key: Google API key.
-        language: Language code (default: en).
+        language: BCP-47 language code. Omitted by default so the API
+            detects the language; the result then reports the detected code.
 
     Returns:
         Dictionary with entities, sentiment, categories, and moderation results.
@@ -78,26 +108,85 @@ def analyze_text(
     if features is None:
         features = ["entities", "sentiment", "classify"]
 
-    # Build request
+    document = {
+        "type": "PLAIN_TEXT",
+        "content": text[:100000],  # API limit
+    }
+    v1_document = dict(document)
+    # Without a language field the API auto-detects. v1 names the field
+    # "language" and rejects "languageCode" with HTTP 400.
+    if language:
+        document["languageCode"] = language
+        v1_document["language"] = language
+
+    # Entities still use v1 because it returns Knowledge Graph metadata
+    # and salience consistently. Other features stay on v2 annotateText.
+    wants_entities = "entities" in features
+    if wants_entities:
+        body = {
+            "document": v1_document,
+            "encodingType": "UTF8",
+        }
+        try:
+            resp = requests.post(
+                NLP_V1_ENTITIES_ENDPOINT,
+                headers=google_api_key_headers(key),
+                json=body,
+                timeout=30,
+            )
+
+            if resp.status_code == 403:
+                result["error"] = (
+                    "Cloud Natural Language API access denied. Enable it in "
+                    "GCP Console: APIs & Services > Library > Cloud Natural Language API. "
+                    "Billing must be enabled on the project."
+                )
+                return result
+
+            if resp.status_code == 429:
+                result["error"] = "NLP API quota exceeded. Free tier: 5,000 units/month."
+                return result
+
+            resp.raise_for_status()
+            entity_data = resp.json()
+        except requests.exceptions.RequestException as e:
+            result["error"] = f"NLP API request failed: {redact_google_api_key(e)}"
+            return result
+
+        for entity in entity_data.get("entities", []):
+            mentions = entity.get("mentions", [])
+            result["entities"].append({
+                "name": entity.get("name", ""),
+                "type": entity.get("type", "UNKNOWN"),
+                "salience": round(entity.get("salience", 0), 4),
+                "sentiment_score": entity.get("sentiment", {}).get("score"),
+                "sentiment_magnitude": entity.get("sentiment", {}).get("magnitude"),
+                "mention_count": len(mentions),
+                "metadata": entity.get("metadata", {}),
+            })
+
+        result["entities"].sort(key=lambda e: e["salience"], reverse=True)
+        result["language"] = result["language"] or entity_data.get("language")
+
     feature_map = {}
     for f in features:
         api_feature = FEATURES.get(f)
-        if api_feature:
+        if api_feature and api_feature != "extractEntities":
             feature_map[api_feature] = True
 
+    if not feature_map:
+        return result
+
     body = {
-        "document": {
-            "type": "PLAIN_TEXT",
-            "content": text[:100000],  # API limit
-            "languageCode": language,
-        },
+        "document": document,
         "features": feature_map,
         "encodingType": "UTF8",
     }
 
     try:
         resp = requests.post(
-            f"{NLP_ENDPOINT}?key={key}",
+            NLP_ENDPOINT,
+            headers=google_api_key_headers(key),
             json=body,
             timeout=30,
         )
@@ -117,24 +206,10 @@ def analyze_text(
         resp.raise_for_status()
         data = resp.json()
     except requests.exceptions.RequestException as e:
-        result["error"] = f"NLP API request failed: {redact_key(e, key)}"
+        result["error"] = f"NLP API request failed: {redact_google_api_key(e)}"
         return result
 
-    # Entities
-    for entity in data.get("entities", []):
-        mentions = entity.get("mentions", [])
-        result["entities"].append({
-            "name": entity.get("name", ""),
-            "type": entity.get("type", "UNKNOWN"),
-            "salience": round(entity.get("salience", 0), 4),
-            "sentiment_score": entity.get("sentiment", {}).get("score"),
-            "sentiment_magnitude": entity.get("sentiment", {}).get("magnitude"),
-            "mention_count": len(mentions),
-            "metadata": entity.get("metadata", {}),
-        })
-
-    # Sort by salience (most important first)
-    result["entities"].sort(key=lambda e: e["salience"], reverse=True)
+    result["language"] = result["language"] or data.get("languageCode")
 
     # Document sentiment
     doc_sentiment = data.get("documentSentiment", {})
@@ -190,6 +265,7 @@ def analyze_url(
     url: str,
     features: Optional[list] = None,
     api_key: Optional[str] = None,
+    language: Optional[str] = None,
 ) -> dict:
     """
     Fetch a URL's text content and analyze it.
@@ -198,6 +274,7 @@ def analyze_url(
         url: URL to fetch and analyze.
         features: NLP features to extract.
         api_key: API key override.
+        language: BCP-47 language code (default: auto-detect).
 
     Returns:
         Dictionary with NLP analysis results.
@@ -207,13 +284,17 @@ def analyze_url(
 
     # Fetch the page text
     try:
-        resp = requests.get(url, timeout=30, headers={
-            "User-Agent": "Mozilla/5.0 (compatible; ClaudeSEO/1.7 NLP Analyzer)"
-        })
+        resp = safe_requests_get(
+            url,
+            timeout=30,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; ClaudeSEO/1.7 NLP Analyzer)"},
+        )
         resp.raise_for_status()
-        html = resp.text
+        html = decode_response_text(resp)
+    except URLSafetyError as e:
+        return {"error": f"URL blocked by SSRF protection: {e}"}
     except requests.exceptions.RequestException as e:
-        return {"error": f"Could not fetch URL: {e}"}
+        return {"error": f"Could not fetch URL: {redact_google_api_key(e)}"}
 
     # Extract text from HTML (simple approach)
     try:
@@ -226,15 +307,15 @@ def analyze_url(
     except ImportError:
         # Fallback: regex-based text extraction
         import re
-        text = re.sub(r"<script\b[^>]*>.*?</script\b[^>]*>", "", html, flags=re.DOTALL | re.IGNORECASE)
-        text = re.sub(r"<style\b[^>]*>.*?</style\b[^>]*>", "", text, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r"<script[^>]*>.*?</script[^>]*>", "", html, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r"<style[^>]*>.*?</style[^>]*>", "", text, flags=re.DOTALL | re.IGNORECASE)
         text = re.sub(r"<[^>]+>", " ", text)
         text = re.sub(r"\s+", " ", text).strip()
 
     if not text or len(text) < 50:
         return {"error": "Extracted text too short for meaningful NLP analysis."}
 
-    result = analyze_text(text, features=features, api_key=api_key)
+    result = analyze_text(text, features=features, api_key=api_key, language=language)
     result["source_url"] = url
     result["extracted_text_length"] = len(text)
     return result
@@ -251,6 +332,11 @@ def main():
         default="entities,sentiment,classify",
         help="Comma-separated features: entities, sentiment, classify, moderate (default: entities,sentiment,classify)",
     )
+    parser.add_argument(
+        "--language", "-l",
+        type=language_code,
+        help="Content language as a BCP-47 code, e.g. en or pt-BR (default: auto-detect)",
+    )
     parser.add_argument("--api-key", help="API key override")
     parser.add_argument("--json", "-j", action="store_true", help="Output as JSON")
 
@@ -263,9 +349,13 @@ def main():
     features = [f.strip() for f in args.features.split(",")]
 
     if args.url:
-        result = analyze_url(args.url, features=features, api_key=args.api_key)
+        result = analyze_url(
+            args.url, features=features, api_key=args.api_key, language=args.language
+        )
     else:
-        result = analyze_text(args.text, features=features, api_key=args.api_key)
+        result = analyze_text(
+            args.text, features=features, api_key=args.api_key, language=args.language
+        )
 
     if result.get("error"):
         print(f"Error: {result['error']}", file=sys.stderr)
@@ -294,13 +384,13 @@ def main():
 
         categories = result.get("categories", [])
         if categories:
-            print(f"\nContent Categories:")
+            print("\nContent Categories:")
             for c in categories:
                 print(f"  {c['name']} ({c['confidence']:.1%})")
 
         moderation = result.get("moderation", [])
         if moderation:
-            print(f"\nModeration Flags:")
+            print("\nModeration Flags:")
             for m in moderation:
                 print(f"  {m['name']} ({m['confidence']:.1%})")
 

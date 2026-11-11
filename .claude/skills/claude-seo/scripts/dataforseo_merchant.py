@@ -23,7 +23,6 @@ import os
 import sys
 import time
 from typing import Any, Optional
-from urllib.parse import urlparse
 
 # Add scripts directory to path for sibling imports
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -158,10 +157,15 @@ def _poll_results(
                 return data
             # Task not ready yet
             task_status = tasks[0].get("status_code") if tasks else None
-            if task_status and task_status != 40601:
-                # 40601 = "Task In Queue" -- keep polling
-                # Other errors: return the error
-                return data
+            if task_status and task_status not in (40601, 40602):
+                # 40601 = "Task Handed", 40602 = "Task In Queue" -- keep polling
+                # Any other code is terminal. Return it as an error so callers
+                # do not read a failed task (result: null) as zero results.
+                return {
+                    "error": "task_error",
+                    "status_code": task_status,
+                    "message": tasks[0].get("status_message") or "Task failed",
+                }
 
         delay = min(delay * POLL_MULTIPLIER, POLL_MAX_DELAY)
 
@@ -183,7 +187,7 @@ def _extract_items(response: dict[str, Any]) -> list[dict[str, Any]]:
     """Extract result items from DataForSEO response envelope."""
     items = []
     for task in response.get("tasks", []):
-        for result in task.get("result", []):
+        for result in task.get("result") or []:
             task_items = result.get("items")
             if task_items:
                 items.extend(task_items)

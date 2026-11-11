@@ -20,11 +20,12 @@ import re
 import sqlite3
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
-from urllib.parse import parse_qs, urlparse, urlunparse, urlencode
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 # ---------------------------------------------------------------------------
-# Path setup — resolve scripts/ directory relative to this file
+# Path setup: resolve scripts/ directory relative to this file
 # ---------------------------------------------------------------------------
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SCRIPTS_DIR)
@@ -62,9 +63,9 @@ def normalize_url(url: str) -> str:
     if (scheme == "http" and port == 80) or (scheme == "https" and port == 443):
         port = None
 
-    netloc = hostname
+    netloc = f"[{hostname}]" if ":" in hostname else hostname
     if port:
-        netloc = f"{hostname}:{port}"
+        netloc = f"{netloc}:{port}"
 
     # Sort query params and strip UTM
     query_params = parse_qs(parsed.query, keep_blank_values=True)
@@ -151,42 +152,58 @@ def fetch_page_data(url: str) -> dict:
 
     # Step 1: Fetch the page via fetch_page.py
     fetch_script = os.path.join(SCRIPTS_DIR, "fetch_page.py")
+    tmp_path = None
     try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            suffix=".html",
+            prefix="claude-seo-drift-",
+            delete=False,
+        ) as tmp:
+            tmp_path = tmp.name
+
         proc = subprocess.run(
-            [sys.executable, fetch_script, url, "--output", "/dev/stdout"],
+            [sys.executable, fetch_script, url, "--output", tmp_path],
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=60,
         )
-    except subprocess.TimeoutExpired:
-        result["error"] = "Page fetch timed out after 60 seconds"
-        return result
 
-    if proc.returncode != 0:
-        error_msg = proc.stderr.strip() if proc.stderr else "Unknown fetch error"
-        result["error"] = f"Fetch failed: {error_msg}"
-        return result
+        if proc.returncode != 0:
+            error_msg = proc.stderr.strip() if proc.stderr else "Unknown fetch error"
+            result["error"] = f"Fetch failed: {error_msg}"
+            return result
 
-    html_content = proc.stdout
+        with open(tmp_path, "r", encoding="utf-8", errors="replace") as f:
+            html_content = f.read()
 
-    # Extract status code from stderr output (fetch_page.py prints "Status: NNN")
-    status_match = re.search(r"Status:\s*(\d+)", proc.stderr or "")
-    result["status_code"] = int(status_match.group(1)) if status_match else 200
-    result["html"] = html_content
+        # Extract status code from stderr output (fetch_page.py prints "Status: NNN")
+        status_match = re.search(r"Status:\s*(\d+)", proc.stderr or "")
+        result["status_code"] = int(status_match.group(1)) if status_match else 200
+        result["html"] = html_content
 
-    # Step 2: Parse the HTML via parse_html.py
-    parse_script = os.path.join(SCRIPTS_DIR, "parse_html.py")
-    try:
+        # Step 2: Parse the HTML via parse_html.py
+        parse_script = os.path.join(SCRIPTS_DIR, "parse_html.py")
         proc = subprocess.run(
-            [sys.executable, parse_script, "--url", url, "--json"],
-            input=html_content,
+            [sys.executable, parse_script, tmp_path, "--url", url, "--json"],
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=30,
         )
     except subprocess.TimeoutExpired:
-        result["error"] = "HTML parsing timed out after 30 seconds"
+        result["error"] = "Page fetch or HTML parsing timed out"
         return result
+    finally:
+        if tmp_path and os.path.exists(tmp_path):
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
 
     if proc.returncode != 0:
         error_msg = proc.stderr.strip() if proc.stderr else "Unknown parse error"
@@ -213,6 +230,8 @@ def fetch_cwv_data(url: str) -> dict | None:
             [sys.executable, psi_script, url, "--psi-only", "--strategy", "mobile", "--json"],
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=180,
         )
     except subprocess.TimeoutExpired:

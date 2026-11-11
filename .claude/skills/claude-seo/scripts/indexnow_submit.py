@@ -2,16 +2,16 @@
 """
 IndexNow submitter.
 
-POSTs a list of URLs to the IndexNow open API (Bing, Yandex, Seznam,
-Naver consume the same endpoint). Google does NOT consume IndexNow as
-of 2026 per Gary Illyes (multiple Search Off the Record episodes), so
-this is specifically a non-Google indexing signal.
+POSTs a list of URLs to the IndexNow open API. Amazon, Bing, Naver,
+Seznam.cz, Yandex, and Yep consume the same endpoint. Google does not
+participate per the IndexNow FAQ, so this is specifically a non-Google
+indexing signal.
 
 Setup
 =====
 1. Generate a 32+ character host key. Any random string works.
 2. Place the key in a file named ``<key>.txt`` at the root of your
-   site, served at ``https://example.com/<key>.txt`` — the file body
+   site, served at ``https://example.com/<key>.txt``; the file body
    is the key itself. IndexNow crawls this once to prove host ownership.
 3. Pass the key + the key-location URL to this script (or set the
    ``INDEXNOW_KEY`` and ``INDEXNOW_KEY_LOCATION`` env vars).
@@ -32,6 +32,7 @@ Usage
         --urls-file changed.txt
 
 Spec: https://www.indexnow.org/documentation
+FAQ: https://www.indexnow.org/faq
 """
 
 from __future__ import annotations
@@ -42,6 +43,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Iterable
+from urllib.parse import urlparse
 
 _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _SCRIPTS_DIR not in sys.path:
@@ -49,9 +51,20 @@ if _SCRIPTS_DIR not in sys.path:
 from url_safety import URLSafetyError, safe_requests_get, validate_url_strict  # noqa: E402
 
 # The umbrella endpoint forwards to every participating engine. Individual
-# engine endpoints exist (bing.com/IndexNow, yandex.com/indexnow, etc.) but
-# api.indexnow.org dispatches automatically — one POST covers all four.
+# engine endpoints exist, but api.indexnow.org dispatches automatically.
+# One POST covers all six listed IndexNow participants.
 INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
+
+
+def _normalized_host(value: str) -> str:
+    parsed = urlparse(value if "://" in value else f"//{value}")
+    return (parsed.hostname or value).lower().rstrip(".")
+
+
+def _belongs_to_host(url: str, host: str) -> bool:
+    parsed_host = _normalized_host(url)
+    declared_host = _normalized_host(host)
+    return parsed_host == declared_host or parsed_host.endswith(f".{declared_host}")
 
 
 def submit(
@@ -76,11 +89,11 @@ def submit(
 
     # Every submitted URL must belong to the declared host. IndexNow rejects
     # cross-host submissions to prevent abuse.
-    bad = [u for u in url_list if host not in u]
+    bad = [u for u in url_list if not _belongs_to_host(u, host)]
     if bad:
         return {
             "ok": False,
-            "error": f"{len(bad)} URLs don't contain host {host!r}",
+            "error": f"{len(bad)} URLs don't belong to host {host!r}",
             "examples": bad[:3],
             "submitted": 0,
         }
@@ -116,7 +129,7 @@ def submit(
         "status_code": resp.status_code,
         "submitted": len(url_list),
         "endpoint": INDEXNOW_ENDPOINT,
-        "engines": ["Bing", "Yandex", "Seznam", "Naver"],
+        "engines": ["Amazon", "Bing", "Naver", "Seznam.cz", "Yandex", "Yep"],
         "response_body_preview": (resp.text or "")[:200],
     }
 
@@ -129,12 +142,18 @@ def verify_key_published(
     IndexNow requires the key to be retrievable at the keyLocation URL.
     Missing or wrong content silently rejects every later submission, so
     this pre-flight catches the common ownership-setup mistake.
+
+    The key file host has to be the declared host. A substring check accepts
+    ``example.com`` inside ``notexample.com`` and rejects a matching host
+    written with different case.
     """
+    if _normalized_host(key_location) != _normalized_host(host):
+        return {"ok": False, "error": "keyLocation host does not match declared host"}
     try:
         resp = safe_requests_get(key_location, timeout=15)
     except URLSafetyError as exc:
         return {"ok": False, "error": f"url_safety: {exc}"}
-    except Exception as exc:  # noqa: BLE001 — surface every transport error verbatim
+    except Exception as exc:  # noqa: BLE001 (surface every transport error verbatim)
         return {"ok": False, "error": f"fetch failed: {exc}"}
     if resp.status_code != 200:
         return {"ok": False, "status_code": resp.status_code,
@@ -147,8 +166,6 @@ def verify_key_published(
             "expected_length": len(key),
             "actual_length": len(resp.text.strip()),
         }
-    if host not in key_location:
-        return {"ok": False, "error": "keyLocation host does not match declared host"}
     return {"ok": True, "status_code": 200}
 
 
@@ -234,7 +251,9 @@ def main() -> int:
     else:
         status = "OK" if result["ok"] else "FAIL"
         print(f"IndexNow: {status} (status={result.get('status_code')})")
-        print(f"  Submitted: {result['submitted']} URLs to {result['endpoint']}")
+        endpoint = result.get("endpoint")
+        destination = f" to {endpoint}" if endpoint else ""
+        print(f"  Submitted: {result['submitted']} URLs{destination}")
         if result.get("engines"):
             print(f"  Engines:   {', '.join(result['engines'])}")
         if not result["ok"]:

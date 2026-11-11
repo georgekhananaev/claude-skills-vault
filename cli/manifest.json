@@ -33,9 +33,9 @@
     },
     {
       "name": "claude-seo",
-      "description": "SEO toolkit with 24 specialist sub-skills (upstream v2.0) — full site audits, technical SEO, content optimization & briefs, schema markup, sitemaps, image SEO, hreflang, local/maps SEO, backlinks, topic clustering, SERP experience (SXO), drift monitoring, Google APIs (GSC/PageSpeed/CrUX), e-commerce, programmatic SEO, and GEO for AI Overviews/ChatGPT/Perplexity. Use when auditing websites, optimizing pages or content, tracking SEO regressions, or planning SEO strategy.",
+      "description": "SEO toolkit with 25 specialist sub-skills (upstream v2.6) — full site audits, technical SEO, content optimization & briefs, schema markup, sitemaps, image SEO, hreflang, local/maps SEO, backlinks, topic clustering, SERP experience (SXO), drift monitoring, Google APIs (GSC/PageSpeed/CrUX), e-commerce, programmatic SEO, AI-crawler readiness (llms.txt, robots rules, WebMCP), and GEO for AI Overviews/ChatGPT/Perplexity. Use when auditing websites, optimizing pages or content, tracking SEO regressions, or planning SEO strategy.",
       "path": ".claude/skills/claude-seo",
-      "files": 81,
+      "files": 239,
       "category": "productivity",
       "source": "https://github.com/AgriciDaniel/claude-seo"
     },

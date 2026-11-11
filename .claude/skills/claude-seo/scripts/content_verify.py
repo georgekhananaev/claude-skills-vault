@@ -42,8 +42,8 @@ Output JSON::
 
 The script is *advisory*: it does not check whether a citation actually
 exists. The signal is whether the author bothered to anchor each
-claim. A high uncited ratio in long-form content is the same red flag
-Google's QRG raters use.
+claim. The uncited_ratio field is this tool's internal heuristic,
+inspired by QRG trust expectations, not a Google rater metric.
 """
 
 from __future__ import annotations
@@ -54,8 +54,7 @@ import re
 import sys
 from pathlib import Path
 
-
-# Claim patterns. Each is (regex, label). Order matters — first match
+# Claim patterns. Each is (regex, label). Order matters: first match
 # wins per substring so a "47% of users" doesn't double-count as both
 # statistic and quantity. Trailing-word groups are restricted to
 # [a-zA-Z]+ so a greedy match cannot cross a sentence boundary into the
@@ -65,7 +64,7 @@ _CLAIM_PATTERNS: tuple[tuple[re.Pattern, str], ...] = (
     (re.compile(r"\b\d+(?:\.\d+)?\s*%\s+of\s+[a-zA-Z]+(?:\s+[a-zA-Z]+){0,4}",
                 re.IGNORECASE),
      "statistic"),
-    (re.compile(r"\b\d+(?:\.\d+)?\s*%\b"), "statistic"),
+    (re.compile(r"\b\d+(?:\.\d+)?\s*%"), "statistic"),
     (re.compile(r"\$\s?\d+(?:\.\d+)?\s*(?:million|billion|trillion|k|M|B)\b",
                 re.IGNORECASE), "quantity"),
     (re.compile(r"\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\s+\w+", re.IGNORECASE),
@@ -98,10 +97,12 @@ _CITATION_PATTERNS: tuple[re.Pattern, ...] = (
     re.compile(r"\[\^?\d+\]"),  # footnote-style [1] or [^1]
     re.compile(r"@type\s*:\s*[\"']Citation[\"']"),  # schema.org Citation
     re.compile(
-        # "Source:", "Via:", "See also:", "Cited in", "Cited by", or
-        # "Per/According to" followed by a Proper Noun.
-        r"\b(?:source\s*:|via\s*:|see\s+also\s*:|cited\s+(?:in|by)|"
-        r"according\s+to|per)\s+[A-Z]",
+        # "Source:", "Via:", "See also:", "Cited in", "Cited by" or
+        # "According to" followed by any word, or "Per" followed by a
+        # Proper Noun. Only "per" needs the case-sensitive capital: it is
+        # the one prefix that is also a common word ("per week").
+        r"\b(?:(?:source\s*:|via\s*:|see\s+also\s*:|cited\s+(?:in|by)|"
+        r"according\s+to)\s+\S|per\s+(?-i:[A-Z]))",
         re.IGNORECASE,
     ),
 )
@@ -126,7 +127,7 @@ def extract_claims(text: str) -> list[dict]:
     for pattern, label in _CLAIM_PATTERNS:
         for m in pattern.finditer(text):
             # Skip if an earlier (more specific) pattern already covered
-            # this span — prevents 47% double-counting as statistic + quantity.
+            # this span; prevents 47% double-counting as statistic + quantity.
             if any(s <= m.start() < e or s < m.end() <= e for s, e, _ in found_spans):
                 continue
             found_spans.append((m.start(), m.end(), label))

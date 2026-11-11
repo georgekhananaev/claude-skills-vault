@@ -1,0 +1,553 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "source_of_truth": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+  "secondary_sources": [
+    "https://developers.google.com/search/blog",
+    "https://developers.google.com/search/updates",
+    "https://blog.google/products/search/"
+  ],
+  "last_verified": "2026-11-10",
+  "policy": "Every entry must cite a Google-owned URL. Third-party-only claims belong in unverified[]. Bump last_verified each time an entry is added or revised.",
+  "_schema_doc": {
+    "updates[]": {
+      "date": "ISO date YYYY-MM-DD (Google's announcement date).",
+      "name": "Short human-readable title.",
+      "kind": "One of: core | spam | core+spam | policy | qrg | product | schema | cwv | discover | documentation.",
+      "source": "Required. Must use HTTPS and an approved Google-owned hostname listed by the tests.",
+      "notes": "Optional. One-line summary of practitioner impact."
+    },
+    "unverified[]": {
+      "date": "ISO date or YYYY-MM-xx if exact date unconfirmed.",
+      "claim": "What third-party trackers reported.",
+      "third_party_sources": "Array of source URLs that originated the claim.",
+      "primary_source_check": "URL of the Google-owned page that would confirm or refute.",
+      "status": "Explicit recommendation. Audit scripts MUST NOT encode unverified claims until promoted to updates[]."
+    }
+  },
+  "updates": [
+    {
+      "date": "2024-03-05",
+      "name": "March 2024 Core Update + spam updates",
+      "kind": "core+spam",
+      "source": "https://developers.google.com/search/blog/2024/03/core-update-spam-policies",
+      "notes": "Helpful Content System merged into core ranking; new spam policies for scaled content, site reputation, and expired domain abuse."
+    },
+    {
+      "date": "2024-03-12",
+      "name": "INP replaces FID",
+      "kind": "cwv",
+      "source": "https://web.dev/articles/inp",
+      "notes": "INP becomes a stable Core Web Vital (March 2024). FID dropped from CrUX/PSI 2024-09-09."
+    },
+    {
+      "date": "2024-05-05",
+      "name": "Site reputation abuse enforcement begins",
+      "kind": "policy",
+      "source": "https://developers.google.com/search/blog/2024/03/core-update-spam-policies",
+      "notes": "Google began enforcement of the site reputation abuse policy on May 5, 2024."
+    },
+    {
+      "date": "2024-06-20",
+      "name": "June 2024 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "Targeted policy-violating sites."
+    },
+    {
+      "date": "2024-08-15",
+      "name": "August 2024 Core Update",
+      "kind": "core",
+      "source": "https://developers.google.com/search/blog/2024/08/august-2024-core-update",
+      "notes": "Google described the update as designed to surface more useful content from small and independent publishers."
+    },
+    {
+      "date": "2024-11-11",
+      "name": "November 2024 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "Rollout took 23 days, 13 hours per the ranking history."
+    },
+    {
+      "date": "2024-11-19",
+      "name": "Site Reputation Abuse policy clarified",
+      "kind": "policy",
+      "source": "https://developers.google.com/search/blog/2024/11/site-reputation-abuse",
+      "notes": "Google clarified that first-party involvement alone does not change the third-party nature of content when evaluating site reputation abuse."
+    },
+    {
+      "date": "2024-12-12",
+      "name": "December 2024 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "Tight rollout (~7 days)."
+    },
+    {
+      "date": "2024-12-19",
+      "name": "December 2024 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/incidents/UUq2WSouY7PhSm8zvtD1",
+      "notes": "Global, all-language rollout completed December 26, 2024 (7 days, 2 hours); Google named no specific target."
+    },
+    {
+      "date": "2025-01-23",
+      "name": "QRG update (Jan 2025)",
+      "kind": "qrg",
+      "source": "https://static.googleusercontent.com/media/guidelines.raterhub.com/en//searchqualityevaluatorguidelines.pdf",
+      "notes": "Adds formal definition of generative AI (§2.1). Defines scaled content abuse, expired-domain abuse, filler content under §4.6 Spammy Webpages. Lowest rating triggered when all/almost all MC is copied, paraphrased, or AI-generated. The live PDF is now the September 11, 2025 edition, so the January 2025 wording can no longer be checked against it."
+    },
+    {
+      "date": "2025-03-05",
+      "name": "AI Mode experimental launch",
+      "kind": "product",
+      "source": "https://blog.google/products/search/ai-mode-search/",
+      "notes": "Initially Google One AI Premium / Labs (US). Gemini 2.0 backend. Query fan-out technique."
+    },
+    {
+      "date": "2025-03-13",
+      "name": "March 2025 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "14-day rollout."
+    },
+    {
+      "date": "2025-05-20",
+      "name": "AI Mode general rollout (US)",
+      "kind": "product",
+      "source": "https://blog.google/products/search/google-search-ai-mode-update/",
+      "notes": "No Labs sign-up required. Gemini 2.5 in AI Mode and AI Overviews."
+    },
+    {
+      "date": "2025-06-12",
+      "name": "Structured data deprecation",
+      "kind": "schema",
+      "source": "https://developers.google.com/search/blog/2025/06/simplifying-search-results",
+      "notes": "Phased out: Course Info, Claim Review, Estimated Salary, Learning Video, Special Announcement (carryover), Vehicle Listing."
+    },
+    {
+      "date": "2025-06-30",
+      "name": "June 2025 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "The rollout completed after 16 days."
+    },
+    {
+      "date": "2025-08-21",
+      "name": "AI Mode expands to 180+ countries",
+      "kind": "product",
+      "source": "https://blog.google/products/search/google-search-ai-mode-update/",
+      "notes": "English first. Robby Stein: 'active' AI Mode begins with dining reservations."
+    },
+    {
+      "date": "2025-08-26",
+      "name": "August 2025 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/incidents/a7Aainy6E9rZsmfq82xt",
+      "notes": "Global, all-language rollout started August 26 and completed September 22, 2025 (26 days, 15 hours); Google named no specific target."
+    },
+    {
+      "date": "2025-09-11",
+      "name": "QRG update (Sept 2025)",
+      "kind": "qrg",
+      "source": "https://static.googleusercontent.com/media/guidelines.raterhub.com/en//searchqualityevaluatorguidelines.pdf",
+      "notes": "Adds AI Overview rating examples. Expands YMYL to include political/social topics. Google: 'no change to rating guidance'."
+    },
+    {
+      "date": "2025-12-11",
+      "name": "December 2025 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "The rollout completed after 18 days and was the third core update of 2025."
+    },
+    {
+      "date": "2026-02-05",
+      "name": "February 2026 Discover Update",
+      "kind": "discover",
+      "source": "https://developers.google.com/search/blog/2026/02/discover-core-update",
+      "notes": "Official dashboard name: February 2026 Discover update (started Feb 5, ~21d rollout, English/US first). Google's blog framed it as a core update to Discover (not general web Search). Rewards original/in-depth/local content; reduces sensational/clickbait."
+    },
+    {
+      "date": "2026-03-24",
+      "name": "March 2026 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "The rollout completed in under one day, before the March 2026 core update."
+    },
+    {
+      "date": "2026-03-27",
+      "name": "March 2026 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "Started Mar 27, completed Apr 8 (12-day rollout). First web-Search core update of 2026."
+    },
+    {
+      "date": "2026-04-13",
+      "name": "Back button hijacking spam policy",
+      "kind": "policy",
+      "source": "https://developers.google.com/search/blog/2026/04/back-button-hijacking",
+      "notes": "New 'malicious practices' spam policy: manipulating browser history to defeat the Back button (incl. third-party ad/library scripts). Announced 2026-04-13; enforcement live since 2026-06-15 (manual actions + automated demotions)."
+    },
+    {
+      "date": "2026-05-07",
+      "name": "FAQ rich results retired",
+      "kind": "schema",
+      "source": "https://developers.google.com/search/updates",
+      "notes": "FAQ rich results stopped appearing in Google Search on May 7, 2026."
+    },
+    {
+      "date": "2026-05-15",
+      "name": "Generative AI optimization guide",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+      "notes": "Google published guidance that existing SEO fundamentals remain relevant for generative AI features and that no special AI markup or files are required."
+    },
+    {
+      "date": "2026-05-15",
+      "name": "Spam policies apply to generative AI responses",
+      "kind": "policy",
+      "source": "https://developers.google.com/search/updates",
+      "notes": "Google clarified that its spam policies apply to all Google Search surfaces, including generative AI responses."
+    },
+    {
+      "date": "2026-05-19",
+      "name": "Google I/O 2026: AI Mode updates",
+      "kind": "product",
+      "source": "https://blog.google/products-and-platforms/products/search/search-io-2026/",
+      "notes": "Google announced an intelligent Search box, Information Agents, generative UI, and agentic checkout capabilities for AI Mode."
+    },
+    {
+      "date": "2026-05-20",
+      "name": "hasAdultConsideration property added",
+      "kind": "schema",
+      "source": "https://developers.google.com/search/updates",
+      "notes": "Google added hasAdultConsideration to Merchant listing and Product variant documentation for parity with the Merchant Center adult attribute."
+    },
+    {
+      "date": "2026-05-21",
+      "name": "May 2026 Core Update",
+      "kind": "core",
+      "source": "https://status.search.google.com/incidents/wdAXJk6LRRihEjpzEeWE",
+      "notes": "The global, all-language rollout completed on June 2, 2026."
+    },
+    {
+      "date": "2026-06-03",
+      "name": "Search Console Generative AI performance reports",
+      "kind": "product",
+      "source": "https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports",
+      "notes": "Dedicated AI Overviews + AI Mode (and Discover) gen-AI visibility report. Impressions only (no clicks/CTR/position/query); subset rollout. AI Mode also rolls into standard Performance totals."
+    },
+    {
+      "date": "2026-06-05",
+      "name": "Guidance on third-party SEO tools, services, and advice",
+      "kind": "product",
+      "source": "https://developers.google.com/search/docs/fundamentals/third-party-seo",
+      "notes": "No tool guarantees rankings; third-party tools lack access to Google's internal ranking data; Google doesn't endorse vendors; evaluate AEO/GEO claims vs official guidance; GSC is the first-party source."
+    },
+    {
+      "date": "2026-06-24",
+      "name": "June 2026 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "notes": "The global, all-language rollout started June 24 and completed June 26, 2026."
+    },
+    {
+      "date": "2026-06-30",
+      "name": "Merchant Center video_link serving-eligible",
+      "kind": "product",
+      "source": "https://support.google.com/merchants/answer/16989427",
+      "notes": "The Merchant Center video_link attribute became serving-eligible for product videos in shopping experiences."
+    },
+    {
+      "date": "2026-07-01",
+      "name": "AMP links move to publisher hosts",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/updates",
+      "notes": "Google Search began sending users directly to publisher-hosted AMP URLs and removed obsolete AMP Viewer, AMP Cache, and signed exchange guidance. AMP continues to rank like other web pages."
+    },
+    {
+      "date": "2026-07-07",
+      "name": "Merchant listing category and sale duration guidance",
+      "kind": "schema",
+      "source": "https://developers.google.com/search/docs/appearance/structured-data/merchant-listing",
+      "notes": "Product.category accepts Text or CategoryCode values, including arrays, and sale periods use validFrom plus validThrough or priceValidUntil in ISO 8601 format."
+    },
+    {
+      "date": "2026-07-10",
+      "name": "Canonicalization re-evaluation timing clarified",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/crawling-indexing/canonicalization-troubleshooting",
+      "notes": "Google may keep fixed pages in a duplicate cluster for up to two weeks while canonicalization is re-evaluated."
+    },
+    {
+      "date": "2026-07-16",
+      "name": "NotebookLM fetcher renamed Google-GeminiNotebook",
+      "kind": "documentation",
+      "source": "https://developers.google.com/crawling/docs/changelog",
+      "notes": "The user-triggered NotebookLM fetcher token became Google-GeminiNotebook; the fetchers page lists Google-NotebookLM as a former agent supported until August 2026. Update hardcoded user-agent matches and log parsers."
+    },
+    {
+      "date": "2026-07-24",
+      "name": "Review snippet transparency guideline",
+      "kind": "schema",
+      "source": "https://developers.google.com/search/docs/appearance/structured-data/review-snippet",
+      "notes": "Pages and structured data must not include fake reviews or incentivized reviews whose incentive is not clearly and prominently disclosed."
+    },
+    {
+      "date": "2026-07-29",
+      "name": "Search Console platform properties guide",
+      "kind": "product",
+      "source": "https://developers.google.com/search/docs/monitor-debug/analyze-social-video-content",
+      "notes": "Verified TikTok, Instagram, X, and YouTube accounts can be tracked as individual Search Console platform properties."
+    },
+    {
+      "date": "2026-08-18",
+      "name": "August 2026 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/incidents/LEubPCm2octf2uMqCFKE",
+      "notes": "The global, all-language rollout started August 18 and completed August 21, 2026."
+    },
+    {
+      "date": "2026-08-20",
+      "name": "Preferred Sources interactive button",
+      "kind": "product",
+      "source": "https://developers.google.com/search/docs/appearance/preferred-sources",
+      "notes": "Eligible publishers can add Google's interactive button or a deeplink so readers can select a domain or subdomain as a preferred source. This is a per-user preference, not a documented site-wide ranking signal."
+    },
+    {
+      "date": "2026-08-27",
+      "name": "AI Mode travel booking and flight price tracking",
+      "kind": "product",
+      "source": "https://blog.google/products-and-platforms/products/search/book-travel-ai-mode/",
+      "notes": "AI Mode can track flight prices with email alerts (more than 180 countries and territories), show flight and hotel cost in points or miles, and book hotels through integrated partners. A product surface change for travel and hospitality sites, not a documented ranking change."
+    },
+    {
+      "date": "2026-08-28",
+      "name": "Site reputation abuse enforcement differs inside the EEA",
+      "kind": "policy",
+      "source": "https://developers.google.com/search/blog/2026/08/update-site-reputation-policy",
+      "notes": "Announced August 28, effective August 30, 2026: outside the EEA a site reputation manual action directly affects the violating section; inside the EEA that manual action's impact does not apply, and the section may be categorized as separate from the main domain. Still a policy risk everywhere."
+    },
+    {
+      "date": "2026-08-28",
+      "name": "Favicon supported file formats listed explicitly",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/appearance/favicon-in-search",
+      "notes": "The favicon guide now lists the supported file formats instead of linking to an external reference. Google says supported formats did not change."
+    },
+    {
+      "date": "2026-08-31",
+      "name": "Search generative AI control and gen-AI reports roll out worldwide",
+      "kind": "product",
+      "source": "https://support.google.com/webmasters/answer/16908024",
+      "notes": "A Search Console property setting (Settings > Search generative AI) can include (the default), exclude, or inherit from the parent property, and covers AI Overviews, AI Mode, and gen-AI features in Discover. Excluded sites get no links, grounding, or impressions in those features. The setting is not a ranking signal elsewhere and does not affect AI training (use Google-Extended for training). The Generative AI performance reports also reached all sites on this date (source: https://support.google.com/webmasters/answer/16984139)."
+    },
+    {
+      "date": "2026-09-02",
+      "name": "Gemini 3.8 Flash available in AI Mode for subscribers",
+      "kind": "product",
+      "source": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/",
+      "notes": "Google AI Pro and Ultra subscribers can use Gemini 3.8 Flash in AI Mode; this does not identify the default model for all users."
+    },
+    {
+      "date": "2026-09-08",
+      "name": "Regional differences in Search experience documented",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/updates",
+      "notes": "New documentation covers search experiences available only in certain countries (aggregator units, supplier units, and carousels for hotel, flight, long-distance transport and product queries in the EEA, South Africa, and Turkiye), with eligibility criteria and participation methods for publishers and aggregators."
+    },
+    {
+      "date": "2026-09-15",
+      "name": "CrUX experimental ad metrics introduced",
+      "kind": "cwv",
+      "source": "https://developer.chrome.com/blog/crux-ad-metrics",
+      "notes": "CrUX adds experimental ad count, ad density, and ad weight (network and CPU) metrics; they are not Core Web Vitals and have no suggested thresholds."
+    },
+    {
+      "date": "2026-09-16",
+      "name": "Search profile badge documentation",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/appearance/search-profiles",
+      "notes": "Owners of a claimed Search profile (profile.google.com/@handle) can link to it with a badge or text link. Followers of a Search profile are more likely to see its linked content in Discover. Brand and touch-target rules apply, and the badge must stay visually distinct from the Preferred Sources badge."
+    },
+    {
+      "date": "2026-09-16",
+      "name": "Search profiles: multi-brand management and lower US eligibility",
+      "kind": "product",
+      "source": "https://blog.google/products-and-platforms/products/search/3-new-ways-were-improving-search-profiles-for-publishers/",
+      "notes": "Publishers can manage Search profiles for sub-brands from one login. Profiles get larger article thumbnails and longer headlines. The US eligibility threshold dropped to 10,000 followers across YouTube, Instagram, X, or TikTok."
+    },
+    {
+      "date": "2026-09-16",
+      "name": "Merchant Center AI performance insights available",
+      "kind": "product",
+      "source": "https://support.google.com/merchants/answer/17200695",
+      "notes": "Available for English-language queries for Merchant Center accounts in Australia, Canada, India, New Zealand, and the US; organic AI traffic only, paid Ads traffic excluded."
+    },
+    {
+      "date": "2026-09-16",
+      "name": "UCP integration hub adds cart transfer and checkout testing",
+      "kind": "product",
+      "source": "https://blog.google/products-and-platforms/products/shopping/google-shopping-updates-holiday-shopping/",
+      "notes": "Cart transfer to a merchant site and enhanced checkout flow testing roll out gradually in the US; Australia and Canada planned for early 2027, analytics forthcoming."
+    },
+    {
+      "date": "2026-09-17",
+      "name": "Mediapartners-Google crawler scope clarified",
+      "kind": "documentation",
+      "source": "https://developers.google.com/crawling/docs/changelog",
+      "notes": "robots.txt rules addressed to Mediapartners-Google affect several ad products (for example AdSense and Ad Manager), not only AdSense. The global * group is still ignored by this crawler."
+    },
+    {
+      "date": "2026-09-18",
+      "name": "Aggregator and supplier units add local business queries",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/appearance/aggregator-unit",
+      "notes": "In the EEA, aggregator and supplier units now also appear for local business queries (for example plumbers and brick-and-mortar shops). Aggregators participate through the Local Point of Interest Feed. Direct providers qualify for the supplier unit from crawled data alone."
+    },
+    {
+      "date": "2026-09-18",
+      "name": "Preferred sources in AI features require gen-AI inclusion",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/appearance/preferred-sources",
+      "notes": "To display as a preferred source in AI Mode and AI Overviews, a site must be included in the Search generative AI control in Search Console. Top Stories preferred-source eligibility is unchanged."
+    },
+    {
+      "date": "2026-09-24",
+      "name": "VideoObject creator and interaction statistics documented",
+      "kind": "schema",
+      "source": "https://developers.google.com/search/docs/appearance/structured-data/video",
+      "notes": "Recommended creator (or author) as Person or Organization with name or alternateName; interactionStatistic supports WatchAction, LikeAction, CommentAction, and ShareAction."
+    },
+    {
+      "date": "2026-09-24",
+      "name": "Search Console web multimodal performance reporting",
+      "kind": "product",
+      "source": "https://developers.google.com/search/blog/2026/09/web-multimodal-in-sc",
+      "notes": "Global rollout of a multimodal search type filter (Lens, Circle to Search, image uploads, Chrome Search this image) in the Search results and Generative AI performance reports, with export."
+    },
+    {
+      "date": "2026-09-24",
+      "name": "September 2026 Spam Update",
+      "kind": "spam",
+      "source": "https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu",
+      "notes": "Global, all-language rollout from September 24 at 09:15 PDT to October 8, 2026 (13 days 16 hours on the dashboard); Google named no specific target."
+    },
+    {
+      "date": "2026-10-01",
+      "name": "Generative AI content guidance updated",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+      "notes": "The guide on using generative AI content was updated with information from the Search Quality Rater Guidelines."
+    },
+    {
+      "date": "2026-10-06",
+      "name": "Retry-After added to the reduce crawl rate docs",
+      "kind": "documentation",
+      "source": "https://developers.google.com/crawling/docs/crawlers-fetchers/reduce-crawl-rate",
+      "notes": "The emergency crawl rate reduction section was restructured and now documents the Retry-After HTTP header with examples."
+    },
+    {
+      "date": "2026-10-08",
+      "name": "UGC Fresh Data Program documented",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/appearance/ugc-fresh-data-program",
+      "notes": "New page describing Google's UGC Fresh Data Program for user-generated content sites."
+    },
+    {
+      "date": "2026-10-16",
+      "name": "Indexing API quota page updated",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/apis/indexing-api/v3/quota-pricing",
+      "notes": "Current quota limits and process documented (default 200 publish requests per day, 180 getMetadata and 380 total requests per minute); the outdated quota request form was removed. Quota is viewed in the Google API Console."
+    },
+    {
+      "date": "2026-10-21",
+      "name": "Control what you share with Google Search docs updated",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/crawling-indexing/control-what-you-share",
+      "notes": "The page now covers existing options such as the robots meta tag, data-nosnippet, and X-Robots-Tag alongside the Search generative AI control."
+    },
+    {
+      "date": "2026-10-23",
+      "name": "URL structure guidance on hyphens and underscores clarified",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/crawling-indexing/url-structure",
+      "notes": "The URL structure best practices were updated to clarify the word separation guidelines on hyphens versus underscores; the page recommends hyphens instead of underscores to separate words in URLs."
+    },
+    {
+      "date": "2026-10-26",
+      "name": "User-generated spam prevention guide updated",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/monitor-debug/prevent-abuse",
+      "notes": "The guide now includes guidance on blocking indexing of link-shared content (noindex, or a robots.txt block, by default for pages created for direct sharing rather than search discovery) and on monitoring abuse in Search Console."
+    },
+    {
+      "date": "2026-11-09",
+      "name": "Aggregator and supplier units add things to do queries",
+      "kind": "documentation",
+      "source": "https://developers.google.com/search/docs/appearance/aggregator-unit",
+      "notes": "The aggregator unit and supplier unit documentation now include support for 'things to do' queries. The supplier unit page is https://developers.google.com/search/docs/appearance/supplier-unit."
+    }
+  ],
+  "unverified": [
+    {
+      "date": "2026-09-25",
+      "claim": "SAFE (Scaled Abuse Forensics Examiner), described in the Google-authored paper 'The Synthetic Gap', is deployed in Google Search and is part of the September 2026 spam update.",
+      "third_party_sources": [
+        "https://www.searchenginejournal.com/google-has-deployed-a-new-ai-spam-detector-called-safe/590918/",
+        "https://sites.libsyn.com/479997/website/googles-september-2026-spam-update-is-here-and-it-came-with-a-secret-ai-spam-detector"
+      ],
+      "primary_source_check": "https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu",
+      "status": "Unverifiable as of 2026-10-22, after the rollout completed on October 8. The paper (research.google, PDF created 2026-05-28) describes YouTube channel-cluster forensics, reports only 'early deployment results', and never mentions Google Search or any spam update. Audit scripts MUST NOT encode SAFE as a Search ranking system."
+    },
+    {
+      "date": "2026-09-24",
+      "claim": "The September 2026 spam update does not target link spam.",
+      "third_party_sources": [
+        "https://www.seroundtable.com/google-september-2026-spam-update-42163.html"
+      ],
+      "primary_source_check": "https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu",
+      "status": "Unverifiable as a Google statement as of 2026-10-22, after the rollout completed on October 8. SER asserts it without a quote; Google's own posts say only that it is 'a normal spam update'. Do not tell users links are safe or unaffected."
+    },
+    {
+      "date": "2026-09-28",
+      "claim": "Strong ranking volatility September 25 to 27 (Semrush Sensor 9.4/10) with cross-sector drops tied to the September 2026 spam update.",
+      "third_party_sources": [
+        "https://www.seroundtable.com/google-september-2026-spam-update-weekend-impact-42174.html",
+        "https://sites.libsyn.com/479997/website/googles-september-2026-spam-update-is-here-and-it-came-with-a-secret-ai-spam-detector"
+      ],
+      "primary_source_check": "https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu",
+      "status": "Secondary observations only; vendor scores and case examples are not reproducible here and do not establish causation or targets. The rollout completed on October 8, 2026; use only as background context for that window."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "A 'September 2026 Authority Signals Update' (a helpful content successor) launched, backed by a Danny Sullivan X post dated September 6, 2026.",
+      "third_party_sources": [
+        "https://affiliate-times.com/googles-september-2026-helpful-content-successor-is-reshaping-affiliate-serp-economics/"
+      ],
+      "primary_source_check": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "status": "Refuted as a named update: the Search Status Dashboard lists no such incident (the only September ranking incident is the spam update of September 24). The Sullivan quote has no original post URL and is unverifiable. Do not cite."
+    },
+    {
+      "date": "2026-08-xx",
+      "claim": "Google changed JSON-LD extraction to a single pass of HTML unescaping, so double-escaped entities are no longer unrolled.",
+      "third_party_sources": [
+        "https://www.seroundtable.com/json-ld-extraction-googlebot-41921.html",
+        "https://searchenginewatch.com/google-changes-how-it-parses-double-escaped-json-ld-entities/"
+      ],
+      "primary_source_check": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "status": "Hold. SER (published 2026-08-21) cites a Google Search Central LinkedIn post; no developers.google.com documentation or changelog entry confirms it. The dashboard pointer is required by tests but cannot resolve a parsing claim; check https://developers.google.com/search/updates before promotion."
+    },
+    {
+      "date": "2026-09-xx",
+      "claim": "AI Mode display tests: AI Overview links opening AI Mode instead of publisher pages, an AI Mode button in the results search bar, exact and phrase match ads in AI Mode, link carousels for developing stories, and new google.com goto redirect parameters.",
+      "third_party_sources": [
+        "https://www.seroundtable.com/google-ai-overview-links-to-ai-mode-42132.html",
+        "https://www.seroundtable.com/google-search-bar-testing-ai-mode-button-42110.html",
+        "https://www.seroundtable.com/google-ads-serving-restrictive-match-types-ai-mode-42024.html",
+        "https://www.seroundtable.com/sept-2026-google-webmaster-report-41979.html"
+      ],
+      "primary_source_check": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "status": "Observed SERP tests with no Google-owned documentation found. Exclude from audits and ledger."
+    }
+  ]
+}
