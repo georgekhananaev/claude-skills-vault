@@ -11,9 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- **claude-seo**: Sync to upstream v2.6.0 (was v2.0.0). The folder now mirrors the upstream plugin root: 25 sub-skills (new `seo-agentic` for llms.txt, AI crawler access and WebMCP checks), the shared `skills/seo/references/`, every sub-skill's own `references/` and templates (the earlier sync only brought the SKILL.md files), 63 helper scripts (new: `page_checks.py` with 47 on-page checks, `transport_check.py`, `sitemap_discovery.py`, `agentic_check.py`, `metadata_template.py`, Matomo and Keywords Everywhere clients), plus `schema/`, `data/` and `requirements.txt`. Scripts now run through upstream's managed runtime (`scripts/claude-seo setup|doctor|run`, isolated venv, Python 3.11 to 3.14). Upstream sends Google API keys in a header instead of the URL and hardens its fetchers against SSRF. Root `SKILL.md` rewritten to explain the paths and the launcher when installed as a plain skill.
 - **readme**: Added a "Troubleshooting" section to `README.md` and `cli/README.md` covering the stale npx/global-install manifest issue — the CLI resolves its catalog to the git tag matching its own installed version, so an outdated cached/global copy can report fewer skills/commands/MCP servers or a false "not found". Documents the fix order (`@latest`, version check, global update, npx cache clear) and updated `scripts/generate-docs.js` so the `cli/README.md` section survives regeneration.
 
 ### Fixed
+
+### Security
+
+- **claude-seo**: `youtube_search.py` no longer includes the API key in error messages. The Google client puts the key in the request URL and its errors quote that URL; the three API error paths and the service-build error now pass through upstream's `redact_google_api_key`. This replaces the vault's earlier local redaction patch, which upstream's own fixes cover everywhere else.
 
 ## [1.8.5] - 2026-08-12
 
