@@ -30,12 +30,71 @@ except ImportError:
 
 try:
     from google_auth import get_oauth_credentials, load_config
+    from google_properties import resolve_site_property
 except ImportError:
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from google_auth import get_oauth_credentials, load_config
+    from google_properties import resolve_site_property
 
 GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+INDEXATION_NOTE = (
+    "Sitemaps API contents[].submitted reflects submitted URL counts only. "
+    "Use the URL Inspection API as the indexation truth for whether specific "
+    "URLs are indexed."
+)
+GSC_ANOMALY_START = "2025-05-13"
+GSC_ANOMALY_END = "2026-04-27"
+GSC_ANOMALY_WARNING = (
+    "GSC impressions logging error affected impressions, CTR, and average "
+    "position from 2025-05-13 through 2026-04-27; clicks were not affected."
+)
+MAX_TOTAL_ROWS = 100000
+VALID_DIMENSIONS = {
+    "query", "page", "country", "device", "date", "hour", "searchAppearance",
+}
+
+
+def _validate_dimensions(dimensions: Optional[list]) -> list[str]:
+    """Validate API dimensions before credentials or a service are loaded."""
+    if dimensions is None:
+        return ["query", "page"]
+    if not isinstance(dimensions, list):
+        raise ValueError("GSC dimensions must be a list or None")
+    if any(not isinstance(item, str) for item in dimensions):
+        raise ValueError("GSC dimensions must contain only strings")
+    invalid = sorted(set(dimensions) - VALID_DIMENSIONS)
+    if invalid:
+        raise ValueError(f"Unsupported GSC dimensions: {', '.join(invalid)}")
+    if len(dimensions) != len(set(dimensions)):
+        raise ValueError("GSC dimensions cannot contain duplicates")
+    return list(dimensions)
+
+
+def _parse_dimensions(raw: str) -> list[str]:
+    """Parse a comma-separated CLI dimension list, preserving an empty list."""
+    return _validate_dimensions([item.strip() for item in raw.split(",") if item.strip()])
+
+
+def _totals_from_row(row: dict) -> dict:
+    """Normalize a Search Analytics aggregate row for public output."""
+    return {
+        "clicks": row.get("clicks", 0),
+        "impressions": row.get("impressions", 0),
+        "ctr": round(row.get("ctr", 0) * 100, 2),
+        "position": round(row.get("position", 0), 1),
+    }
+
+
+def _date_range_overlaps(start_date: str, end_date: str, overlap_start: str, overlap_end: str) -> bool:
+    try:
+        start = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end = datetime.strptime(end_date, "%Y-%m-%d").date()
+        window_start = datetime.strptime(overlap_start, "%Y-%m-%d").date()
+        window_end = datetime.strptime(overlap_end, "%Y-%m-%d").date()
+    except ValueError:
+        return False
+    return start <= window_end and end >= window_start
 
 
 def _build_gsc_service():
@@ -48,6 +107,43 @@ def _build_gsc_service():
     except Exception as e:
         print(f"Error building GSC service: {e}", file=sys.stderr)
         return None
+
+
+def _query_site_totals(
+    service,
+    site_url: str,
+    start_date: str,
+    end_date: str,
+    search_type: str,
+    data_state: str,
+    filters: Optional[list],
+) -> Optional[dict]:
+    """Fetch true site-wide totals via a dimensionless query.
+
+    GSC anonymizes click data for low-volume ("rare") queries, so summing
+    the per-query rows undercounts clicks (often to exactly 0) and
+    impressions. A query with an empty ``dimensions`` array returns a
+    single aggregate row carrying the real site totals (issue #130).
+    Returns ``None`` if the aggregate query fails (caller falls back).
+    """
+    body = {
+        "startDate": start_date,
+        "endDate": end_date,
+        "dimensions": [],
+        "type": search_type,
+        "rowLimit": 1,
+        "dataState": data_state,
+    }
+    if filters:
+        body["dimensionFilterGroups"] = [{"filters": filters}]
+    try:
+        response = service.searchanalytics().query(siteUrl=site_url, body=body).execute()
+    except Exception:
+        return None
+    rows = response.get("rows", [])
+    if not rows:
+        return {"clicks": 0, "impressions": 0, "ctr": 0, "position": 0}
+    return _totals_from_row(rows[0])
 
 
 def query_search_analytics(
@@ -69,7 +165,8 @@ def query_search_analytics(
         end_date: End date (YYYY-MM-DD). Default: 3 days ago (data lag).
         dimensions: List of dimensions: query, page, country, device, date, searchAppearance.
         search_type: web, image, video, news, discover, googleNews.
-        row_limit: Max rows per request (1-25000). Auto-paginates if more.
+        row_limit: Maximum total rows to return. Requests are internally paged
+            at up to 25,000 rows and the public result is capped at 100,000.
         filters: List of filter dicts with dimension, operator, expression.
         data_state: 'final' or 'all' (includes fresh/unfinalized data).
 
@@ -80,10 +177,23 @@ def query_search_analytics(
         "property": site_url,
         "rows": [],
         "totals": {"clicks": 0, "impressions": 0, "ctr": 0, "position": 0},
+        "totals_source": None,
+        "totals_complete": False,
         "quick_wins": [],
+        "warnings": [],
         "row_count": 0,
         "error": None,
     }
+
+    if not isinstance(row_limit, int) or isinstance(row_limit, bool) or row_limit < 1:
+        result["error"] = "row_limit must be a positive integer"
+        return result
+
+    try:
+        dimensions = _validate_dimensions(dimensions)
+    except ValueError as exc:
+        result["error"] = str(exc)
+        return result
 
     service = _build_gsc_service()
     if not service:
@@ -94,17 +204,22 @@ def query_search_analytics(
         start_date = (datetime.now() - timedelta(days=28)).strftime("%Y-%m-%d")
     if not end_date:
         end_date = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
-    if dimensions is None:
-        dimensions = ["query", "page"]
-
     result["date_range"] = {"start": start_date, "end": end_date}
+    if _date_range_overlaps(start_date, end_date, GSC_ANOMALY_START, GSC_ANOMALY_END):
+        result["warnings"].append(GSC_ANOMALY_WARNING)
+
+    total_cap = min(row_limit, MAX_TOTAL_ROWS)
+    if row_limit > MAX_TOTAL_ROWS:
+        result["warnings"].append(
+            f"Requested row limit {row_limit:,} was capped at {MAX_TOTAL_ROWS:,}."
+        )
 
     body = {
         "startDate": start_date,
         "endDate": end_date,
         "dimensions": dimensions,
         "type": search_type,
-        "rowLimit": min(row_limit, 25000),
+        "rowLimit": min(total_cap, 25000),
         "dataState": data_state,
     }
 
@@ -114,10 +229,11 @@ def query_search_analytics(
     # Auto-paginate
     all_rows = []
     start_row = 0
-    page_size = min(row_limit, 25000)
 
     try:
-        while True:
+        while len(all_rows) < total_cap:
+            remaining = total_cap - len(all_rows)
+            page_size = min(remaining, 25000)
             body["startRow"] = start_row
             body["rowLimit"] = page_size
 
@@ -126,24 +242,31 @@ def query_search_analytics(
             ).execute()
 
             rows = response.get("rows", [])
-            all_rows.extend(rows)
+            all_rows.extend(rows[:remaining])
 
-            if len(rows) < page_size:
+            if len(rows) < page_size or len(all_rows) >= total_cap:
                 break
 
-            start_row += page_size
+            start_row += len(rows)
 
             # Safety: cap at 100,000 rows
-            if start_row >= 100000:
+            if start_row >= MAX_TOTAL_ROWS:
                 break
 
     except Exception as e:
         error_str = str(e)
         if "403" in error_str:
+            hint = (
+                " A domain property is written sc-domain:example.com."
+                if not site_url.startswith(("sc-domain:", "http://", "https://"))
+                else ""
+            )
             result["error"] = (
-                f"Permission denied for property '{site_url}'. "
-                "Ensure the service account email is added as a user in "
-                "Google Search Console > Settings > Users and permissions."
+                f"Permission denied for property '{site_url}'.{hint} "
+                "The signed-in Google account has no access to it: add that account "
+                "(a service account email, or your own) in Google Search Console > "
+                "Settings > Users and permissions, or use your own account with "
+                "CLAUDE_SEO_GOOGLE_AUTH=adc after gcloud auth application-default login."
             )
         elif "404" in error_str:
             result["error"] = (
@@ -184,10 +307,37 @@ def query_search_analytics(
         total_impressions += impressions
 
     result["row_count"] = len(all_rows)
-    result["totals"]["clicks"] = total_clicks
-    result["totals"]["impressions"] = total_impressions
-    if total_impressions > 0:
-        result["totals"]["ctr"] = round((total_clicks / total_impressions) * 100, 2)
+
+    # Site totals come from a dimensionless aggregate query, NOT from summing
+    # the per-dimension rows. Summing query-dimension rows undercounts clicks
+    # because GSC anonymizes low-volume queries, producing a false "0 clicks"
+    # site total (issue #130). Fall back to the row sum only if the aggregate
+    # query fails.
+    if dimensions == []:
+        result["totals"] = (
+            _totals_from_row(all_rows[0]) if all_rows
+            else {"clicks": 0, "impressions": 0, "ctr": 0, "position": 0}
+        )
+        result["totals_source"] = "dimensionless_query"
+        result["totals_complete"] = True
+    else:
+        site_totals = _query_site_totals(
+            service, site_url, start_date, end_date, search_type, data_state, filters
+        )
+        if site_totals is not None:
+            result["totals"] = site_totals
+            result["totals_source"] = "dimensionless_aggregate"
+            result["totals_complete"] = True
+        else:
+            result["totals"]["clicks"] = total_clicks
+            result["totals"]["impressions"] = total_impressions
+            if total_impressions > 0:
+                result["totals"]["ctr"] = round((total_clicks / total_impressions) * 100, 2)
+            result["totals_source"] = "partial_row_sum"
+            result["warnings"].append(
+                "The dimensionless totals query failed. Reported totals are an "
+                "incomplete sum of returned rows and must not be presented as site-wide totals."
+            )
 
     # Quick wins: position 4-10 with high impressions
     if "query" in dimensions:
@@ -229,6 +379,10 @@ def list_sitemaps(site_url: str) -> dict:
     try:
         response = service.sitemaps().list(siteUrl=site_url).execute()
         for sm in response.get("sitemap", []):
+            contents = [
+                {k: v for k, v in item.items() if k != "indexed"}
+                for item in sm.get("contents", [])
+            ]
             result["sitemaps"].append({
                 "path": sm.get("path"),
                 "last_submitted": sm.get("lastSubmitted"),
@@ -237,7 +391,8 @@ def list_sitemaps(site_url: str) -> dict:
                 "type": sm.get("type"),
                 "warnings": sm.get("warnings", 0),
                 "errors": sm.get("errors", 0),
-                "contents": sm.get("contents", []),
+                "contents": contents,
+                "indexation_note": INDEXATION_NOTE,
             })
     except Exception as e:
         result["error"] = f"Error listing sitemaps: {e}"
@@ -283,9 +438,14 @@ def main():
         choices=["query", "sitemaps", "sites"],
         help="Command: query (default), sitemaps, sites",
     )
-    parser.add_argument(
+    property_group = parser.add_mutually_exclusive_group()
+    property_group.add_argument(
         "--property", "-p",
-        help="GSC property (e.g., sc-domain:example.com). Uses default from config if not specified.",
+        help="Explicit GSC property (e.g., sc-domain:example.com). Without --property or --domain the config default is used, unless a sites mapping is configured.",
+    )
+    property_group.add_argument(
+        "--domain",
+        help="Audited site domain/URL; resolves its sites entry and refuses another site's default.",
     )
     parser.add_argument("--days", "-d", type=int, default=28, help="Number of days (default: 28)")
     parser.add_argument("--start-date", help="Start date (YYYY-MM-DD)")
@@ -307,11 +467,37 @@ def main():
 
     args = parser.parse_args()
 
-    # Resolve property
+    # Resolve property. An empty flag value (an unset shell variable, say) must
+    # not fall through to the global default and report another site's data.
+    for flag, value in (("--property", args.property), ("--domain", args.domain)):
+        if value is not None and not value.strip():
+            print(f"Error: {flag} was given an empty value.", file=sys.stderr)
+            sys.exit(1)
     prop = args.property
-    if not prop:
+    if prop is None and args.command != "sites":
         config = load_config()
-        prop = config.get("default_property")
+        if args.domain is not None:
+            try:
+                prop = resolve_site_property(config, "gsc", args.domain)
+            except ValueError as error:
+                print(f"Error: {error}", file=sys.stderr)
+                sys.exit(1)
+        elif config.get("sites"):
+            print(
+                "Error: A sites mapping is configured, so the default property is "
+                "not assumed. Pass --domain <audited-domain> or --property <property>.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        else:
+            prop = config.get("default_property")
+            if prop:
+                print(
+                    f"Note: no --domain or --property given; using the default GSC "
+                    f"property {prop} from config. Pass --domain <audited-domain> to "
+                    "bind the query to the audited site.",
+                    file=sys.stderr,
+                )
     if not prop and args.command != "sites":
         print("Error: No property specified. Use --property or set default_property in config.", file=sys.stderr)
         sys.exit(1)
@@ -323,7 +509,10 @@ def main():
     else:
         start = args.start_date or (datetime.now() - timedelta(days=args.days)).strftime("%Y-%m-%d")
         end = args.end_date or (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
-        dims = [d.strip() for d in args.dimensions.split(",")]
+        try:
+            dims = _parse_dimensions(args.dimensions)
+        except ValueError as exc:
+            parser.error(str(exc))
         filters = []
         if args.device:
             filters.append({
@@ -360,10 +549,14 @@ def main():
             for sm in result.get("sitemaps", []):
                 status = "pending" if sm.get("is_pending") else "processed"
                 print(f"  {sm['path']} [{status}] errors={sm.get('errors', 0)} warnings={sm.get('warnings', 0)}")
+            if result.get("sitemaps"):
+                print(f"\nNote: {INDEXATION_NOTE}")
         else:
             totals = result.get("totals", {})
             print(f"=== Search Analytics: {prop} ===")
             print(f"Period: {result.get('date_range', {}).get('start')} to {result.get('date_range', {}).get('end')}")
+            for warning in result.get("warnings", []):
+                print(f"Warning: {warning}")
             print(f"Clicks: {totals.get('clicks', 0):,} | Impressions: {totals.get('impressions', 0):,} | CTR: {totals.get('ctr', 0)}% | Rows: {result.get('row_count', 0)}")
 
             qw = result.get("quick_wins", [])

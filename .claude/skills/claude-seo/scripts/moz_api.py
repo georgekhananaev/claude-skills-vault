@@ -2,9 +2,10 @@
 """
 Moz Link Explorer API client for Claude SEO.
 
-Queries the Moz API (JSON-RPC 2.0) for Domain Authority, Page Authority,
-Spam Score, link counts, and referring domain data. Free tier provides
-2,500 rows/month at 1 request per 10 seconds.
+Queries the Moz v2 REST API for Domain Authority, Page Authority,
+Spam Score, link counts, and referring domain data. Uses a conservative
+10-second default delay; verify current Moz plan limits and rely on live
+429 handling.
 
 Usage:
     python moz_api.py metrics https://example.com --json
@@ -14,10 +15,10 @@ Usage:
 """
 
 import argparse
+import base64
 import json
 import sys
 import time
-from typing import Optional
 
 try:
     import requests
@@ -27,10 +28,11 @@ except ImportError:
 
 # Import credential helpers (same directory)
 import os
+
 _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _SCRIPTS_DIR)
 try:
-    from backlinks_auth import get_moz_api_key, load_config
+    from backlinks_auth import get_moz_api_key
     from google_auth import validate_url
 except ImportError:
     print("Error: backlinks_auth.py and google_auth.py required in scripts/", file=sys.stderr)
@@ -40,13 +42,28 @@ MOZ_BASE = "https://api.moz.com"
 # Legacy JSON-RPC endpoint was deprecated; Moz migrated to v2 REST.
 # All four legacy methods map to dedicated v2 REST paths.
 
-# Rate limit: 1 request per 10 seconds on free tier
+# Conservative default delay; verify current Moz plan limits.
 RATE_LIMIT_DELAY = 10
 RATE_LIMIT_FILE = os.path.expanduser("~/.cache/claude-seo/moz_last_request.lock")
 
 
+def _moz_basic_auth_header(api_key: str) -> str | None:
+    """Return a Basic auth header for accessId:secret credentials."""
+    if ":" in api_key:
+        encoded = base64.b64encode(api_key.encode("utf-8")).decode("ascii")
+        return f"Basic {encoded}"
+
+    try:
+        decoded = base64.b64decode(api_key, validate=True).decode("utf-8")
+    except (ValueError, UnicodeDecodeError):
+        return None
+    if ":" not in decoded:
+        return None
+    return f"Basic {api_key}"
+
+
 def _rate_limit():
-    """Enforce Moz free tier rate limit: 1 request per 10 seconds.
+    """Apply the conservative Moz request delay.
 
     Persists timestamp to a lockfile so the limit is respected across
     separate CLI invocations (each call is a new process).
@@ -59,7 +76,7 @@ def _rate_limit():
                 import fcntl
                 fcntl.flock(f, fcntl.LOCK_EX)
             except (ImportError, OSError):
-                pass  # Windows or lock unavailable — skip locking
+                pass  # Windows or lock unavailable: skip locking
 
             f.seek(0)
             content = f.read().strip()
@@ -93,9 +110,13 @@ def _moz_request(path: str, body: dict, api_key: str) -> dict:
 
     headers = {
         "Content-Type": "application/json",
-        "x-moz-token": api_key,
         "User-Agent": "ClaudeSEO/1.8.0",
     }
+    basic_auth = _moz_basic_auth_header(api_key)
+    if basic_auth:
+        headers["Authorization"] = basic_auth
+    else:
+        headers["x-moz-token"] = api_key
 
     try:
         response = requests.post(
@@ -109,7 +130,7 @@ def _moz_request(path: str, body: dict, api_key: str) -> dict:
             return {
                 "status": "rate_limited",
                 "data": None,
-                "error": "Moz free tier rate limit exceeded. Wait 10 seconds between requests.",
+                "error": "Moz rate limit exceeded. Wait and verify current plan limits.",
                 "metadata": {"source": "moz", "rate_limited": True},
             }
 
@@ -352,7 +373,7 @@ def main():
 
     # Validate URL
     target = args.url
-    if target.startswith("http"):
+    if target.lower().startswith("http"):
         if not validate_url(target):
             result = {
                 "status": "error",

@@ -4,24 +4,29 @@ Parasite-SEO risk scanner.
 
 Per Google's 2024-11-19 policy clarification, "no amount of first-party
 involvement alters the third-party nature" of a section. Section-level
-manual actions hit Forbes Advisor, CNN Underscored, and WSJ Buy Side
-within hours of the clarification. The risk pattern is now a Critical
-finding to surface in any audit of an established editorial domain.
+risk is now a Critical finding to surface in any audit of an established
+editorial domain.
 
 This scanner crawls a small set of representative URLs on a site,
 classifies each into a content "topic", and flags subfolders where
 the topic diverges from the site's primary corpus. Three signals:
 
-  1. **Third-party authorship density** — bylines containing words like
+  1. **Third-party authorship density**: bylines containing words like
      "Partner Content", "Sponsored", "Advertising", "Brand Studio".
-  2. **Commercial-intent skew vs. site primary corpus** — affiliate
+  2. **Commercial-intent skew vs. site primary corpus**: affiliate
      code in outbound links, "Buy now" CTAs, price comparison tables,
      coupons.
-  3. **Topical drift between subfolders** — root corpus is editorial
+  3. **Topical drift between subfolders**: root corpus is editorial
      but a single subfolder reads as pure commerce.
 
 The output is **advisory**: the scanner cannot determine the actual
 contractual relationship between the site and the content producer.
+Enforcement differs by searcher region (announced 2026-08-28, effective
+2026-08-30): outside the EEA a
+violation may draw a manual action; for users within the EEA the section may be
+categorized as separate from the main domain instead. The scanner reports the
+risk regardless of region.
+
 But it identifies the patterns Google's policy targets so the
 audit user can investigate.
 
@@ -33,7 +38,7 @@ sitemaps or running `seo-sitemap`'s URL extractor.
 Output
 ======
 Per-subfolder risk: high/medium/low/unknown plus the contributing
-signals. The script does not score the whole site — section-level
+signals. The script does not score the whole site; section-level
 risk is the operational unit (per Google's policy).
 """
 
@@ -51,8 +56,7 @@ from urllib.parse import urlparse
 _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
-from url_safety import URLSafetyError, safe_requests_get  # noqa: E402
-
+from url_safety import URLSafetyError, decode_response_text, safe_requests_get  # noqa: E402
 
 # Indicators of third-party authored content. Each adds 1 hit per page.
 _THIRD_PARTY_BYLINE_PATTERNS = (
@@ -176,10 +180,10 @@ def scan(urls: Iterable[str], *, timeout: int = 20) -> dict:
     for url in urls:
         try:
             resp = safe_requests_get(url, timeout=timeout, allow_redirects=True)
-            rows.append(_audit_page(resp.url, resp.text))
+            rows.append(_audit_page(resp.url, decode_response_text(resp)))
         except URLSafetyError as exc:
             errors.append({"url": url, "error": f"url_safety: {exc}"})
-        except Exception as exc:  # noqa: BLE001 — surface every transport error
+        except Exception as exc:  # noqa: BLE001 (surface every transport error)
             errors.append({"url": url, "error": str(exc)})
 
     sections = _classify(rows)

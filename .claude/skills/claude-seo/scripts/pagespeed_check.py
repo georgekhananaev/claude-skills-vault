@@ -26,12 +26,22 @@ except ImportError:
 
 # Import credential helper (same directory)
 try:
-    from google_auth import get_api_key, load_config, redact_key, validate_url
+    from google_auth import (
+        get_api_key,
+        google_api_key_headers,
+        redact_google_api_key,
+        validate_url,
+    )
 except ImportError:
     # Fallback: try relative import from scripts/
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from google_auth import get_api_key, load_config, redact_key, validate_url
+    from google_auth import (
+        get_api_key,
+        google_api_key_headers,
+        redact_google_api_key,
+        validate_url,
+    )
 
 PSI_ENDPOINT = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
 CRUX_ENDPOINT = "https://chromeuxreport.googleapis.com/v1/records:queryRecord"
@@ -89,6 +99,7 @@ def run_pagespeed(
     result = {
         "url": url,
         "strategy": strategy,
+        "lighthouse_version": None,
         "lighthouse_scores": {},
         "lab_metrics": {},
         "field_metrics": {},
@@ -119,11 +130,10 @@ def run_pagespeed(
         if isinstance(params["category"], list):
             params["category"].append(cat)
 
-    if api_key:
-        params["key"] = api_key
+    headers = google_api_key_headers(api_key) if api_key else None
 
     try:
-        resp = requests.get(PSI_ENDPOINT, params=params, timeout=120)
+        resp = requests.get(PSI_ENDPOINT, params=params, headers=headers, timeout=120)
         resp.raise_for_status()
         data = resp.json()
     except requests.exceptions.Timeout:
@@ -133,20 +143,28 @@ def run_pagespeed(
         if resp.status_code == 429:
             result["error"] = "PSI rate limit exceeded (240 QPM / 25,000 QPD). Wait and retry."
         elif resp.status_code == 400:
-            result["error"] = f"Invalid URL or parameters: {redact_key(resp.text, api_key)}"
+            result["error"] = f"Invalid URL or parameters: {redact_google_api_key(resp.text)}"
         else:
-            result["error"] = f"PSI API error {resp.status_code}: {redact_key(e, api_key)}"
+            result["error"] = f"PSI API error {resp.status_code}: {redact_google_api_key(e)}"
         return result
     except requests.exceptions.RequestException as e:
-        result["error"] = f"Request failed: {redact_key(e, api_key)}"
+        result["error"] = f"Request failed: {redact_google_api_key(e)}"
         return result
 
     result["analysis_timestamp"] = data.get("analysisUTCTimestamp")
 
     # Lighthouse scores
     lr = data.get("lighthouseResult", {})
+    # Record which Lighthouse build PSI ran, so reports can cite it instead of
+    # assuming the latest stable release.
+    result["lighthouse_version"] = lr.get("lighthouseVersion")
     for cat_key, cat_data in lr.get("categories", {}).items():
-        result["lighthouse_scores"][cat_key] = round(cat_data.get("score", 0) * 100)
+        # Lighthouse emits score: null for categories it could not evaluate
+        # (scoreDisplayMode "error"/"notApplicable"). Skip them rather than
+        # multiplying None, and rather than reporting a misleading 0/100.
+        cat_score = cat_data.get("score")
+        if cat_score is not None:
+            result["lighthouse_scores"][cat_key] = round(cat_score * 100)
 
     # Lab metrics from Lighthouse audits
     audits = lr.get("audits", {})
@@ -341,7 +359,8 @@ def query_crux(
 
     try:
         resp = requests.post(
-            f"{CRUX_ENDPOINT}?key={api_key}",
+            CRUX_ENDPOINT,
+            headers=google_api_key_headers(api_key),
             json=body,
             timeout=30,
         )
@@ -361,7 +380,7 @@ def query_crux(
         resp.raise_for_status()
         data = resp.json()
     except requests.exceptions.RequestException as e:
-        result["error"] = f"CrUX API request failed: {redact_key(e, api_key)}"
+        result["error"] = f"CrUX API request failed: {redact_google_api_key(e)}"
         return result
 
     record = data.get("record", {})
@@ -518,9 +537,14 @@ def main():
         result = query_crux(args.url, api_key, form_factor=args.form_factor)
     elif args.psi_only:
         strategies = ["mobile", "desktop"] if args.strategy == "both" else [args.strategy]
-        result = {"psi": {}}
+        result = {"psi": {}, "error": None}
         for strat in strategies:
-            result["psi"][strat] = run_pagespeed(args.url, strategy=strat, api_key=api_key)
+            psi_result = run_pagespeed(args.url, strategy=strat, api_key=api_key)
+            result["psi"][strat] = psi_result
+            if psi_result.get("error"):
+                # Surface the per-strategy failure at the top level so the
+                # exit-code check below sees it, as combined_check already does.
+                result["error"] = psi_result["error"]
     else:
         result = combined_check(args.url, api_key=api_key, strategy=args.strategy)
 
@@ -583,7 +607,7 @@ def _print_psi_summary(psi: dict):
     diags = psi.get("diagnostics", [])
     notable_diags = [d for d in diags if d.get("score") is not None and d["score"] < 0.9]
     if notable_diags:
-        print(f"\nDiagnostics (needs attention):")
+        print("\nDiagnostics (needs attention):")
         for d in notable_diags[:5]:
             score_pct = f"{d['score']:.0%}" if d['score'] is not None else "info"
             print(f"  [{score_pct}] {d['title']}: {d.get('display', '')}")

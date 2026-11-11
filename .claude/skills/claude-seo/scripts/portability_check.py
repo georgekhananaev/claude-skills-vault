@@ -46,7 +46,6 @@ import re
 import sys
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -66,7 +65,7 @@ def _find_skill_files() -> list[Path]:
 
 
 def _parse_frontmatter(text: str) -> dict[str, str] | None:
-    """Light YAML-ish parser. Doesn't require PyYAML — we accept the
+    """Light YAML-ish parser. Doesn't require PyYAML: we accept the
     documented subset (scalar string values, no nested mappings except
     for the metadata: block which we treat as opaque)."""
     m = _FRONTMATTER_RE.match(text)
@@ -160,7 +159,7 @@ def check_one(path: Path) -> list[dict]:
         })
 
     # tools is optional. If present, Cline and Codex parse the list more
-    # strictly than Claude Code — warn if there are inline comments
+    # strictly than Claude Code: warn if there are inline comments
     # (e.g., "Read, Bash # for analyse").
     tools = frontmatter.get("tools", "")
     if tools and "#" in tools:

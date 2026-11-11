@@ -50,7 +50,7 @@ This template applies to businesses that don't fit neatly into SaaS, local servi
 | About | Organization, AboutPage |
 | Contact | ContactPage |
 | Blog | Article, BlogPosting |
-| FAQ | (FAQPage only for gov/health) |
+| FAQ | QAPage for genuine Q&A; FAQPage no longer yields rich results (retired May 2026); keep FAQPage only when useful for on-page content structure |
 | Product/Service | Product or Service |
 
 ## Content Quality Standards
@@ -140,5 +140,5 @@ Adjust this template based on:
 - [ ] Provide original data, research, or unique perspectives AI cannot find elsewhere
 - [ ] Maintain consistent entity information (brand, people, products) across the web
 - [ ] Structure content with clear headings, definitions, and step-by-step formats
-- [ ] Consider adding an `llms.txt` file at site root (emerging convention for AI crawlers — Google treats it as a regular text file)
+- [ ] Consider adding an `llms.txt` file at site root (emerging convention for AI crawlers: Google treats it as a regular text file)
 - [ ] Monitor AI citation across Google AI Overviews, ChatGPT, Perplexity, and Bing Copilot

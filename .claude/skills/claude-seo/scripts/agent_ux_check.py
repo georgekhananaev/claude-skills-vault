@@ -3,7 +3,7 @@
 Agent-friendly page auditor.
 
 Scores a page against the checklist in
-``skills/seo-technical/references/agent-friendly-pages.md`` — the
+``skills/seo-agentic/references/agent-friendly-pages.md``, the
 web.dev-sourced criteria Google's AI optimization guide references for
 agent UX. Findings cover the three channels agents use:
 
@@ -13,9 +13,16 @@ agent UX. Findings cover the three channels agents use:
 
 Audit posture
 =============
-Per the reference doc, agent-UX standards (WebMCP) are early. Findings
-are surfaced as **opportunities**, not failures. The scoring exists to
-give the audit a quantitative axis without making it a hard SEO gate.
+Findings are surfaced as **opportunities**, not failures. The scoring
+exists to give the audit a quantitative axis without making it a hard
+SEO gate.
+
+NOTE: this score is a local 0-100 heuristic and is **distinct** from
+Google's Lighthouse "Agentic Browsing" category, which reports a
+**fractional pass-ratio (X of N), not a 0-100 score** (Chrome 150+).
+Do not present this heuristic as the official Lighthouse agentic score.
+Use ``lighthouse_agentic.py`` for the real fraction; see
+``skills/seo-agentic/references/lighthouse-agentic-category.md``.
 
 Implementation
 ==============
@@ -38,11 +45,12 @@ import re
 import sys
 from typing import Optional
 
+from bs4 import BeautifulSoup
+
 _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
 from render_page import render_page  # noqa: E402
-
 
 _ONCLICK_DIV_RE = re.compile(
     r"<div\b[^>]*\bonclick\s*=\s*[\"'][^\"']+[\"']", re.IGNORECASE
@@ -58,6 +66,19 @@ _ANCHOR_HREF_RE = re.compile(r"<a\b[^>]*\bhref\s*=", re.IGNORECASE)
 _SEMANTIC_LANDMARK_RE = re.compile(
     r"<(?:nav|main|article|section|aside|header|footer)\b", re.IGNORECASE
 )
+_MEANINGFUL_EMPTY_TEXT_TAGS = {
+    "a",
+    "audio",
+    "button",
+    "canvas",
+    "iframe",
+    "img",
+    "input",
+    "select",
+    "svg",
+    "textarea",
+    "video",
+}
 
 
 def _walk_tree(node: Optional[dict]):
@@ -80,7 +101,7 @@ def analyze_html(html: str) -> dict:
         "inputs_without_label": 0,
     }
 
-    # Inputs without ARIA labels — first cut, then check label[for] coverage.
+    # Inputs without ARIA labels: first cut, then check label[for] coverage.
     aria_less = _INPUT_WITHOUT_LABEL_RE.findall(html)
     findings["inputs_without_aria"] = len(aria_less)
 
@@ -90,6 +111,21 @@ def analyze_html(html: str) -> dict:
     findings["inputs_without_label"] = len(unlabeled)
 
     return findings
+
+
+def _has_meaningful_body(html: str) -> bool:
+    """Reject empty documents and unhydrated shell containers."""
+    if not html.strip():
+        return False
+    soup = BeautifulSoup(html, "html.parser")
+    body = soup.body
+    if body is None:
+        return False
+    for node in body.find_all(("script", "style", "template", "noscript")):
+        node.decompose()
+    if body.get_text(" ", strip=True):
+        return True
+    return body.find(list(_MEANINGFUL_EMPTY_TEXT_TAGS)) is not None
 
 
 def analyze_accessibility_tree(tree: Optional[dict]) -> dict:
@@ -184,17 +220,39 @@ def audit(url: str, *, timeout_ms: int = 15000) -> dict:
         "html_findings": {},
         "a11y_findings": {},
         "score": None,
+        "score_status": "unavailable",
+        "partial": False,
+        "partial_reasons": [],
         "issues": [],
     }
     if page.get("error"):
+        # Without a renderer (for example no Chromium) the score stays
+        # unavailable, but the HTML semantics checks still run on raw HTML.
+        raw = render_page(url, mode="never", timeout_ms=timeout_ms, extract_content=False)
+        if not raw.get("error") and _has_meaningful_body(raw.get("content") or ""):
+            report["html_findings"] = analyze_html(raw.get("content") or "")
+            report["html_only_fallback"] = True
         return report
     html = page.get("content") or ""
+    if not _has_meaningful_body(html):
+        report["render_error"] = (
+            "rendered document contains no meaningful body content"
+        )
+        return report
     a11y = page.get("accessibility_tree")
+
+    if page.get("accessibility_partial") or a11y is None:
+        report["partial"] = True
+        report["partial_reasons"].append(
+            page.get("accessibility_error")
+            or "accessibility tree was not available"
+        )
 
     report["html_findings"] = analyze_html(html)
     report["a11y_findings"] = analyze_accessibility_tree(a11y)
     scored = score(report["html_findings"], report["a11y_findings"])
     report["score"] = scored["score"]
+    report["score_status"] = "partial" if report["partial"] else "complete"
     report["issues"] = scored["issues"]
     return report
 
@@ -211,6 +269,9 @@ def _cli() -> None:
     report = audit(args.url, timeout_ms=args.timeout_ms)
     if args.json:
         print(json.dumps(report, indent=2))
+        if report["score"] is None:
+            print(f"Agent-UX score unavailable: {report.get('render_error') or 'no renderer'}",
+                  file=sys.stderr)
         sys.exit(0 if report["score"] is not None else 1)
 
     if report["render_error"]:
@@ -219,7 +280,10 @@ def _cli() -> None:
 
     print(f"URL: {report['url']}")
     print(f"Status: {report['status_code']}")
-    print(f"Agent-UX score: {report['score']}/100")
+    score_suffix = " (partial)" if report["partial"] else ""
+    print(f"Agent-UX score: {report['score']}/100{score_suffix}")
+    for reason in report["partial_reasons"]:
+        print(f"Partial result: {reason}")
     if report["issues"]:
         print("Issues:")
         for issue in report["issues"]:

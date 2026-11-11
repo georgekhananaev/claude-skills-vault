@@ -5,9 +5,10 @@ Google Indexing API v3 - notify Google of URL updates and removals.
 Publishes URL_UPDATED or URL_DELETED notifications. Supports single URL
 and batch mode (up to 200 URLs/day). Includes quota tracking.
 
-IMPORTANT: The Indexing API is officially restricted to pages with
-JobPosting or BroadcastEvent/VideoObject structured data. Google may
-process other page types but provides no guarantees.
+IMPORTANT: The Indexing API is restricted to pages with JobPosting or
+BroadcastEvent embedded in a VideoObject. Do not submit ordinary URLs.
+URL_UPDATED is not an indexing guarantee; abuse can revoke access. Use
+URL Inspection or sitemaps for ordinary URLs.
 
 Usage:
     python indexing_notify.py https://example.com/jobs/123
@@ -20,11 +21,9 @@ import argparse
 import json
 import sys
 import time
-from typing import Optional
 
 try:
     from googleapiclient.discovery import build
-    from googleapiclient.http import BatchHttpRequest
 except ImportError:
     print(
         "Error: google-api-python-client required. "
@@ -34,19 +33,20 @@ except ImportError:
     sys.exit(1)
 
 try:
-    from google_auth import get_oauth_credentials
+    from google_auth import get_oauth_credentials, validate_url
 except ImportError:
     import os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from google_auth import get_oauth_credentials
+    from google_auth import get_oauth_credentials, validate_url
 
 INDEXING_SCOPES = ["https://www.googleapis.com/auth/indexing"]
 DAILY_QUOTA = 200
 
 SCOPE_WARNING = (
-    "NOTE: The Indexing API is officially for JobPosting and "
-    "BroadcastEvent/VideoObject pages only. Google may process other "
-    "page types but provides no guarantees."
+    "NOTE: The Indexing API is for JobPosting and BroadcastEvent embedded "
+    "in a VideoObject only. Do not submit ordinary URLs. URL_UPDATED is not "
+    "an indexing guarantee; abuse can revoke access. Use URL Inspection or "
+    "sitemaps for ordinary URLs."
 )
 
 
@@ -83,6 +83,10 @@ def notify_url(
         "error": None,
     }
 
+    if not validate_url(url):
+        result["error"] = "URL rejected: only public http/https URLs are accepted (SSRF protection)"
+        return result
+
     service = _build_indexing_service()
     if not service:
         result["error"] = (
@@ -111,9 +115,12 @@ def notify_url(
                 "Also ensure the Indexing API is enabled in your GCP project."
             )
         elif "429" in error_str:
+            result["error_code"] = "quota_exceeded"
             result["error"] = (
                 f"Quota exceeded. Daily limit: {DAILY_QUOTA} publish requests. "
-                "Apply for a quota increase at https://developers.google.com/search/apis/indexing-api/v3/quota-increase"
+                "Check your quota in the Google API Console "
+                "(https://console.cloud.google.com/apis/api/indexing.googleapis.com/quotas); "
+                "see https://developers.google.com/search/apis/indexing-api/v3/quota-pricing"
             )
         elif "400" in error_str:
             result["error"] = f"Invalid URL or request: {e}"
@@ -139,6 +146,10 @@ def get_notification_metadata(url: str) -> dict:
         "latest_remove": None,
         "error": None,
     }
+
+    if not validate_url(url):
+        result["error"] = "URL rejected: only public http/https URLs are accepted (SSRF protection)"
+        return result
 
     service = _build_indexing_service()
     if not service:
@@ -202,8 +213,7 @@ def batch_notify(
             f"Only the first {DAILY_QUOTA} URLs will be submitted."
         )
         urls = urls[:DAILY_QUOTA]
-
-    if len(urls) > 50:
+    elif len(urls) > 50:
         result["quota_warning"] = (
             f"Submitting {len(urls)} URLs will use {len(urls)}/{DAILY_QUOTA} "
             f"of your daily quota."
@@ -222,7 +232,9 @@ def batch_notify(
         if notification.get("error"):
             result["summary"]["error"] += 1
             # Stop on quota errors
-            if "429" in str(notification.get("error", "")):
+            if notification.get("error_code") == "quota_exceeded" or "429" in str(
+                notification.get("error", "")
+            ):
                 result["error"] = "Stopped: daily quota exceeded."
                 break
         else:
@@ -296,7 +308,7 @@ def main():
                 print("  No notifications found.")
         elif args.batch:
             summary = result.get("summary", {})
-            print(f"=== Batch Indexing Notification ===")
+            print("=== Batch Indexing Notification ===")
             print(f"Action: {args.action}")
             print(f"Total: {result.get('total', 0)} | Success: {summary.get('success', 0)} | Errors: {summary.get('error', 0)}")
             print(f"Estimated remaining daily quota: {result.get('estimated_remaining_quota', '?')}")
