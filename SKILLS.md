@@ -42,7 +42,7 @@ All skills are installable via `npx claude-skills-vault install <name>`.
 | **owasp-security** | Use when reviewing code for security vulnerabilities, implementing au… | `npx claude-skills-vault install owasp-security` |
 | **parallel-agents** | Multi-agent orchestration patterns. Use when multiple independent tas… | `npx claude-skills-vault install parallel-agents` |
 | **plan-to-tdd** | Transform feature plans into test-driven implementation using Outside… | `npx claude-skills-vault install plan-to-tdd` |
-| **planning-with-files** | Implements Manus-style file-based planning to organize and track prog… | `npx claude-skills-vault install planning-with-files` |
+| **planning-with-files** | Persistent file-based planning for multi-step AI-agent work. Keeps ta… | `npx claude-skills-vault install planning-with-files` |
 | **project-change-log** | Maintain a CHANGELOG.md following the Keep a Changelog standard. Use … | `npx claude-skills-vault install project-change-log` |
 | **pydantic-model** | Pydantic v2 model patterns for req/res validation, MongoDB conversion… | `npx claude-skills-vault install pydantic-model` |
 | **react-best-practices** | React and Next.js performance optimization guidelines from Vercel Eng… | `npx claude-skills-vault install react-best-practices` |
